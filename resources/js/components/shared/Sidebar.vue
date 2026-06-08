@@ -6,7 +6,7 @@
     <!-- Sidebar Header -->
     <div class="flex items-center justify-between border-b border-slate-200 p-4">
       <div v-if="!collapsed" class="flex items-center gap-2">
-        <img src="/images/logo.png" alt="Logo" class="h-8 w-8 object-contain" />
+        <img :src="logo" alt="Logo" class="h-8 w-8 object-contain" />
         <p id="logoText" class="font-black text-sm text-cyan-600">SkyLine</p>
       </div>
       <button @click="$emit('toggle')" 
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import logo from '../assets/images/logo.png'
 export default {
   name: 'Sidebar',
   props: {

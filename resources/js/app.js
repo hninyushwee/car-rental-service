@@ -1,10 +1,9 @@
 import './bootstrap'
+import '../css/app.css';
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import App from './App.vue'
-
-// Import page components
 import Home from './components/user/Home.vue'
 
 
@@ -35,6 +34,23 @@ const router = createRouter({
 })
 
 const app = createApp(App)
+createInertiaApp({
+    title: (title) => `${title} - SkyLine`,
+    // Automatically find and resolve Vue files inside resources/js/Pages/
+    resolve: (name) => {
+        const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
+        return pages[`./Pages/${name}.vue`];
+    },
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .mount(el);
+    },
+    progress: {
+        // Adds a clean loading bar at the top of the viewport during page swaps
+        color: '#22d3ee', // Cyan color matching your theme
+    },
+});
 
 // Use router
 app.use(router)

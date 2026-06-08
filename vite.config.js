@@ -15,10 +15,22 @@ export default defineConfig({
                 }),
             ],
         }),
-        vue(),
+        vue({ // 2. Initialize the Vue plugin
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
         tailwindcss(),
         
     ],
+    resolve: { // 3. Set up the '@/' path alias shortcut
+        alias: {
+            '@': path.resolve(__dirname, './resources/js'),
+        },
+    },
     server: {
         watch: {
             ignored: ['**/storage/framework/views/**'],

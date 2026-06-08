@@ -7,7 +7,7 @@
       <div id="logo" class="flex shrink-0 items-center gap-1 sm:gap-2 md:gap-3">
         <router-link to="/" class="flex shrink-0 items-center gap-1 sm:gap-2 flex-nowrap"
           aria-label="SKY Line home">
-          <img class="h-8 w-auto object-contain sm:h-10 md:h-12" src="/images/logo.png"
+          <img class="h-8 w-auto object-contain sm:h-10 md:h-12" :src="logo"
             alt="SkyLine Automotive logo" />
           <p class="bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-500 bg-clip-text text-transparent font-black text-xl sm:text-2xl md:text-3xl tracking-wide drop-shadow-md whitespace-nowrap">
             SkyLine
@@ -173,6 +173,7 @@
 </template>
 
 <script>
+import logo from '../assets/images/logo.png'
 export default {
   name: 'Navigation',
   data() {
