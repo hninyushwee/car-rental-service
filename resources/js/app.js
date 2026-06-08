@@ -7,6 +7,7 @@ import App from './App.vue'
 // Import page components
 import Home from './components/user/Home.vue'
 
+
 // Create router
 const routes = [
   {
