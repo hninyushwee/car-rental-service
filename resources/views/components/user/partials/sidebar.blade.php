@@ -13,31 +13,27 @@
 
   <!-- Navigation links (unchanged) -->
   <div class="grid gap-1 mt-4 p-2">
-    <a href="#" data-sidebar-link class="flex items-center gap-3 rounded-l border-l-4 border-cyan-500 bg-transparent px-3 py-3 text-sm font-bold text-cyan-400 transition hover:bg-slate-700 hover:text-white">
+    <a href="{{ route('dashboard') }}" data-sidebar-link class="flex items-center gap-3 rounded-l border-l-4 border-cyan-500 bg-transparent px-3 py-3 text-sm font-bold text-cyan-400 transition hover:bg-slate-700 hover:text-white">
       <i data-lucide="layout-dashboard" class="h-4 w-4 shrink-0 text-cyan-400"></i>
       <span data-sidebar-label>Dashboard</span>
     </a>
-    <a href="#" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
+    <a href="{{ route('rent_car') }}" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
       <i data-lucide="car" class="h-4 w-4 shrink-0"></i>
       <span data-sidebar-label>Rent a Car</span>
     </a>
-    <a href="#" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
+    <a href="{{ route('rent_driver') }}" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
       <i data-lucide="user-check" class="h-4 w-4 shrink-0"></i>
       <span data-sidebar-label>Hire a Driver</span>
     </a>
-    <a href="#" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
+    <a href="{{ route('license') }}" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
       <i data-lucide="badge-check" class="h-4 w-4 shrink-0"></i>
       <span data-sidebar-label>License Services</span>
     </a>
-    <a href="#" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
-      <i data-lucide="shopping-bag" class="h-4 w-4 shrink-0"></i>
-      <span data-sidebar-label>Marketplace</span>
-    </a>
-    <a href="#" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
+    <a href="{{ route('history') }}" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
       <i data-lucide="history" class="h-4 w-4 shrink-0"></i>
       <span data-sidebar-label>Booking History</span>
     </a>
-    <a href="#" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
+    <a href="{{ route('inquiry') }}" data-sidebar-link class="flex items-center gap-3 rounded px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 hover:text-white">
       <i data-lucide="messages-square" class="h-4 w-4 shrink-0"></i>
       <span data-sidebar-label>General Inquiries</span>
     </a>

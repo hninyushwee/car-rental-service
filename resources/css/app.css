@@ -7,26 +7,6 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
-/* Smooth transitions for sidebar and main content */
-#dashboardSidebar, #mainContent {
-  transition-property: width, padding-left;
-  transition-duration: 300ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
+@import 'owl.carousel/dist/assets/owl.carousel.css';
+@import 'owl.carousel/dist/assets/owl.theme.default.css';
 
-/* Prevent horizontal overflow on mobile */
-body {
-  overflow-x: hidden;
-}
-
-/* Ensure auth UI never wraps on any screen */
-[data-auth-ui] {
-  flex-wrap: nowrap !important;
-}
-
-/* For very small screens, reduce gap */
-@media (max-width: 640px) {
-  [data-auth-ui] {
-    gap: 0.5rem !important;
-  }
-}

@@ -1,16 +1,6 @@
-import { createIcons, icons } from 'lucide';
+import './bootstrap';
+import { createApp } from 'vue';
 
-createIcons({ icons });
+import App from './components/Navbar.vue';
 
-tailwind.config = {
-    theme: {
-    extend: {
-        fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "Segoe UI", "sans-serif"]
-        },
-        boxShadow: {
-        glow: "0 24px 80px rgba(8, 145, 178, 0.25)"
-        }
-    }
-    }
-};
+createApp(App).mount('#app');
