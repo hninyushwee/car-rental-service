@@ -1,6 +1,5 @@
-{{-- resources/views/user/partials/nav.blade.php --}}
-<header id="siteHeader" class="fixed inset-x-0 top-0 z-50 transition-all">
-    <nav
+<header id="siteHeader" >
+        <nav
         class="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-4 md:px-5 md:gap-4 lg:px-6 flex-nowrap overflow-visible">
         <div id="logo" class="flex shrink-0 items-center gap-1 sm:gap-2 md:gap-3">
             <a href="{{ url('/') }}" class="flex shrink-0 items-center gap-1 sm:gap-2 flex-nowrap"
@@ -14,30 +13,23 @@
             </a>
         </div>
 
-        <div data-auth-ui id="sidebarToggle" class="hidden transition-all duration-300 py-1 shrink-0">
-            <button type="button" data-sidebar-toggle
-                class="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-slate-300 bg-white/80 text-slate-700 transition hover:border-slate-500 hover:bg-slate-100 hover:text-slate-900 sm:h-9 sm:w-9 md:h-10 md:w-10">
-                <i data-lucide="panel-left" class="h-4 w-4 sm:h-5 sm:w-5"></i>
-            </button>
-        </div>
-
         <div class="hidden items-center gap-4 md:flex lg:gap-8 shrink-0 flex-nowrap">
-            <a href="{{ url('/') }}" class="text-sm font-semibold transition hover:text-cyan-600 whitespace-nowrap"
+            <a href="{{ url('/') }}" class="text-sm font-semibold transition hover:text-cyan-600 whitespace-nowrap text-white/90"
                 data-nav-contrast>Home</a>
-            <a href="{{ url('/about') }}" class="text-sm font-semibold transition hover:text-cyan-600 whitespace-nowrap"
+            <a href="{{ url('/about') }}" class="text-sm font-semibold transition hover:text-cyan-600 whitespace-nowrap text-white/90"
                 data-nav-contrast>About Us</a>
             <a href="{{ url('/contact') }}"
-                class="text-sm font-semibold transition hover:text-cyan-600 whitespace-nowrap" data-nav-contrast>Contact
+                class="text-sm font-semibold transition hover:text-cyan-600 whitespace-nowrap text-white/90" data-nav-contrast>Contact
                 Us</a>
         </div>
 
         <div class="hidden md:block shrink-0">
             <div data-guest-ui class="flex items-center gap-2 sm:gap-3 flex-nowrap">
                 <button type="button"
-                    class="rounded border px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:py-2 sm:text-sm whitespace-nowrap"
+                    class="rounded border border-white/30 px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:py-2 sm:text-sm whitespace-nowrap text-white"
                     data-nav-contrast-button>Sign In</button>
                 <button type="button"
-                    class="rounded bg-cyan-400 px-3 py-1.5 text-xs font-bold text-slate-950 shadow-md transition hover:bg-cyan-700 sm:px-4 sm:py-2 sm:text-sm whitespace-nowrap">Register</button>
+                    class="rounded bg-cyan-400 px-3 py-1.5 text-xs font-bold text-slate-950 shadow-md transition hover:bg-cyan-300 sm:px-4 sm:py-2 sm:text-sm whitespace-nowrap">Register</button>
             </div>
 
             <div data-auth-ui class="hidden flex flex-row flex-nowrap items-center gap-2 sm:gap-3">

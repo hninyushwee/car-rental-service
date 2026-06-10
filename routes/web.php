@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.home');
 });
 Route::get('/about', function () {
     return view('user.about');
@@ -47,5 +47,41 @@ Route::get('/inquiry', function () {
 })->name('inquiry');
 
 Route::get('/login', function () {
-    return view('user.login');
+    return view('user.auth.login');
 })->name('login');
+
+Route::get('/register', function () {
+    return view('user.auth.register');
+})->name('register');
+
+Route::get('/profile', function () {
+    return view('user.profile');
+})->name('profile');
+
+// Admin Routes
+Route::prefix('admin')->group(function () {
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/components', function () {
+        return view('admin.components');
+    })->name('admin.components');
+
+    // Vehicle Management
+    Route::get('/vehicles', function () {
+        return view('admin.vehicles.index');
+    })->name('admin.vehicles.index');
+    Route::get('/vehicles/add', function () {
+        return view('admin.vehicles.create');
+    })->name('admin.vehicles.create');
+
+    // Placeholder routes for other sections
+    Route::get('/{section}/{action?}', function ($section, $action = null) {
+        return view('admin.dashboard');
+    });
+});
+
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});

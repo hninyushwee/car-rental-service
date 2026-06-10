@@ -12,6 +12,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         /* Ensure auth UI never wraps on any screen */
         [data-auth-ui] {
@@ -45,6 +46,18 @@
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* Smooth navbar transitions */
+        #siteHeader {
+            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #siteHeader [data-nav-contrast],
+        #siteHeader [data-nav-contrast-button] {
+            transition: color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         /* Prevent horizontal overflow on mobile */
         body {
             overflow-x: hidden;
@@ -68,13 +81,14 @@
         {{-- sidebar --}}
         <x-user.partials.sidebar />
         {{-- content --}}
+        {{-- Add top padding only for guest (fixed navbar) --}}
         <main id="mainContent" class="transition-all duration-300">
             {{ $slot }}
         </main>
         <!-- Footer -->
         {{-- Footer --}}
         @if (!isset($hideFooter) || !$hideFooter)
-            {{-- <x-user.partials.footer /> --}}
+            <x-user.partials.footer />
         @endif
 
         <!-- Demo toggle -->
@@ -104,7 +118,6 @@
                     mobileMenuButton: document.getElementById("mobileMenuButton"),
                     authToggle: document.getElementById("authToggle"),
                     sidebar: document.getElementById("dashboardSidebar"),
-                    sidebarToggle: document.getElementById("sidebarToggle"),
                     mainContent: document.getElementById("mainContent"),
                     notificationButton: document.getElementById("notificationButton"),
                     notificationDropdown: document.getElementById("notificationDropdown"),
@@ -172,17 +185,22 @@
                 el.logoText?.classList.toggle("hidden", collapsed);
                 document.querySelectorAll("[data-sidebar-label]").forEach(item => item.classList.toggle("hidden",
                     collapsed));
+                
+                // Hide sidebar logo image when collapsed
+                const sidebarLogo = el.sidebar?.querySelector("img");
+                if (sidebarLogo) {
+                    sidebarLogo.classList.toggle("hidden", collapsed);
+                }
 
-                [el.sidebarToggle, el.mainContent].forEach(target => {
-                    if (!target) return;
+                if (el.mainContent) {
                     if (collapsed) {
-                        target.classList.remove("lg:pl-68", "pl-64");
-                        target.classList.add("lg:pl-20", "pl-16");
+                        el.mainContent.classList.remove("lg:pl-68", "pl-64");
+                        el.mainContent.classList.add("lg:pl-20", "pl-16");
                     } else {
-                        target.classList.remove("lg:pl-20", "pl-16");
-                        target.classList.add("lg:pl-68", "pl-64");
+                        el.mainContent.classList.remove("lg:pl-20", "pl-16");
+                        el.mainContent.classList.add("lg:pl-68", "pl-64");
                     }
-                });
+                }
 
                 el.sidebarToggleButtons.forEach(btn => {
                     const icon = btn.querySelector("i");
@@ -199,39 +217,60 @@
                 setSidebarCollapsed(!state.sidebarCollapsed);
             }
 
+            // CORRECTED setHeaderStyle function
             function setHeaderStyle() {
                 const el = getElements();
                 if (!el.header) return;
 
+                // AUTHENTICATED: always transparent, no white background
                 if (state.authenticated) {
-                    el.header.classList.add("bg-white/95", "backdrop-blur", "shadow-lg");
+                    el.header.classList.remove("fixed", "inset-x-0", "top-0", "bg-transparent");
+                    el.header.classList.remove("bg-white/95", "shadow-md", "shadow-lg", "backdrop-blur-sm");
+                    el.header.classList.add("bg-transparent");
+                    // Dark text for authenticated
                     el.navcontent.forEach(item => {
+                        item.classList.remove("text-white/90", "text-white");
                         item.classList.add("text-slate-950");
-                        item.classList.remove("text-white", "text-white/90");
                     });
                     document.querySelectorAll("[data-nav-contrast-button]").forEach(item => {
-                        item.classList.add("text-slate-800", "border-slate-300");
                         item.classList.remove("text-white", "border-white/30");
+                        item.classList.add("text-slate-800", "border-slate-300");
                     });
                     return;
                 }
 
-                const isSolid = window.scrollY > 24;
-                el.header.classList.toggle("bg-white/95", isSolid);
-                el.header.classList.toggle("shadow-xl", isSolid);
-                el.header.classList.toggle("backdrop-blur", isSolid);
+                // GUEST: scroll-dependent behavior
+                const isSolid = window.scrollY > 75;
 
+                // 1. Background & shadow
+                if (isSolid) {
+                    el.header.classList.add("bg-white/95", "shadow-md");
+                    el.header.classList.remove("bg-transparent", "backdrop-blur-sm");
+                } else {
+                    el.header.classList.add("bg-transparent");
+                    el.header.classList.remove("bg-white/95", "shadow-md", "backdrop-blur-sm");
+                }
+
+                // 2. Navigation link colors
                 el.navcontent.forEach(item => {
-                    item.classList.toggle("text-white", !isSolid);
-                    item.classList.toggle("text-slate-950", isSolid);
-                    item.classList.toggle("text-white/90", !isSolid && item.tagName === "A");
+                    if (isSolid) {
+                        item.classList.remove("text-white/90", "text-white");
+                        item.classList.add("text-slate-950");
+                    } else {
+                        item.classList.remove("text-slate-950");
+                        item.classList.add("text-white/90", "text-white");
+                    }
                 });
 
+                // 3. Button colors (Sign In / Register)
                 document.querySelectorAll("[data-nav-contrast-button]").forEach(item => {
-                    item.classList.toggle("text-white", !isSolid);
-                    item.classList.toggle("border-white/30", !isSolid);
-                    item.classList.toggle("text-slate-800", isSolid);
-                    item.classList.toggle("border-slate-300", isSolid);
+                    if (isSolid) {
+                        item.classList.remove("text-white", "border-white/30");
+                        item.classList.add("text-slate-800", "border-slate-300");
+                    } else {
+                        item.classList.remove("text-slate-800", "border-slate-300");
+                        item.classList.add("text-white", "border-white/30");
+                    }
                 });
             }
 
@@ -239,6 +278,32 @@
                 const el = getElements();
                 state.authenticated = authenticated;
                 el.header?.classList.remove("-translate-y-full");
+
+                // Update navbar positioning and state attribute
+                if (el.header) {
+                    el.header.setAttribute("data-navbar-state", authenticated ? "auth" : "guest");
+                    
+                    if (authenticated) {
+                        // AUTHENTICATED: Static position, always transparent
+                        el.header.classList.remove("fixed");
+                        el.header.classList.add("absolute", "right-0", "top-0");
+                        el.header.classList.add("bg-transparent");
+                        el.header.classList.remove("bg-white/95", "shadow-md", "shadow-lg", "backdrop-blur-sm");
+                    } else {
+                        // GUEST: Fixed position, transparent initially
+                        el.header.classList.remove("absolute", "right-0", "top-0");
+                        el.header.classList.add("fixed", "inset-x-0", "top-0", "bg-transparent");
+                    }
+                }
+
+                // Handle main content padding for fixed navbar (guest state)
+                // if (el.mainContent) {
+                //     if (authenticated) {
+                //         el.mainContent.classList.remove("pt-20");
+                //     } else {
+                //         el.mainContent.classList.add("pt-20");
+                //     }
+                // }
 
                 document.querySelectorAll("[data-guest-ui]").forEach(item => item.classList.toggle("hidden",
                     authenticated));
@@ -270,7 +335,7 @@
                     el.authToggle.textContent = `Switch Auth State: ${authenticated ? "Logged In" : "Guest"}`;
                 }
                 closeDropdowns();
-                setHeaderStyle();
+                setHeaderStyle(); // Apply correct style after auth change
             }
 
             function renderTestimonial() {
@@ -300,26 +365,9 @@
             function setupApp() {
                 const el = getElements();
 
-                // Scroll Handler (Fixed/Sticky Mode Logic for Auth State)
+                // Scroll Handler: Only applies to GUEST STATE
                 window.addEventListener("scroll", () => {
                     setHeaderStyle();
-
-                    if (el.header) {
-                        if (state.authenticated) {
-                            // Auth State: Scroll ဆွဲလိုက်တာနဲ့ ပျောက်သွားရမည်။
-                            // အပေါ်ဆုံး scrollY === 0 သို့ ပြန်ရောက်မှသာ လုံးဝပြန်ပေါ်လာမည်။
-                            if (window.scrollY > 0) {
-                                el.header.classList.add("static");
-                                closeDropdowns();
-                                closeMobileMenu();
-                            } else {
-                                el.header.classList.remove("static");
-                            }
-                        } else {
-                            // Guest State: မူလအတိုင်း ပုံမှန်အလုပ်လုပ်မည်
-                            el.header.classList.remove("static", "-translate-y-full");
-                        }
-                    }
                 }, {
                     passive: true
                 });
@@ -386,7 +434,8 @@
 
                 // Initialize View Contexts
                 renderTestimonial();
-                setAuthState(false);
+                setAuthState(false); // Start as guest
+                setHeaderStyle();    // Ensure initial style is applied
                 safeCreateIcons();
             }
 

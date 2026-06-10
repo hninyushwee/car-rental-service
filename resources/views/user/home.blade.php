@@ -492,5 +492,4 @@
   });
 </script>
 @endpush
-
-</x-user.layout>
+</x-user.layout> 

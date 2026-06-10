@@ -1,6 +1,20 @@
-import './bootstrap';
-import { createApp } from 'vue';
+import * as lucide from 'lucide';
 
-import App from './components/Navbar.vue';
+// Initialize Lucide icons when DOM is ready
+function initLucideIcons() {
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+    }
+}
 
-createApp(App).mount('#app');
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLucideIcons);
+} else {
+    initLucideIcons();
+}
+
+// Reinitialize icons when they're dynamically updated
+const observer = new MutationObserver(initLucideIcons);
+observer.observe(document.body, { childList: true, subtree: true });
+

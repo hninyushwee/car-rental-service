@@ -1,14 +1,21 @@
 {{-- resources/views/user/partials/sidebar.blade.php --}}
 <aside id="dashboardSidebar" class="fixed bottom-0 left-0 top-20 z-40 w-60 border-r border-slate-700 bg-slate-900 shadow-xl transition-all duration-300 md:w-68">
-  <!-- Logo + SkyLine text area -->
-  <div class="border-b border-slate-700 p-3">
-    <a href="#home" class="flex items-center gap-2" aria-label="SKY Line home">
+  <!-- Logo + SkyLine text + Toggle button area -->
+  <div class="border-b border-slate-700 p-3 flex items-center justify-between">
+    <a href="#home" class="flex items-center gap-2 flex-1 min-w-0" aria-label="SKY Line home">
       <!-- Removed brightness-0 invert – logo shows as original -->
-      <img class="h-8 w-auto object-contain sm:h-10 md:h-12" src="{{ asset('images/logo.png') }}" alt="SkyLine Automotive logo" />
-      <p id="logoText" class="bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-500 bg-clip-text text-transparent font-black text-xl sm:text-2xl md:text-3xl tracking-wide">
+      <img class="h-8 w-auto object-contain sm:h-10 md:h-12 shrink-0" src="{{ asset('images/logo.png') }}" alt="SkyLine Automotive logo" />
+      <p id="logoText" class="bg-gradient-to-r from-cyan-300 via-cyan-400 to-cyan-500 bg-clip-text text-transparent font-black text-xl sm:text-2xl md:text-3xl tracking-wide truncate">
         SkyLine
       </p>
     </a>
+    
+    <!-- Sidebar Toggle Button (Gemini Style) -->
+    <button type="button" data-sidebar-toggle
+      class="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-slate-700/50 text-slate-400 transition hover:bg-slate-600 hover:text-white ml-2"
+      title="Toggle sidebar">
+      <i data-lucide="panel-left" class="h-4 w-4"></i>
+    </button>
   </div>
 
   <!-- Navigation links (unchanged) -->
