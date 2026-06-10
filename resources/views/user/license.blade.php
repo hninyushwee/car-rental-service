@@ -18,9 +18,9 @@
 </style>
 @endpush
 
-<div class="pt-24 pb-16 bg-white fade-up">
+<div class="pt-24 pb-16 fade-up">
   <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-    <div class="text-center">
+    <div class="text-center ">
       <h1 class="text-3xl font-black text-slate-950">License & Registration Services</h1>
       <p class="mt-2 text-slate-500">Get expert assistance with driving license renewals, new applications, international permits, and more.</p>
     </div>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,59 +9,73 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <title>Document</title>
     <style>
-        @keyframes fade-in {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+            @keyframes fade-in {
+                from {
+                    opacity:
+                        0;
+                    transform:
+                        translateY(20px);
+                }
+
+                to {
+                    opacity:
+                        1;
+                    transform:
+                        translateY(0);
+                }
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            @keyframes blob {
+
+                0%,
+                100% {
+                    transform:
+                        translate(0,
+                            0) scale(1);
+                }
+
+                33% {
+                    transform:
+                        translate(30px,
+                            -50px) scale(1.1);
+                }
+
+                66% {
+                    transform:
+                        translate(-20px,
+                            20px) scale(0.9);
+                }
             }
-        }
 
-        @keyframes blob {
-
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
+            .animate-fade-in {
+                animation:
+                    fade-in 0.5s ease-out forwards;
+                opacity:
+                    0;
             }
 
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
+            .animate-blob {
+                animation:
+                    blob 7s infinite;
             }
 
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
+            .animation-delay-2000 {
+                animation-delay:
+                    2s;
             }
-        }
 
-        .animate-fade-in {
-            animation: fade-in 0.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-            animation-delay: 4s;
-        }
-    </style>
+            .animation-delay-4000 {
+                animation-delay:
+                    4s;
+            }
+        </style>
 </head>
-
 <body>
-    <!-- flex and min-h-screen container fixes sticky footer behavior -->
-    <div class="flex flex-col min-h-screen">
+     <div>
         <div
-            class="py-8 sm:py-6 flex-1 bg-gradient-to-br from-slate-900 via-slate-800 to-cyan-900 flex items-center justify-center px-8 sm:px-10 lg:px-12 relative overflow-hidden">
+            class="py-8 sm:py-6 min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-cyan-900 flex items-center justify-center px-8 sm:px-10 lg:px-12 relative overflow-hidden">
             <!-- Animated Background Elements -->
             <div class="absolute inset-0 overflow-hidden">
                 <div
@@ -81,6 +94,7 @@
                 <div class="text-center mb-8 animate-fade-in">
                     <img class="mx-auto h-16 w-16 object-contain sm:h-20 sm:w-20 md:h-24 md:w-24 mb-1"
                         src="{{ asset('images/logo.png') }}" alt="SkyLine Automotive logo" />
+
                     <h1 class="text-2xl text-white mb-1">Sign in to SkyLine</h1>
                 </div>
 
@@ -92,7 +106,7 @@
 
                         <!-- Email -->
                         <div class="group">
-                            <label for="email" class="block text-sm font-semibold text-white mb-1">
+                            <label for="email" class="block text-sm font-semibold text-white">
                                 <span class="inline-flex items-center gap-2">
                                     <i data-lucide="mail" class="w-5 h-5 text-cyan-400"></i>
                                     Email Address
@@ -109,8 +123,7 @@
                         <div class="group">
                             <label for="password" class="block text-sm font-semibold text-white mb-1">
                                 <span class="inline-flex items-center gap-2">
-                                    <i data-lucide="key" class="w-5 h-5 text-cyan-400"></i> <i
-                                        data-lucide="lock-keyhole" class="w-5 h-5 text-cyan-400"></i>
+                                    <i data-lucide="key" class="w-5 h-5 text-cyan-400"></i>
                                     Password
                                 </span>
                             </label>
@@ -172,11 +185,16 @@
                         </a>
                     </p>
                 </div>
+
+                <!-- Footer -->
+                <p class="text-center text-white/50 text-xs mt-8">
+                    By signing in, you agree to our <a href="#" class="text-cyan-400 hover:underline">Terms of
+                        Service</a>
+                    and <a href="#" class="text-cyan-400 hover:underline">Privacy Policy</a>
+                </p>
             </div>
         </div>
-
-        <!-- Perfectly Centered Footer -->
-        <footer class="mt-auto py-6 border-t bg-slate-950 border-white/5 w-full">
+        <footer class="mt-auto py-4 border-t bg-slate-950 border-white/5 w-full">
             <p class="text-center text-white/50 text-xs">
                 By signing in, you agree to our <a href="#" class="text-cyan-400 hover:underline">Terms of
                     Service</a>
@@ -184,19 +202,7 @@
             </p>
         </footer>
     </div>
-
-    <script>
-        import {
-            createIcons,
-            lockKeyhole
-        } from 'lucide';
-
-        createIcons({
-            icons: {
-                lockKeyhole
-            }
-        });
-    </script>
 </body>
-
 </html>
+
+

@@ -376,6 +376,12 @@
 
 
 @push('scripts')
+<script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- 2. Initialize the icons on the page -->
+    <script>
+      lucide.createIcons();
+    </script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Fade-up observer

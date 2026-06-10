@@ -1,59 +1,20 @@
-import './bootstrap'
-import '../css/app.css';
-import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import * as lucide from 'lucide';
 
-import App from './App.vue'
-import Home from './components/user/Home.vue'
-
-
-// Create router
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'NotFound',
-    component: () => import('./pages/NotFound.vue')
-  }
-]
-
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { top: 0 }
+// Initialize Lucide icons when DOM is ready
+function initLucideIcons() {
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
     }
-  }
-})
+}
 
-const app = createApp(App)
-createInertiaApp({
-    title: (title) => `${title} - SkyLine`,
-    // Automatically find and resolve Vue files inside resources/js/Pages/
-    resolve: (name) => {
-        const pages = import.meta.glob('./Pages/**/*.vue', { eager: true });
-        return pages[`./Pages/${name}.vue`];
-    },
-    setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .mount(el);
-    },
-    progress: {
-        // Adds a clean loading bar at the top of the viewport during page swaps
-        color: '#22d3ee', // Cyan color matching your theme
-    },
-});
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLucideIcons);
+} else {
+    initLucideIcons();
+}
 
-// Use router
-app.use(router)
+// Reinitialize icons when they're dynamically updated
+const observer = new MutationObserver(initLucideIcons);
+observer.observe(document.body, { childList: true, subtree: true });
 
-// Mount app
-app.mount('#app')

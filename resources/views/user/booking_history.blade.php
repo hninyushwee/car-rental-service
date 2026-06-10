@@ -23,7 +23,7 @@
 @endpush
 
 <div class="pt-24 pb-16 bg-white fade-up">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
     {{-- Page header --}}
     <div class="mb-8">
       <h1 class="text-3xl font-black text-slate-950">Booking History</h1>
