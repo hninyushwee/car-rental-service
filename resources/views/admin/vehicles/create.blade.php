@@ -78,7 +78,7 @@
                     </div>
                     <div class="mt-4">
                         <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Description</label>
-                        <textarea name="description" rows="3" placeholder="Enter vehicle special features..."
+                        <textarea name="description" id="vehicleDescription" rows="3" placeholder="Enter vehicle special features..."
                             class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white"></textarea>
                     </div>
                 </section>
@@ -93,12 +93,39 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Vehicle Image</label>
-                            <label class="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 px-4 text-sm text-slate-600 transition hover:border-cyan-500 hover:text-cyan-600 dark:border-slate-600 dark:text-slate-400 dark:hover:border-cyan-500">
-                                <i data-lucide="upload-cloud" class="h-4 w-4"></i>
-                                <span>Choose image</span>
+                            <!-- Compact Image Upload -->
+                            <div id="imageUploadArea" class="relative overflow-hidden rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 transition hover:border-cyan-500 hover:bg-cyan-50/50 dark:border-slate-600 dark:bg-slate-700/50 dark:hover:border-cyan-500 dark:hover:bg-cyan-950/20">
                                 <input type="file" name="image" id="imageInput" class="sr-only" accept="image/*">
-                            </label>
-                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">PNG, JPG up to 2MB</p>
+                                
+                                <!-- Upload Placeholder (compact) -->
+                                <div id="uploadPlaceholder" class="flex items-center justify-center gap-3 py-3 px-4 cursor-pointer">
+                                    <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-100 dark:bg-cyan-900/50">
+                                        <i data-lucide="image-plus" class="h-4 w-4 text-cyan-600 dark:text-cyan-400"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <p class="text-sm font-medium text-slate-700 dark:text-slate-300">Upload Image</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">PNG, JPG up to 2MB</p>
+                                    </div>
+                                </div>
+
+                                <!-- File Info (shows when file is selected) - Compact -->
+                                <div id="fileInfoContainer" class="hidden">
+                                    <div class="flex items-center justify-between gap-2 py-2 px-3">
+                                        <div class="flex items-center gap-2 min-w-0">
+                                            <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 dark:bg-cyan-900/50">
+                                                <i data-lucide="file-image" class="h-4 w-4 text-cyan-600 dark:text-cyan-400"></i>
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <p id="fileNameDisplay" class="truncate text-xs font-medium text-slate-700 dark:text-slate-300"></p>
+                                                <p id="fileSizeDisplay" class="text-[10px] text-slate-500 dark:text-slate-400"></p>
+                                            </div>
+                                        </div>
+                                        <button type="button" id="removeImageBtn" class="shrink-0 rounded-lg p-1 text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/50 dark:hover:text-red-400 transition-colors" title="Remove image">
+                                            <i data-lucide="x" class="h-3.5 w-3.5"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -133,7 +160,7 @@
                             <p id="previewCategory" class="mt-1 text-xs text-slate-500 dark:text-slate-400">
                                 Not Selected
                             </p>
-                            <p id="previewDescription" class="mt-2 text-xs text-slate-600 dark:text-slate-400 line-clamp-2 min-h-[2rem]">
+                            <p id="previewDescription" class="mt-2 text-xs text-slate-600 dark:text-slate-400 line-clamp-3 min-h-[2rem] leading-relaxed">
                                 No description provided yet.
                             </p>
                             <div class="mt-4 flex items-center justify-between pt-3 border-t border-slate-200 dark:border-slate-700">
@@ -154,37 +181,31 @@
     </div>
 
     @push('scripts')
-        <!-- Flatpickr CSS and JS for Calendar Year Picker -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        
         <!-- Toastify-JS for Toast Notifications -->
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Initialize Flatpickr for Year Selection with Calendar
-                flatpickr(".year-picker", {
-                    dateFormat: "Y",
-                    allowInput: true,
-                    defaultDate: new Date(),
-                    minDate: "1990-01-01",
-                    maxDate: new Date().getFullYear().toString(),
-                    onChange: function(selectedDates, dateStr, instance) {
-                        // Extract just the year from the selected date
-                        if (selectedDates[0]) {
-                            const year = selectedDates[0].getFullYear();
-                            document.getElementById('vehicleYear').value = year;
-                        }
-                    }
-                });
+                // Initialize VanillaJS-Datepicker for Year Selection (ant design style layout)
+                let datepickerInstance = null;
+                const yearPickerEl = document.querySelector('.year-picker');
+                if (yearPickerEl && window.Datepicker) {
+                    datepickerInstance = new window.Datepicker(yearPickerEl, {
+                        pickLevel: 2, // Year selector only (0: date, 1: month, 2: year)
+                        format: 'yyyy',
+                        autohide: true,
+                        startView: 2,
+                        maxView: 2
+                    });
+                }
 
                 const brandInput = document.getElementById('vehicleBrand');
                 const modelInput = document.getElementById('vehicleModel');
                 const categorySelect = document.getElementById('vehicleCategory');
                 const priceInput = document.getElementById('vehiclePrice');
                 const imageInput = document.getElementById('imageInput');
+                const descriptionInput = document.getElementById('vehicleDescription');
 
                 $.ajaxSetup({
                     headers: {
@@ -278,22 +299,131 @@
                 categorySelect.addEventListener('change', () => updateTextPreview(categorySelect, 'previewCategory', true, 'Not Selected'));
                 priceInput.addEventListener('input', function() { updatePricePreview(this.value); });
                 
-                const descriptionInput = document.getElementsByName('description')[0];
+                // Description live preview
                 descriptionInput?.addEventListener('input', function() {
-                    document.getElementById('previewDescription').innerText = this.value || 'No description provided yet.';
+                    const previewDesc = document.getElementById('previewDescription');
+                    const text = this.value.trim();
+                    previewDesc.innerText = text || 'No description provided yet.';
+                    // Update line clamp based on content length
+                    if (text.length > 100) {
+                        previewDesc.classList.remove('line-clamp-3');
+                        previewDesc.classList.add('line-clamp-5');
+                    } else {
+                        previewDesc.classList.remove('line-clamp-5');
+                        previewDesc.classList.add('line-clamp-3');
+                    }
                 });
+
+                // Handle image selection - show only file name and size (compact)
+                function handleImageFile(file) {
+                    if (!file) return;
+                    
+                    // Validate file size (2MB max)
+                    if (file.size > 2 * 1024 * 1024) {
+                        showToast('Image size must be less than 2MB', 'error');
+                        imageInput.value = '';
+                        return;
+                    }
+                    
+                    // Validate file type
+                    const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                    if (!validTypes.includes(file.type)) {
+                        showToast('Please upload a valid image (PNG, JPG)', 'error');
+                        imageInput.value = '';
+                        return;
+                    }
+                    
+                    // Show file info
+                    const fileInfoContainer = document.getElementById('fileInfoContainer');
+                    const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+                    const fileNameDisplay = document.getElementById('fileNameDisplay');
+                    const fileSizeDisplay = document.getElementById('fileSizeDisplay');
+                    
+                    // Format file size
+                    let fileSize = file.size;
+                    let sizeText = '';
+                    if (fileSize < 1024) {
+                        sizeText = fileSize + ' B';
+                    } else if (fileSize < 1024 * 1024) {
+                        sizeText = (fileSize / 1024).toFixed(1) + ' KB';
+                    } else {
+                        sizeText = (fileSize / (1024 * 1024)).toFixed(1) + ' MB';
+                    }
+                    
+                    fileNameDisplay.textContent = file.name;
+                    fileSizeDisplay.textContent = sizeText;
+                    
+                    uploadPlaceholder.classList.add('hidden');
+                    fileInfoContainer.classList.remove('hidden');
+                    
+                    // Also update the preview image in the sidebar
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const sidebarPreviewImg = document.getElementById('previewImg');
+                        const previewIcon = document.getElementById('previewIcon');
+                        sidebarPreviewImg.src = e.target.result;
+                        sidebarPreviewImg.classList.remove('hidden');
+                        previewIcon.classList.add('hidden');
+                    };
+                    reader.readAsDataURL(file);
+                    
+                    lucide.createIcons();
+                }
 
                 imageInput.addEventListener('change', function() {
                     const file = this.files[0];
                     if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            $(`#previewImg`).attr('src', e.target.result).removeClass('hidden');
-                            $(`#previewIcon`).addClass('hidden');
-                        }
-                        reader.readAsDataURL(file);
+                        handleImageFile(file);
                     }
                 });
+
+                // Remove image button
+                const removeImageBtn = document.getElementById('removeImageBtn');
+                if (removeImageBtn) {
+                    removeImageBtn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        imageInput.value = '';
+                        document.getElementById('fileInfoContainer').classList.add('hidden');
+                        document.getElementById('uploadPlaceholder').classList.remove('hidden');
+                        document.getElementById('previewImg').classList.add('hidden');
+                        document.getElementById('previewImg').src = '';
+                        document.getElementById('previewIcon').classList.remove('hidden');
+                        lucide.createIcons();
+                    });
+                }
+
+                // Drag and drop functionality
+                const imageUploadArea = document.getElementById('imageUploadArea');
+                if (imageUploadArea) {
+                    imageUploadArea.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        this.classList.add('border-cyan-500', 'bg-cyan-50/50', 'dark:bg-cyan-950/20');
+                    });
+
+                    imageUploadArea.addEventListener('dragleave', function(e) {
+                        e.preventDefault();
+                        this.classList.remove('border-cyan-500', 'bg-cyan-50/50', 'dark:bg-cyan-950/20');
+                    });
+
+                    imageUploadArea.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        this.classList.remove('border-cyan-500', 'bg-cyan-50/50', 'dark:bg-cyan-950/20');
+                        const file = e.dataTransfer.files[0];
+                        if (file && file.type.startsWith('image/')) {
+                            imageInput.files = e.dataTransfer.files;
+                            handleImageFile(file);
+                        } else {
+                            showToast('Please drop a valid image file', 'error');
+                        }
+                    });
+
+                    imageUploadArea.addEventListener('click', function(e) {
+                        // Don't trigger if clicking on remove button
+                        if (!e.target.closest('#removeImageBtn')) {
+                            imageInput.click();
+                        }
+                    });
+                }
 
                 const $form = $('#vehicleForm');
                 const $btn = $form.find('button[type="submit"]');
@@ -323,12 +453,19 @@
                                 document.getElementById('previewDescription').innerText = 'No description provided yet.';
                                 document.getElementById('previewPrice').innerText = '$0.00';
                                 document.getElementById('previewDeposit').innerText = '$0.00';
-                                $(`#previewImg`).addClass('hidden').attr('src', '');
-                                $(`#previewIcon`).removeClass('hidden');
-                                // Reset flatpickr year picker
-                                const yearPicker = document.querySelector('.year-picker');
-                                if (yearPicker && yearPicker._flatpickr) {
-                                    yearPicker._flatpickr.clear();
+                                document.getElementById('previewImg').classList.add('hidden');
+                                document.getElementById('previewImg').src = '';
+                                document.getElementById('previewIcon').classList.remove('hidden');
+                                
+                                // Reset file upload
+                                document.getElementById('fileInfoContainer').classList.add('hidden');
+                                document.getElementById('uploadPlaceholder').classList.remove('hidden');
+                                document.getElementById('fileNameDisplay').textContent = '';
+                                document.getElementById('fileSizeDisplay').textContent = '';
+                                
+                                // Reset datepicker instance
+                                if (datepickerInstance) {
+                                    datepickerInstance.clear();
                                 }
                             }
                         },
