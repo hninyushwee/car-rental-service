@@ -19,7 +19,7 @@
 @endpush
 
 {{-- HERO SECTION --}}
-<section class="relative overflow-hidden bg-slate-950 pt-28 text-white lg:pt-32 pb-24 lg:pb-36 fade-up">
+<section data-hero-section class="relative overflow-hidden bg-slate-950 pt-24 text-white lg:pt-32 pb-24 lg:pb-36 fade-up">
   <div class="absolute inset-0 -z-10">
     <div class="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-950/70 to-slate-950/30"></div>
     <img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1800&q=80" alt="Luxury car on road" />

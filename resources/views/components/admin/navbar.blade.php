@@ -1,8 +1,8 @@
-<header id="adminNavbar" class="sticky top-0 z-40 w-full border-b-2 border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+<header id="adminNavbar" class="fixed top-0 right-0 z-30 h-16 border-b-2 border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
     <nav class="flex items-center justify-between gap-4 px-4 py-3 sm:px-6 md:px-8 w-full">
-        <!-- Left: Mobile Toggle -->
+        <!-- Left: Mobile sidebar drawer -->
         <div class="flex lg:hidden">
-            <button id="adminSidebarToggle" type="button" class="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+            <button id="adminSidebarToggle" type="button" class="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition" title="Open menu">
                 <i data-lucide="menu" class="h-5 w-5"></i>
             </button>
         </div>

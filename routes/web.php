@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\View\BrandController;
+use App\Http\Controllers\View\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -75,6 +77,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/vehicles/add', function () {
         return view('admin.vehicles.create');
     })->name('admin.vehicles.create');
+    Route::get('/vehicles/brands', [BrandController::class, 'index'])->name('admin.brands.index');
+    Route::get('/vehicles/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
 
     // Placeholder routes for other sections
     Route::get('/{section}/{action?}', function ($section, $action = null) {
