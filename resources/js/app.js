@@ -1,4 +1,8 @@
 import * as lucide from 'lucide';
+import { Datepicker } from 'vanillajs-datepicker';
+import 'vanillajs-datepicker/css/datepicker.css';
+
+window.Datepicker = Datepicker;
 
 // Initialize Lucide icons when DOM is ready
 function initLucideIcons() {

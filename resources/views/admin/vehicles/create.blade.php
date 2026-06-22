@@ -1,129 +1,143 @@
 <x-admin.layout>
     <div class="p-4 sm:p-6 md:p-8">
-        <!-- Header Section -->
-        <div class="mb-5 rounded-xl bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-purple-500/10 px-4 py-3 sm:px-5 sm:py-4 backdrop-blur-sm border border-cyan-500/20 dark:border-cyan-500/10">
-            <div class="flex items-center justify-between flex-wrap gap-3">
-                <div>
-                    <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent">
-                        Add New Vehicle
-                    </h1>
-                    <p class="mt-0.5 text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
-                        <i data-lucide="plus-circle" class="h-4 w-4"></i>
-                        Create a new vehicle for your fleet
-                    </p>
-                </div>
-                <a href="{{ route('admin.vehicles.index') }}"
-                    class="flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700 bg-white dark:bg-slate-800">
-                    <i data-lucide="arrow-left" class="h-4 w-4"></i>
-                    Back
-                </a>
+        <div class="mb-8 flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Add New Vehicle</h1>
+                <p class="mt-1 text-slate-600 dark:text-slate-400">Create a new vehicle for your fleet</p>
             </div>
+            <a href="{{ route('admin.vehicles.index') }}"
+                class="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700">
+                <i data-lucide="arrow-left" class="h-5 w-5"></i>
+                Back
+            </a>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-[1fr_22rem]">
-            <form id="vehicleForm" class="space-y-5" enctype="multipart/form-data">
-                @csrf
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <div class="lg:col-span-2">
+                <form id="vehicleForm" class="space-y-6" enctype="multipart/form-data">
+                    @csrf
 
-                <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-                    <h2 class="mb-4 text-base font-bold text-slate-900 dark:text-white">Basic Information</h2>
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Brand</label>
-                            <select name="brand_id" id="vehicleBrand"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
-                                <option value="">Loading Brands...</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Model</label>
-                            <input type="text" name="model" id="vehicleModel" placeholder="e.g., 7 Series"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Year</label>
-                            <input type="text" name="year" id="vehicleYear" placeholder="Select Year"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white cursor-pointer year-picker">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">License Plate</label>
-                            <input type="text" name="license_plate" placeholder="YGN-2048"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Color</label>
-                            <input type="text" name="color" placeholder="e.g., Metallic Black"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Capacity (Seats)</label>
-                            <input type="number" name="capacity" placeholder="e.g., 5"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Category</label>
-                            <select name="category_id" id="vehicleCategory"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
-                                <option value="">Loading Categories...</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Status</label>
-                            <select name="status"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
-                                <option value="available">Available</option>
-                                <option value="rented">Rented</option>
-                                <option value="maintenance">Maintenance</option>
-                            </select>
+                    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                        <h2 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">Basic Information</h2>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Brand</label>
+                                    <select name="brand_id" id="vehicleBrand"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                                        <option value="">Loading Brands...</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Model</label>
+                                    <input type="text" name="model" id="vehicleModel" placeholder="e.g., 7 Series"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Year</label>
+                                    <!-- 📅 CALENDAR YEAR PICKER: Using Flatpickr for date/year selection -->
+                                    <input type="text" name="year" id="vehicleYear" placeholder="Select Year"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white cursor-pointer year-picker">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">License Plate</label>
+                                    <input type="text" name="license_plate" placeholder="YGN-2048"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Color</label>
+                                    <input type="text" name="color" placeholder="e.g., Metallic Black"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Capacity (Seats)</label>
+                                    <input type="number" name="capacity" placeholder="e.g., 5"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Category</label>
+                                    <select name="category_id" id="vehicleCategory"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                                        <option value="">Loading Categories...</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Status</label>
+                                    <select name="status"
+                                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                                        <option value="available">Available</option>
+                                        <option value="rented">Rented</option>
+                                        <option value="maintenance">Maintenance</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Description</label>
+                                <textarea name="description" rows="3" placeholder="Enter vehicle special features..."
+                                    class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Description</label>
-                        <textarea name="description" rows="3" placeholder="Enter vehicle special features..."
-                            class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white"></textarea>
-                    </div>
-                </section>
 
-                <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-                    <h2 class="mb-4 text-base font-bold text-slate-900 dark:text-white">Pricing & Media</h2>
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Price Per Day ($)</label>
-                            <input type="number" step="0.01" name="price_per_day" id="vehiclePrice" placeholder="150.00"
-                                class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sticky-bottom dark:border-slate-700 dark:bg-slate-800">
+                        <h2 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">Pricing & Media</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Price Per Day ($)</label>
+                                <input type="number" step="0.01" name="price_per_day" id="vehiclePrice" placeholder="150.00"
+                                    class="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm transition hover:border-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-white">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Vehicle Image</label>
+                                <div class="mt-1 flex justify-center rounded-lg border-2 border-dashed border-slate-300 px-6 py-6 dark:border-slate-600">
+                                    <div class="text-center">
+                                        <i data-lucide="upload-cloud" class="mx-auto h-10 w-10 text-slate-400"></i>
+                                        <div class="mt-2 flex text-sm text-slate-600 dark:text-slate-400">
+                                            <label class="relative cursor-pointer rounded-md font-medium text-cyan-600 hover:text-cyan-500">
+                                                <span>Upload a file</span>
+                                                <input type="file" name="image" id="imageInput" class="sr-only" accept="image/*">
+                                            </label>
+                                        </div>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">PNG, JPG up to 2MB</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Vehicle Image</label>
-                            <label class="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 px-4 text-sm text-slate-600 transition hover:border-cyan-500 hover:text-cyan-600 dark:border-slate-600 dark:text-slate-400 dark:hover:border-cyan-500">
-                                <i data-lucide="upload-cloud" class="h-4 w-4"></i>
-                                <span>Choose image</span>
-                                <input type="file" name="image" id="imageInput" class="sr-only" accept="image/*">
-                            </label>
-                            <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">PNG, JPG up to 2MB</p>
-                        </div>
                     </div>
-                </section>
 
-                <div class="flex gap-3">
-                    <button type="submit"
-                        class="flex-1 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 text-center text-sm font-bold text-white shadow-lg transition hover:shadow-xl">
-                        Add Vehicle
-                    </button>
-                    <button type="button" onclick="window.location.reload()"
-                        class="flex-1 rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+                    <div class="flex gap-3">
+                        <button type="submit"
+                            class="flex-1 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 text-center text-sm font-bold text-white shadow-lg transition hover:shadow-xl">
+                            Add Vehicle
+                        </button>
+                        <button type="button" onclick="window.location.reload()"
+                            class="flex-1 rounded-lg border border-slate-300 px-6 py-3 text-sm font-bold text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
 
-            <aside class="lg:sticky lg:top-20 lg:self-start">
-                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-                    <h3 class="mb-4 text-base font-bold text-slate-900 dark:text-white">Live Preview</h3>
+            <div class="lg:col-span-1">
+                <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sticky top-24 dark:border-slate-700 dark:bg-slate-800">
+                    <h3 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">Live Preview</h3>
                     <article class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 shadow-inner">
                         <div class="relative overflow-hidden aspect-video bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
-                            <img id="previewImg" src="" class="absolute inset-0 w-full h-full object-cover hidden" alt="Vehicle preview">
+                            <img id="previewImg" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                             <i id="previewIcon" data-lucide="car" class="h-16 w-16 text-white opacity-30"></i>
                             <span class="absolute right-3 top-3 rounded-full bg-white/90 dark:bg-slate-800/90 px-2.5 py-1 text-[10px] font-semibold text-slate-800 dark:text-slate-200 backdrop-blur-sm shadow-sm">
-                                New
+                                ⭐ New
                             </span>
                         </div>
                         <div class="p-4">
@@ -149,7 +163,7 @@
                         </div>
                     </article>
                 </div>
-            </aside>
+            </div>
         </div>
     </div>
 

@@ -4,11 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="SkyLine Car Rental - Admin Dashboard" />
     <title>Admin Dashboard | SkyLine Car Rental</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
@@ -20,74 +18,17 @@
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         #adminApp {
             display: flex;
-            height: 100vh;
+            min-height: 100vh;
             width: 100%;
-            overflow: hidden;
         }
 
         #adminSidebar {
-            transition: width 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        #adminNavbar {
-            left: 0;
-            transition: left 300ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @media (min-width: 1024px) {
-            #adminSidebar {
-                width: 18rem;
-            }
-
-            #adminNavbar {
-                left: 18rem;
-            }
-
-            #adminApp.sidebar-collapsed #adminSidebar {
-                width: 5rem;
-            }
-
-            #adminApp.sidebar-collapsed #adminNavbar {
-                left: 5rem;
-            }
-
-            #adminApp.sidebar-collapsed [data-sidebar-label] {
-                display: none;
-            }
-
-            #adminApp.sidebar-collapsed [data-submenu-toggle] i[data-lucide="chevron-down"] {
-                display: none;
-            }
-
-            #adminApp.sidebar-collapsed .submenu {
-                display: none !important;
-            }
-
-            #adminApp.sidebar-collapsed #adminSidebarBrand {
-                display: none;
-            }
-
-            #adminApp.sidebar-collapsed #adminSidebarHeader {
-                justify-content: center;
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
-            }
-
-            #adminSidebarCollapseToggle {
-                display: flex;
-            }
-        }
-
-        @media (max-width: 1023px) {
-            #adminSidebarCollapseToggle {
-                display: none;
-            }
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #adminMainWrapper {
@@ -96,6 +37,10 @@
             flex: 1;
             width: 100%;
             overflow: hidden;
+        }
+
+        #adminNavbar {
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #adminMainContent {
@@ -112,8 +57,6 @@
                 left: 0;
                 top: 0;
                 bottom: 0;
-                height: 100vh;
-                width: 18rem !important;
                 transform: translateX(-100%);
                 z-index: 50;
             }
@@ -141,6 +84,7 @@
             }
 
             #adminSidebar {
+                position: relative !important;
                 transform: none !important;
             }
         }
@@ -172,7 +116,7 @@
 </head>
 
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 text-slate-900 dark:text-slate-100 antialiased">
-    <div id="adminApp" class="flex w-full min-h-screen h-screen overflow-hidden">
+    <div id="adminApp" class="flex w-full min-h-screen">
         <!-- Sidebar Overlay (Mobile) -->
         <div id="adminSidebarOverlay"></div>
 
@@ -180,7 +124,7 @@
         <x-admin.sidebar />
 
         <!-- Main Wrapper: Navbar + Content -->
-        <div id="adminMainWrapper" class="flex flex-col flex-1 w-full pt-16 transition-all duration-300">
+        <div id="adminMainWrapper" class="flex flex-col flex-1 w-full">
             <!-- Navbar -->
             <x-admin.navbar />
 
@@ -200,27 +144,6 @@
                 theme: localStorage.getItem('adminTheme') || 'light'
             };
 
-            function applySidebarCollapsed(collapsed) {
-                const el = getElements();
-                state.sidebarCollapsed = collapsed;
-                el.app?.classList.toggle('sidebar-collapsed', collapsed);
-                localStorage.setItem('adminSidebarCollapsed', collapsed ? 'true' : 'false');
-
-                document.querySelectorAll('[data-sidebar-collapse-toggle]').forEach(btn => {
-                    const icon = btn.querySelector('i');
-                    if (icon) {
-                        icon.setAttribute('data-lucide', collapsed ? 'panel-right' : 'panel-left');
-                    }
-                    btn.setAttribute('aria-expanded', String(!collapsed));
-                    btn.setAttribute('title', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
-                });
-                updateIconsIfAvailable();
-            }
-
-            function toggleSidebarCollapse() {
-                applySidebarCollapsed(!state.sidebarCollapsed);
-            }
-
             // Get all elements
             function getElements() {
                 return {
@@ -231,7 +154,6 @@
                     mainWrapper: document.getElementById('adminMainWrapper'),
                     mainContent: document.getElementById('adminMainContent'),
                     sidebarToggle: document.getElementById('adminSidebarToggle'),
-                    sidebarCollapseToggle: document.getElementById('adminSidebarCollapseToggle'),
                     themeToggle: document.getElementById('adminThemeToggle'),
                     notificationBtn: document.getElementById('adminNotificationBtn'),
                     notificationDropdown: document.getElementById('adminNotificationDropdown'),
@@ -281,10 +203,6 @@
             // Sidebar management
             function toggleSidebarMobile() {
                 const el = getElements();
-                if (window.innerWidth >= 1024) {
-                    return;
-                }
-
                 state.sidebarOpen = !state.sidebarOpen;
 
                 if (state.sidebarOpen) {
@@ -338,19 +256,11 @@
 
                 // Set initial theme
                 initTheme();
-                applySidebarCollapsed(state.sidebarCollapsed);
 
-                // Sidebar toggle (mobile drawer + desktop collapse from navbar)
+                // Sidebar toggle
                 el.sidebarToggle?.addEventListener('click', (e) => {
                     e.preventDefault();
                     toggleSidebarMobile();
-                });
-
-                document.querySelectorAll('[data-sidebar-collapse-toggle]').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        toggleSidebarCollapse();
-                    });
                 });
 
                 // Theme toggle
@@ -398,6 +308,7 @@
                     }
                 });
 
+                // Update icons
                 updateIconsIfAvailable();
             }
 
