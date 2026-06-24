@@ -3,6 +3,7 @@ window.$ = window.jQuery = jQuery;
 
 // 💡 Update this import to grab createIcons and the icons database explicitly
 import { createIcons, icons } from 'lucide';
+import * as lucide from 'lucide';
 import { Datepicker } from 'vanillajs-datepicker';
 import 'vanillajs-datepicker/css/datepicker.css';
 

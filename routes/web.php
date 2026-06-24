@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\View\BrandController;
-use App\Http\Controllers\View\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\View\VehicleController;
 

@@ -18,6 +18,11 @@
                     Back
                 </a>
             </div>
+            <a href="{{ route('admin.vehicles.index') }}"
+                class="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700">
+                <i data-lucide="arrow-left" class="h-5 w-5"></i>
+                Back
+            </a>
         </div>
 
         <div class="grid gap-6 lg:grid-cols-[1fr_22rem]">
@@ -126,7 +131,6 @@
                             </div>
                         </div>
                     </div>
-                </section>
 
                 <div class="flex gap-3">
                     <button type="submit" id="submitFormBtn"
@@ -140,12 +144,12 @@
                 </div>
             </form>
 
-            <aside class="lg:sticky lg:top-20 lg:self-start">
-                <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-                    <h3 class="mb-4 text-base font-bold text-slate-900 dark:text-white">Live Preview</h3>
+            <div class="lg:col-span-1">
+                <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sticky top-24 dark:border-slate-700 dark:bg-slate-800">
+                    <h3 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">Live Preview</h3>
                     <article class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 shadow-inner">
                         <div class="relative overflow-hidden aspect-video bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
-                            <img id="previewImg" src="" class="absolute inset-0 w-full h-full object-cover hidden" alt="Vehicle preview">
+                            <img id="previewImg" src="" class="absolute inset-0 w-full h-full object-cover hidden">
                             <i id="previewIcon" data-lucide="car" class="h-16 w-16 text-white opacity-30"></i>
                             <span id="previewBadge" class="absolute right-3 top-3 rounded-full bg-white/90 dark:bg-slate-800/90 px-2.5 py-1 text-[10px] font-semibold text-slate-800 dark:text-slate-200 backdrop-blur-sm shadow-sm">
                                 {{ $isEdit ? 'Updating' : 'New' }}
@@ -174,7 +178,7 @@
                         </div>
                     </article>
                 </div>
-            </aside>
+            </div>
         </div>
     </div>
 

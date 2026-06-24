@@ -88,6 +88,11 @@
     
     #adminMainWrapper {
         padding-left: 18rem !important; /* Offset for admin fixed sidebar */
+        transition: padding-left 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    #adminApp.sidebar-collapsed #adminMainWrapper {
+        padding-left: 5rem !important;
     }
     
     #adminSidebar nav, #dashboardSidebar nav {
