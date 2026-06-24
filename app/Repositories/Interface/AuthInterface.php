@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Interface;
 
-interface UserInterface
+interface AuthInterface
 {
     public function register(array $data);
     public function login(array $data);

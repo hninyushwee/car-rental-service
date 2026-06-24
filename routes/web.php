@@ -3,6 +3,7 @@
 use App\Http\Controllers\View\BrandController;
 use App\Http\Controllers\View\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\View\VehicleController;
 
 Route::get('/', function () {
     return view('user.home');
@@ -61,29 +62,23 @@ Route::get('/profile', function () {
 })->name('profile');
 
 // Admin Routes
-Route::prefix('admin')->group(function () {
+Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard');
     })->name('admin.dashboard');
 
-    Route::get('/components', function () {
-        return view('admin.components');
-    })->name('admin.components');
+    // Route::get('/components', function () {
+    //     return view('admin.components');
+    // })->name('admin.components');
 
     // Vehicle Management
-    Route::get('/vehicles', function () {
-        return view('admin.vehicles.index');
-    })->name('admin.vehicles.index');
-    Route::get('/vehicles/add', function () {
-        return view('admin.vehicles.create');
-    })->name('admin.vehicles.create');
-    Route::get('/vehicles/brands', [BrandController::class, 'index'])->name('admin.brands.index');
-    Route::get('/vehicles/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+    Route::get('/vehicles', [VehicleController::class, 'index'])->name('admin.vehicles.index');
+    Route::get('/vehicles/add', [VehicleController::class, 'create'])->name('admin.vehicles.create');
+    Route::get('/vehicles/{id}', [VehicleController::class, 'show'])->name('vehicles.show');
+    Route::get('/vehicles/{id}/edit', [VehicleController::class, 'edit'])->name('vehicles.edit');
 
-    // Placeholder routes for other sections
-    Route::get('/{section}/{action?}', function ($section, $action = null) {
-        return view('admin.dashboard');
-    });
+    Route::get('/brands', [BrandController::class, 'index'])->name('admin.brands.index');
+    Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
 });
 
 Route::fallback(function () {

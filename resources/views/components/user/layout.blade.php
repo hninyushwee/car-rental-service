@@ -22,13 +22,11 @@
     <meta name="description" content="SkyLine Automotive landing page and customer portal skeleton." />
     <title>SkyLine Automotive | Landing & Portal</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     @if (!$isUserDashboardRoute)
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     @endif
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { overflow-x: hidden; }
 

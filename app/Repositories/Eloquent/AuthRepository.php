@@ -3,11 +3,11 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\User;
-use App\Repositories\Interface\UserInterface;
+use App\Repositories\Interface\AuthInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserRepository implements UserInterface
+class AuthRepository implements AuthInterface
 {
     public function register(array $data)
     {

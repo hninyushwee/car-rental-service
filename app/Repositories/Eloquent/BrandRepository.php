@@ -4,12 +4,13 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Brand;
 use App\Repositories\Interface\BrandInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class BrandRepository implements BrandInterface
 {
-    public function getAllBrands()
+    public function getAllBrands(int $perPage = 15) : LengthAwarePaginator
     {
-        return Brand::query()->orderBy('name')->get();
+        return Brand::query()->orderBy('id')->paginate($perPage);
     }
 
     public function getBrandById(string $id)

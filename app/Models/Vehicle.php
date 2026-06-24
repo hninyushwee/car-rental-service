@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Brand;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Vehicle extends Model
 {
@@ -33,4 +34,18 @@ class Vehicle extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+    public function drivers() : BelongsToMany
+    {
+        return $this->belongsToMany(Driver::class , 'driver_vehicle')
+                    ->withPivot('is_primary', 'assigned_at')
+                    ->withTimestamps();
+    }
+    public function primaryDriver() : BelongsToMany
+    {
+        return $this->drivers()->wherePivot('is_primary', true);
+    }
+    // public function bookingItems() : HasMany
+    // {
+    //     return $this->hasMany(BookingItem::class);
+    // }
 }

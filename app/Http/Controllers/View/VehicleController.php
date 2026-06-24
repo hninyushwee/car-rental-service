@@ -19,7 +19,10 @@ class VehicleController
      */
     public function create()
     {
-        return view('admin.vehicles.create');
+        return view('admin.vehicles.create', [
+            'vehicleId' => null,
+            'isEdit' => false
+        ]);
     }
 
 
@@ -28,7 +31,7 @@ class VehicleController
      */
     public function show(string $id)
     {
-        //
+        return view('admin.vehicles.show', ['vehicleId' => $id]);
     }
 
     /**
@@ -36,7 +39,10 @@ class VehicleController
      */
     public function edit(string $id)
     {
-        //
+        return view('admin.vehicles.create', [
+            'vehicleId' => $id,
+            'isEdit' => true
+        ]);
     }
 
     /**

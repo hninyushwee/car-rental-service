@@ -39,8 +39,8 @@
                 <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
             </button>
             <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/vehicles" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Vehicles</a>
-                <a href="/admin/vehicles/add" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Add Vehicle</a>
+                <a href="{{ route('admin.vehicles.index') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Vehicles</a>
+                <a href="{{ route('admin.vehicles.create') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Add Vehicle</a>
                 <a href="{{ route('admin.categories.index') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Categories</a>
                 <a href="{{ route('admin.brands.index') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Brands</a>
             </div>

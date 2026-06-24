@@ -4,12 +4,13 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Category;
 use App\Repositories\Interface\CategoryInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CategoryRepository implements CategoryInterface
 {
-    public function getAllCategories()
+    public function getAllCategories(int $perPage = 15) : LengthAwarePaginator
     {
-        return Category::query()->orderBy('name')->get();
+        return Category::query()->orderBy('id')->paginate($perPage);
     }
 
     public function getCategoryById(string $id)

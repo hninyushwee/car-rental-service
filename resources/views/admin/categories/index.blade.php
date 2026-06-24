@@ -5,7 +5,7 @@
             <div class="flex items-center justify-between flex-wrap gap-3">
                 <div>
                     <h1 class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent">
-                        Vehicle Brands
+                        Vehicle Categories
                     </h1>
                     <p class="mt-0.5 text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
                         <i data-lucide="layers-3" class="h-4 w-4"></i>
@@ -50,14 +50,14 @@
             <section
                 class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
                 <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Active Brands</h2>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Active Categories</h2>
 
                     <div class="relative w-full sm:w-64">
                         <span
                             class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 dark:text-slate-500">
                             <i data-lucide="search" class="h-4 w-4"></i>
                         </span>
-                        <input type="text" id="tableSearchInput" placeholder="Search brands..."
+                        <input type="text" id="tableSearchInput" placeholder="Search categories..."
                             class="h-9 w-full rounded-xl border border-slate-300 bg-white pl-9 pr-4 text-xs font-medium text-slate-800 shadow-sm transition focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
                     </div>
                 </div>
@@ -69,14 +69,13 @@
                                 class="border-b border-slate-200 dark:border-slate-700 text-xs font-semibold uppercase text-slate-400 tracking-wider">
                                 <th class="py-3 px-4 w-16">No</th>
                                 <th class="py-3 px-4">Name</th>
-                                <th class="py-3 px-4">Year</th>
                                 <th class="py-3 px-4 text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="brandsTableBody"
+                        <tbody id="categoriesTableBody"
                             class="divide-y divide-slate-100 dark:divide-slate-700/50 text-sm text-slate-700 dark:text-slate-300">
                             <tr>
-                                <td colspan="4" class="py-6 text-center text-slate-400">Loading fleet records...</td>
+                                <td colspan="3" class="py-6 text-center text-slate-400">Loading fleet records...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -92,28 +91,20 @@
                             <i id="formIcon" data-lucide="folder-plus" class="h-5 w-5"></i>
                         </div>
                         <div>
-                            <h3 id="formTitle" class="text-base font-bold text-slate-900 dark:text-white">New Brand
+                            <h3 id="formTitle" class="text-base font-bold text-slate-900 dark:text-white">New Category
                             </h3>
                             <p id="formSubtitle" class="text-xs text-slate-500">Add a unique classification label.</p>
                         </div>
                     </div>
 
-                    <form id="brandForm" class="space-y-4">
-                        <input type="hidden" id="brand_id" value="">
+                    <form id="categoryForm" class="space-y-4">
+                        <input type="hidden" id="category_id" value="">
                         <div>
-                            <label for="brand_name"
-                                class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-400">Brand
+                            <label for="category_name"
+                                class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-400">Category
                                 Name</label>
-                            <input type="text" id="brand_name" placeholder="Example: Toyota, BYD, Honda" required
+                            <input type="text" id="category_name" placeholder="Example: SUV, Sedan, Van" required
                                 class="h-11 w-full rounded-xl border border-slate-300 bg-white px-4 text-sm font-medium text-slate-800 shadow-sm transition focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
-                        </div>
-                        <div>
-                            <label for="brand_year"
-                                class="mb-1.5 block text-xs font-semibold text-slate-600 dark:text-slate-400">Year
-                                Founded</label>
-                            <!-- 📅 YEAR-ONLY CALENDAR PICKER -->
-                            <input type="text" id="brand_year" placeholder="Select Year"
-                                class="year-picker h-11 w-full rounded-xl border border-slate-300 bg-white px-4 text-sm font-medium text-slate-800 shadow-sm transition focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 cursor-pointer">
                         </div>
 
                         <div class="flex gap-2 pt-2">
@@ -143,7 +134,7 @@
                 </div>
                 <h3 class="text-lg font-bold text-slate-900 dark:text-white">Confirm Removal</h3>
                 <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">Are you completely sure you want to remove
-                    this vehicle brand? This action cannot be undone.</p>
+                    this vehicle category? This action cannot be undone.</p>
             </div>
             <div class="mt-6 flex justify-end gap-3">
                 <button type="button" id="closeDeleteModalBtn"
@@ -159,39 +150,15 @@
     </div>
 
     @push('scripts')
-        <!-- Flatpickr CSS and JS for Year-Only Calendar -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        
-        <!-- Toastify-JS CSS and JS -->
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
-        
         <script src="https://unpkg.com/lucide@latest"></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // 📅 Initialize Flatpickr for Year-Only Calendar
-                flatpickr(".year-picker", {
-                    dateFormat: "Y",
-                    allowInput: true,
-                    defaultDate: new Date(),
-                    minDate: "1900-01-01",
-                    maxDate: new Date().getFullYear().toString(),
-                    onChange: function(selectedDates, dateStr, instance) {
-                        if (selectedDates[0]) {
-                            const year = selectedDates[0].getFullYear();
-                            document.getElementById('brand_year').value = year;
-                        }
-                    }
-                });
-
                 // DOM Elements references
-                const $tableBody = $('#brandsTableBody');
-                const $form = $('#brandForm');
-                const $brandIdInput = $('#brand_id');
-                const $brandNameInput = $('#brand_name');
-                const $brandYearInput = $('#brand_year');
+                const $tableBody = $('#categoriesTableBody');
+                const $form = $('#categoryForm');
+                const $categoryIdInput = $('#category_id');
+                const $categoryNameInput = $('#category_name');
                 const $saveBtn = $('#saveBtn');
                 const $cancelBtn = $('#cancelBtn');
                 const $formTitle = $('#formTitle');
@@ -210,71 +177,30 @@
                 const $closeDeleteModalBtn = $('#closeDeleteModalBtn');
                 let targetDeleteId = null;
 
-                // ⭐ Toastify-js Toast Notification - Bottom Left Position
-                function showToastify(message, type = 'success') {
-                    const isDark = document.documentElement.classList.contains('dark');
-                    
-                    let gradient;
-                    
-                    if (type === 'error') {
-                        if (isDark) {
-                            gradient = "linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%)";
-                        } else {
-                            gradient = "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)";
-                        }
-                    } else {
-                        if (isDark) {
-                            gradient = "linear-gradient(135deg, #064e3b 0%, #047857 100%)";
-                        } else {
-                            gradient = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
-                        }
-                    }
-                    
-                    Toastify({
-                        text: message,
-                        duration: 4000,
-                        close: true,
-                        gravity: "bottom",
-                        position: "left",
-                        stopOnFocus: true,
-                        style: {
-                            background: gradient,
-                            borderRadius: "12px",
-                            padding: "12px 20px",
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                            fontFamily: "system-ui, -apple-system, sans-serif",
-                            color: "#ffffff"
-                        },
-                        onClick: function() {}
-                    }).showToast();
-                }
-
                 // ⭐ UPDATED: Cookie/Session Base AJAX Headers Factory with CSRF protection
                 const getHeaders = () => ({
                     'X-Requested-With': 'XMLHttpRequest',
                     'Accept': 'application/json',
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // layout ထဲက token လှမ်းယူတာပါ
                 });
 
-                // ⭐ UPDATED: Universal Error Handler with Toastify
+                // ⭐ UPDATED: Universal Error Handler for State Session check
                 function handleAjaxError(xhr, fallbackMessage) {
                     if (xhr.status === 401) {
+                        // Clear up and route back to login if session ends or expires
                         window.location.href = "{{ url('/login') }}";
                     } else {
                         const msg = xhr.responseJSON?.message || fallbackMessage;
-                        showToastify(msg, 'error');
+                        showAlert('error', msg);
                     }
                 }
 
                 function refreshIcons() {
-                    if (typeof lucide !== 'undefined') {
-                        lucide.createIcons();
+                    if (typeof window.initLucideIcons === 'function') {
+                        window.initLucideIcons();
                     }
                 }
 
-                // Legacy alert system (kept for backward compatibility)
                 function showAlert(type, message) {
                     $successBox.addClass('hidden');
                     $errorBox.addClass('hidden');
@@ -319,10 +245,10 @@
                     if (visibleRowsCount === 0 && queryValue !== '') {
                         $tableBody.append(`
                             <tr id="noSearchResultsRow">
-                                <td colspan="4" class="py-8 text-center text-slate-400 dark:text-slate-500">
+                                <td colspan="3" class="py-8 text-center text-slate-400 dark:text-slate-500">
                                     <div class="flex flex-col items-center justify-center gap-2">
                                         <i data-lucide="search-x" class="h-5 w-5 text-slate-300 dark:text-slate-600"></i>
-                                        <span>No brands match "${$(this).val()}"</span>
+                                        <span>No categories match "${$(this).val()}"</span>
                                     </div>
                                 </td>
                             </tr>
@@ -331,10 +257,10 @@
                     }
                 });
 
-                // 1. READ ACTION: Load brands from Database
-                function loadbrands() {
+                // 1. READ ACTION: Load Categories from Database
+                function loadCategories() {
                     $.ajax({
-                        url: "{{ url('/api/brands') }}",
+                        url: "{{ url('/api/admin/categories') }}",
                         method: 'GET',
                         headers: getHeaders(),
                         dataType: 'json',
@@ -343,19 +269,18 @@
 
                             if (!result.data || result.data.length === 0) {
                                 rows =
-                                    `<tr><td colspan="4" class="py-6 text-center text-slate-400">No active brands found.</td></tr>`;
+                                    `<tr><td colspan="3" class="py-6 text-center text-slate-400">No active categories found.</td></tr>`;
                             } else {
-                                result.data.forEach((brand, index) => {
+                                result.data.forEach((category, index) => {
                                     rows += `
                                         <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/20 transition-colors">
                                             <td class="py-3 px-4 font-semibold text-slate-400 dark:text-slate-500">${index + 1}</td>
-                                            <td class="py-3 px-4 font-medium text-slate-900 dark:text-white">${brand.name}</td>
-                                            <td class="py-3 px-4 text-slate-600 dark:text-slate-400">${brand.year || 'N/A'}</td>
+                                            <td class="py-3 px-4 font-medium text-slate-900 dark:text-white">${category.name}</td>
                                             <td class="py-3 px-4 text-right space-x-1">
-                                                <button data-id="${brand.id}" data-name="${brand.name}" data-year="${brand.year || ''}" class="edit-btn inline-flex items-center justify-center h-8 w-8 rounded-lg border border-slate-200 bg-white text-cyan-600 hover:border-cyan-500 hover:bg-cyan-50 dark:border-slate-700 dark:bg-slate-900">
+                                                <button data-id="${category.id}" data-name="${category.name}" class="edit-btn inline-flex items-center justify-center h-8 w-8 rounded-lg border border-slate-200 bg-white text-cyan-600 hover:border-cyan-500 hover:bg-cyan-50 dark:border-slate-700 dark:bg-slate-900">
                                                     <i class="h-4 w-4" data-lucide="pencil"></i>
                                                 </button>
-                                                <button data-id="${brand.id}" class="delete-btn inline-flex items-center justify-center h-8 w-8 rounded-lg border border-slate-200 bg-white text-red-500 hover:border-red-500 hover:bg-red-50 dark:border-slate-700 dark:bg-slate-900">
+                                                <button data-id="${category.id}" class="delete-btn inline-flex items-center justify-center h-8 w-8 rounded-lg border border-slate-200 bg-white text-red-500 hover:border-red-500 hover:bg-red-50 dark:border-slate-700 dark:bg-slate-900">
                                                     <i class="h-4 w-4" data-lucide="trash-2"></i>
                                                 </button>
                                             </td>
@@ -367,7 +292,7 @@
                             refreshIcons();
                         },
                         error: function(xhr) {
-                            handleAjaxError(xhr, 'Failed to fetch brands.');
+                            handleAjaxError(xhr, 'Failed to fetch categories.');
                         }
                     });
                 }
@@ -376,11 +301,11 @@
                 $form.on('submit', function(e) {
                     e.preventDefault();
 
-                    const id = $brandIdInput.val();
-                    const name = $brandNameInput.val().trim();
-                    const year = $brandYearInput.val().trim();
+                    const id = $categoryIdInput.val();
+                    const name = $categoryNameInput.val().trim();
 
-                    const url = id ? `{{ url('/api/brands') }}/${id}` : '{{ url('/api/brands') }}';
+                    // ⭐ API Endpoint Mapping for Stateful Sanctum Routing
+                    const url = id ? `{{ url('/api/admin/categories') }}/${id}` : '{{ url('/api/admin/categories') }}';
                     const method = id ? 'PUT' : 'POST';
 
                     $.ajax({
@@ -390,15 +315,13 @@
                         contentType: 'application/json',
                         dataType: 'json',
                         data: JSON.stringify({
-                            name: name,
-                            year: year
+                            name: name
                         }),
                         success: function(response) {
                             resetForm();
-                            loadbrands();
-                            const localizedMsg = id ? 'Brand updated successfully.' :
-                                'Brand created successfully.';
-                            showToastify(response.message || localizedMsg, 'success');
+                            loadCategories();
+                            const localizedMsg = id ? 'Category updated successfully.' :
+                                'Category created successfully.';
                             showAlert('success', response.message || localizedMsg);
                         },
                         error: function(xhr) {
@@ -414,19 +337,10 @@
 
                     if ($button.hasClass('edit-btn')) {
                         const name = $button.attr('data-name');
-                        const year = $button.attr('data-year') || '';
-                        
-                        $brandIdInput.val(id);
-                        $brandNameInput.val(name);
-                        $brandYearInput.val(year);
+                        $categoryIdInput.val(id);
+                        $categoryNameInput.val(name);
 
-                        // Update Flatpickr display
-                        const yearPicker = document.querySelector('.year-picker');
-                        if (yearPicker && yearPicker._flatpickr && year) {
-                            yearPicker._flatpickr.setDate(year, true);
-                        }
-
-                        $formTitle.text('Edit brand');
+                        $formTitle.text('Edit Category');
                         $formSubtitle.text(`Modifying entry identity #${id}`);
                         $saveBtn.text('Update Changes');
 
@@ -454,15 +368,14 @@
                 // 4. DELETE ACTION
                 function executeDelete(id) {
                     $.ajax({
-                        url: `{{ url('/api/brands') }}/${id}`,
+                        url: `{{ url('/api/admin/categories') }}/${id}`,
                         method: 'DELETE',
                         headers: getHeaders(),
                         dataType: 'json',
                         success: function(response) {
                             hideDeleteModal();
-                            loadbrands();
-                            showToastify(response.message || 'Brand deleted successfully.', 'success');
-                            showAlert('success', response.message || 'Brand deleted successfully.');
+                            loadCategories();
+                            showAlert('success', response.message || 'Category deleted successfully.');
                         },
                         error: function(xhr) {
                             hideDeleteModal();
@@ -473,15 +386,8 @@
 
                 function resetForm() {
                     $form[0].reset();
-                    $brandIdInput.val('');
-                    
-                    // Reset Flatpickr
-                    const yearPicker = document.querySelector('.year-picker');
-                    if (yearPicker && yearPicker._flatpickr) {
-                        yearPicker._flatpickr.clear();
-                    }
-                    
-                    $formTitle.text('New brand');
+                    $categoryIdInput.val('');
+                    $formTitle.text('New Category');
                     $formSubtitle.text('Add a unique classification label.');
                     $saveBtn.text('Save Record');
 
@@ -492,7 +398,7 @@
                 $cancelBtn.on('click', resetForm);
 
                 // Initial setup and execution load
-                loadbrands();
+                loadCategories();
                 refreshIcons();
             });
         </script>

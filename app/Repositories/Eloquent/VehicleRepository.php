@@ -4,12 +4,13 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Vehicle;
 use App\Repositories\Interface\VehicleInterface;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class VehicleRepository implements VehicleInterface
 {
-    public function getAllVehicles()
+    public function getAllVehicles(int $perPage = 15) : LengthAwarePaginator
     {
-        return Vehicle::query()->with(['category', 'brand'])->latest()->get();
+        return Vehicle::query()->with(['category', 'brand'])->latest()->paginate($perPage);
     }
 
     public function getVehicleById(string $id)

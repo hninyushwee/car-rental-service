@@ -4,22 +4,22 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request; 
-use App\Repositories\Interface\UserInterface;
+use App\Repositories\Interface\AuthInterface;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 
 class AuthApiController extends Controller
 {
-    protected $userRepo;
+    protected $authRepo;
 
-    public function __construct(UserInterface $userRepo)
+    public function __construct(AuthInterface $authRepo)
     {
-        $this->userRepo = $userRepo;
+        $this->authRepo = $authRepo;
     }
 
     public function register(RegisterRequest $request)
     {
-        $result = $this->userRepo->register($request->validated());
+        $result = $this->authRepo->register($request->validated());
 
         return $this->successResponse($result['user'],'User registered successfully',201);
 
@@ -27,12 +27,13 @@ class AuthApiController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $result = $this->userRepo->login($request->validated());
+        $result = $this->authRepo->login($request->validated());
 
         if (!$result) {
             return $this->errorResponse('Invalid email or password credentials',401);
         }
 
+        // return $this->successResponse($result['user'],'User logged in successfully',200);
         return response()->json([
             'success' => true,
             'message' => 'Login authenticated successful',
@@ -48,7 +49,7 @@ class AuthApiController extends Controller
             return $this->errorResponse('Unauthenticated or missing valid token.',401);
         }
 
-        $logout = $this->userRepo->logout($request->user());
+        $logout = $this->authRepo->logout($request->user());
 
         if ($logout) {
             return $this->successResponse('Logged out successfully.');
