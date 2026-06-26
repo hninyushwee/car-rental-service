@@ -1,33 +1,19 @@
-<aside id="adminSidebar" class="h-screen flex-shrink-0 border-r-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 transition-all duration-300 flex flex-col overflow-hidden">
+<aside id="adminSidebar" class="w-72 flex-shrink-0 border-r-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-y-auto transition-all duration-300 flex flex-col">
     <!-- Logo Section -->
-    <div id="adminSidebarHeader" class="h-16 border-b-2 border-slate-200 dark:border-slate-700 px-4 flex items-center justify-between gap-2 flex-shrink-0">
-        <div id="adminSidebarBrand" class="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
-            <img id="adminSidebarLogo" src="{{ asset('images/logo.png') }}" alt="SkyLine" class="h-8 w-auto shrink-0">
-            <span id="adminSidebarText" data-sidebar-label class="bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 bg-clip-text text-transparent font-black text-sm tracking-wide truncate">
-                SkyLine Admin
-            </span>
-        </div>
-        <button id="adminSidebarCollapseToggle" type="button" data-sidebar-collapse-toggle
-            class="hidden h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
-            title="Collapse sidebar" aria-expanded="true">
-            <i data-lucide="panel-left" class="h-4 w-4"></i>
-        </button>
+    <div class="border-b-2 border-slate-200 dark:border-slate-700 px-6 py-5 flex items-center gap-3 flex-shrink-0">
+        <img id="adminSidebarLogo" src="{{ asset('images/logo.png') }}" alt="SkyLine" class="h-8 w-auto">
+        <span id="adminSidebarText" data-sidebar-label class="text-sm font-black text-slate-900 dark:text-white tracking-wide">
+            SkyLine Admin
+        </span>
     </div>
 
     <!-- Navigation -->
-    <nav class="flex-1 min-h-0 space-y-1 p-4 overflow-y-auto">
-        <div data-sidebar-label class="px-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Overview
-        </div>
+    <nav class="flex-1 space-y-1 p-4 overflow-y-auto">
         <!-- Dashboard -->
         <a href="/admin" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <i data-lucide="grid-3x3" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>Dashboard</span>
         </a>
-
-        <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Fleet Management
-        </div>
 
         <!-- Vehicle Management -->
         <div>
@@ -60,10 +46,6 @@
                 <a href="/admin/drivers/add" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Add Driver</a>
                 <a href="/admin/drivers/documents" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Documents</a>
             </div>
-        </div>
-
-        <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Operations
         </div>
 
         <!-- Booking Management -->
@@ -163,10 +145,6 @@
             </div>
         </div>
 
-        <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Analytics
-        </div>
-
         <!-- Analytics -->
         <div>
             <button type="button" data-submenu-toggle class="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
@@ -181,10 +159,6 @@
                 <a href="/admin/reports/bookings" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Bookings</a>
                 <a href="/admin/reports/customers" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Customers</a>
             </div>
-        </div>
-
-        <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            System Config
         </div>
 
         <!-- Settings -->
@@ -205,9 +179,9 @@
     </nav>
 
     <!-- Footer -->
-    <div class="border-t-2 border-slate-200 dark:border-slate-700 p-2 flex-shrink-0">
-        <button type="button" class="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-            <i data-lucide="help-circle" class="h-4 w-4 flex-shrink-0"></i>
+    <div class="border-t-2 border-slate-200 dark:border-slate-700 p-4 flex-shrink-0">
+        <button type="button" class="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+            <i data-lucide="help-circle" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>Help</span>
         </button>
     </div>

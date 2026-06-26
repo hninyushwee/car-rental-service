@@ -16,11 +16,17 @@
                     Back
                 </a>
             </div>
+            <a href="{{ route('admin.vehicles.index') }}"
+                class="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700">
+                <i data-lucide="arrow-left" class="h-5 w-5"></i>
+                Back
+            </a>
         </div>
 
-        <div class="grid gap-6 lg:grid-cols-[1fr_22rem]">
-            <form id="vehicleForm" class="space-y-5" enctype="multipart/form-data">
-                @csrf
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+            <div class="lg:col-span-2">
+                <form id="vehicleForm" class="space-y-6" enctype="multipart/form-data">
+                    @csrf
 
                 <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
                     <h2 class="mb-4 text-base font-semibold text-slate-900 dark:text-white">Vehicle details</h2>
@@ -113,7 +119,6 @@
                             <p id="imageError" class="input-error-msg mt-1 hidden text-xs font-medium text-red-600 dark:text-red-400"></p>
                         </div>
                     </div>
-                </section>
 
                 <div class="flex gap-3">
                     <button type="submit" id="submitFormBtn" class="flex-1 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 text-center text-sm font-bold text-white shadow-lg transition hover:shadow-xl">
@@ -153,7 +158,7 @@
                         </div>
                     </article>
                 </div>
-            </aside>
+            </div>
         </div>
     </div>
 </x-admin.layout>
