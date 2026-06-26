@@ -9,38 +9,33 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthRepository implements AuthInterface
 {
-    public function register(array $data)
+    public function register(array $data): array
     {
-        // Create the user record inside the database
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'name'     => $data['name'],
+            'email'    => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        return $user;
+        // Auto-login after registration
+        Auth::login($user);
+
+        return ['user' => $user];
     }
 
-    public function login(array $data)
+    public function login(array $data): ?array
     {
-        if (!Auth::attempt(['email' => $data['email'], 'password' => $data['password']])) {
+        // true = remember me cookie
+        if (!Auth::attempt(['email' => $data['email'], 'password' => $data['password']], true)) {
             return null;
         }
-        $user = Auth::user();
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return [
-            'user' => $user,
-            'access_token' => $token,
-            'token_type' => 'Bearer'
-        ];
+        return ['user' => Auth::user()];
     }
 
-    public function logout($user)
+    public function logout($user): bool
     {
-        $user->currentAccessToken()->delete();
-
+        Auth::guard('web')->logout();
         return true;
     }
 }

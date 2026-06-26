@@ -22,11 +22,6 @@
     <meta name="description" content="SkyLine Automotive landing page and customer portal skeleton." />
     <title>SkyLine Automotive | Landing & Portal</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @if (!$isUserDashboardRoute)
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    @endif
     <style>
         body { overflow-x: hidden; }
 
@@ -92,7 +87,7 @@
             #userSidebarOverlay { display: none !important; }
             #userSidebar { transform: none !important; }
         }
-        @else
+        @else /* Fixed Blade syntax loop here */
         #siteHeader {
             transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                         box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -371,6 +366,7 @@
     }
 })();
 </script>
+
 @stack('scripts')
 </body>
 </html>

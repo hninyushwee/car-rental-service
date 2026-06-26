@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import { createCrudTable } from './crud-table';
 
-function initBrandPage() {
-    const $page = $('[data-page="admin-brands"]');
-
+function initCategoryPage() {
+    const $page = $('[data-page="admin-categories"]');
+    
     if (!$page.length || $page.data('initialized')) {
         return;
     }
@@ -11,10 +11,10 @@ function initBrandPage() {
     $page.data('initialized', true);
 
     const required = [
-        '#brandsTableBody',
-        '#brandForm',
-        '#brand_id',
-        '#brand_name',
+        '#categoriesTableBody',
+        '#categoryForm',
+        '#category_id',
+        '#category_name',
         '#saveBtn',
         '#cancelBtn',
         '#formTitle',
@@ -26,13 +26,13 @@ function initBrandPage() {
         return;
     }
 
-    const apiBase = $page.data('apiBase') || '/api/admin/brands';
+    const apiBase = $page.data('apiBase') || '/api/admin/categories';
 
     createCrudTable({
-        tableBody: $('#brandsTableBody')[0],
-        form: $('#brandForm')[0],
-        idInput: $('#brand_id')[0],
-        nameInput: $('#brand_name')[0],
+        tableBody: $('#categoriesTableBody')[0],
+        form: $('#categoryForm')[0],
+        idInput: $('#category_id')[0],
+        nameInput: $('#category_name')[0],
         saveButton: $('#saveBtn')[0],
         cancelButton: $('#cancelBtn')[0],
         formTitle: $('#formTitle')[0],
@@ -54,24 +54,24 @@ function initBrandPage() {
             destroy: (id) => `${apiBase}/${id}`,
         },
         labels: {
-            createTitle: 'New Brand',
+            createTitle: 'New Category',
             createSubtitle: 'Add a unique classification label.',
-            editTitle: 'Edit Brand',
+            editTitle: 'Edit Category',
             save: 'Save Record',
             update: 'Update Changes',
         },
         messages: {
-            empty: 'No active brands found.',
-            created: 'Brand created successfully.',
-            updated: 'Brand updated successfully.',
-            deleted: 'Brand deleted successfully.',
-            loadError: 'Failed to fetch brands.',
+            empty: 'No active categories found.',
+            created: 'Category created successfully.',
+            updated: 'Category updated successfully.',
+            deleted: 'Category deleted successfully.',
+            loadError: 'Failed to fetch categories.',
             saveError: 'Validation or processing error.',
             deleteError: 'Could not execute target delete.',
         },
-        renderRow(brand, index, escapeHtml) {
-            const id = escapeHtml(brand.id);
-            const name = escapeHtml(brand.name);
+        renderRow(category, index, escapeHtml) {
+            const id = escapeHtml(category.id);
+            const name = escapeHtml(category.name);
 
             return `
                 <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/20 transition-colors">
@@ -89,11 +89,12 @@ function initBrandPage() {
             `;
         },
     }).init();
+    
 }
 
 if (document.readyState === 'complete' || document.readyState === 'interactive') {
-    initBrandPage();
+    initCategoryPage();
 } else {
-    window.addEventListener('DOMContentLoaded', initBrandPage);
-    window.addEventListener('load', initBrandPage);
+    window.addEventListener('DOMContentLoaded', initCategoryPage);
+    window.addEventListener('load', initCategoryPage);
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\VehicleController;
 use App\Http\Controllers\Auth\AuthApiController;
 use Illuminate\Support\Facades\Route;
 
+// This handles your AJAX POST authentication request safely
 Route::post('/register', [AuthApiController::class, 'register'])->name('api.register');
 Route::post('/login', [AuthApiController::class, 'login'])->name('api.login');
 

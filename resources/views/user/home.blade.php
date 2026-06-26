@@ -4,8 +4,8 @@
 <style>
   /* Fade-up animation */
   .fade-up {
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;
+    transform: translateY(0);
     transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1),
                 transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
   }
@@ -427,10 +427,8 @@
 </section>
 
 @push('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script>
-  $(document).ready(function(){
+  window.addEventListener('jquery-ready', function() {
     $('.driver-carousel').owlCarousel({
         loop: true,
         margin: 24,
