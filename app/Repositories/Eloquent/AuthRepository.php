@@ -15,12 +15,12 @@ class AuthRepository implements AuthInterface
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => Hash::make($data['password']),
+            'phone'    => $data['phone'] ?? null,
         ]);
 
-        // Auto-login after registration
-        Auth::login($user);
+        $user->assignRole('customer');
 
-        return ['user' => $user];
+        return ['user' => $user->load('roles')];
     }
 
     public function login(array $data): ?array
@@ -30,7 +30,7 @@ class AuthRepository implements AuthInterface
             return null;
         }
 
-        return ['user' => Auth::user()];
+        return ['user' => Auth::user()->load('roles')];
     }
 
     public function logout($user): bool

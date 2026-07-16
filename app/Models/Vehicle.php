@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vehicle extends Model
 {
@@ -17,14 +18,23 @@ class Vehicle extends Model
         'brand_id',
         'model',
         'year',
-        'license_plate',
         'color',
         'capacity',
         'price_per_day',
-        'status',
+        'total_stock',
+        'available_stock',
         'description',
-        'image'
+        'images',
+        'location',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'images' => 'array',
+        ];
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
@@ -34,18 +44,20 @@ class Vehicle extends Model
     {
         return $this->belongsTo(Brand::class);
     }
-    public function drivers() : BelongsToMany
+
+    public function drivers(): BelongsToMany
     {
-        return $this->belongsToMany(Driver::class , 'driver_vehicle')
-                    ->withPivot('is_primary', 'assigned_at')
-                    ->withTimestamps();
+        return $this->belongsToMany(Driver::class, 'driver_vehicle')
+                    ->withPivot('is_primary', 'assigned_at');
     }
-    public function primaryDriver() : BelongsToMany
+
+    public function primaryDriver(): BelongsToMany
     {
         return $this->drivers()->wherePivot('is_primary', true);
     }
-    // public function bookingItems() : HasMany
-    // {
-    //     return $this->hasMany(BookingItem::class);
-    // }
+
+    public function bookingItems(): HasMany
+    {
+        return $this->hasMany(BookingItem::class);
+    }
 }

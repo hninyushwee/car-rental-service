@@ -14,13 +14,18 @@ return new class extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('email')->unique();
             $table->string('phone');
             $table->string('license_number');
             $table->string('license_expiry_date');
+            $table->foreignId('driving_license_type_id')
+                ->nullable()
+                ->constrained('driving_license_types')
+                ->nullOnDelete();
             $table->string('image')->nullable();
             $table->text('address')->nullable();
-            $table->decimal('price_per_day', 12, 2);
             $table->enum('status', ['available', 'on_trip', 'off_duty'])->default('available');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

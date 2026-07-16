@@ -42,8 +42,14 @@
                         Password
                     </span>
                 </label>
-                <input type="password" id="password" name="password" placeholder="••••••••" required
-                    class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
+                <div class="relative">
+                    <input type="password" id="password" name="password" placeholder="••••••••" required
+                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
+                    <button type="button" onclick="togglePassword(this, 'password')"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors">
+                        <i data-lucide="eye" class="h-4 w-4"></i>
+                    </button>
+                </div>
                 <span id="passwordError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
             </div>
 
@@ -54,12 +60,18 @@
                         Confirm Password
                     </span>
                 </label>
-                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="••••••••"
-                    required
-                    class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
+                <div class="relative">
+                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder="••••••••"
+                        required
+                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
+                    <button type="button" onclick="togglePassword(this, 'password_confirmation')"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors">
+                        <i data-lucide="eye" class="h-4 w-4"></i>
+                    </button>
+                </div>
             </div>
 
-            {{-- <div class="group">
+            <div class="group">
                 <label for="phone" class="block text-sm font-semibold text-white mb-2">
                     <span class="inline-flex items-center gap-2">
                         <i data-lucide="phone" class="w-5 h-5 text-cyan-400"></i>
@@ -69,7 +81,7 @@
                 <input type="tel" id="phone" name="phone" placeholder="+95 9123 456 789"
                     class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
                 <span id="phoneError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
-            </div> --}}
+            </div>
 
             <label class="flex items-start gap-3 cursor-pointer group">
                 <input type="checkbox" name="terms" required
@@ -81,7 +93,7 @@
             </label>
 
             <button type="submit" id="regSubmitBtn"
-                class="w-full py-2 px-6 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-lg hover:shadow-xl hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group">
+                class="w-full py-2 px-6 rounded-lg bg-cyan-400 text-black font-bold shadow-sm hover:bg-cyan-500 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group">
                 <i data-lucide="user-check" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                 <span id="regBtnText">Create Account</span>
             </button>
@@ -137,7 +149,7 @@
                         email: $('#email').val().trim(),
                         password: $('#password').val(),
                         password_confirmation: $('#password_confirmation').val(),
-                        phone: $('#phone').val().trim(),
+                        phone: $('#phone').val()?.trim() || '',
                     };
 
                     // Initiating modern async REST API communication call using jQuery AJAX

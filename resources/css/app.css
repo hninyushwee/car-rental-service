@@ -4,7 +4,7 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 @import 'owl.carousel/dist/assets/owl.carousel.css';
@@ -16,7 +16,7 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 @import 'owl.carousel/dist/assets/owl.carousel.css';
@@ -123,9 +123,7 @@
 }
 
 /* Global Unique Button Styling (.btn-primary) */
-.btn-primary,
-button[type="submit"]:not(.copy-code-btn):not(.close-alert),
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+.btn-primary {
     background: linear-gradient(135deg, #06b6d4, #2563eb) !important; /* cyan-500 to blue-600 */
     color: #ffffff !important;
     font-weight: 700 !important;
@@ -135,15 +133,93 @@ button[type="submit"]:not(.copy-code-btn):not(.close-alert),
     cursor: pointer !important;
 }
 
-.btn-primary:hover,
-button[type="submit"]:not(.copy-code-btn):not(.close-alert):hover,
-.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+.btn-primary:hover {
     background: linear-gradient(135deg, #0891b2, #1d4ed8) !important; /* cyan-600 to blue-700 */
     box-shadow: 0 6px 20px 0 rgba(6, 182, 212, 0.4) !important;
     transform: translateY(-1px) !important;
 }
 
-.btn-primary:active,
-button[type="submit"]:not(.copy-code-btn):not(.close-alert):active {
+.btn-primary:active {
     transform: translateY(1px) !important;
+}
+
+/* Datepicker Dark Mode */
+.dark .datepicker {
+    --dp-bg: #1e293b;
+    --dp-border: #334155;
+    --dp-text: #e2e8f0;
+    --dp-text-muted: #94a3b8;
+    --dp-hover: #334155;
+    --dp-selected: #06b6d4;
+    --dp-selected-text: #fff;
+    --dp-today-bg: #0f172a;
+    --dp-today-border: #06b6d4;
+}
+
+.dark .datepicker-picker {
+    background-color: var(--dp-bg) !important;
+    border-color: var(--dp-border) !important;
+}
+
+.dark .datepicker-header,
+.dark .datepicker-controls,
+.dark .datepicker-view,
+.dark .datepicker-grid {
+    background-color: var(--dp-bg) !important;
+}
+
+.dark .datepicker-cell {
+    color: var(--dp-text) !important;
+    background-color: transparent !important;
+}
+
+.dark .datepicker-cell:not(.disabled):hover {
+    background-color: var(--dp-hover) !important;
+}
+
+.dark .datepicker-cell.selected {
+    background-color: var(--dp-selected) !important;
+    color: var(--dp-selected-text) !important;
+}
+
+.dark .datepicker-cell.focused:not(.selected) {
+    background-color: var(--dp-hover) !important;
+}
+
+.dark .datepicker-cell.current:not(.selected) {
+    background-color: var(--dp-today-bg) !important;
+    border-color: var(--dp-today-border) !important;
+}
+
+.dark .datepicker-cell.disabled {
+    color: var(--dp-text-muted) !important;
+    opacity: 0.4 !important;
+}
+
+.dark .datepicker-controls .button {
+    color: var(--dp-text) !important;
+    background-color: transparent !important;
+    border-color: var(--dp-border) !important;
+}
+
+.dark .datepicker-controls .button:hover {
+    background-color: var(--dp-hover) !important;
+}
+
+.dark .datepicker-controls .button:focus {
+    border-color: var(--dp-selected) !important;
+}
+
+.dark .datepicker-view .dow {
+    color: var(--dp-text-muted) !important;
+}
+
+.dark .datepicker-footer {
+    background-color: var(--dp-bg) !important;
+    border-top-color: var(--dp-border) !important;
+}
+
+.dark .datepicker-title {
+    background-color: var(--dp-bg) !important;
+    color: var(--dp-text) !important;
 }

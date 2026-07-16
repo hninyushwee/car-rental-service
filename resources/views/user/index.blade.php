@@ -138,7 +138,7 @@
 
                 <div class="mt-8 flex flex-col gap-4 sm:flex-row">
                     <a href="#vehicles"
-                        class="group inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-400/20 transition-all duration-300 hover:bg-cyan-300 hover:scale-105">
+                        class="group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3.5 text-sm font-bold text-black shadow-sm hover:bg-cyan-500">
                         Rent a Car <i data-lucide="arrow-right"
                             class="h-4 w-4 transition-all duration-300 group-hover:translate-x-1"></i>
                     </a>
@@ -297,10 +297,10 @@
                                 {{ $car['name'] }}</h3>
                             <p class="mt-2 text-sm text-slate-500 leading-relaxed">{{ $car['desc'] }}</p>
                             <div class="mt-5 flex items-center justify-between pt-4 border-t border-slate-100">
-                                <p class="font-black text-slate-950 text-lg">${{ $car['price'] }}<span
+                                <p class="font-black text-slate-950 text-lg">MMK {{ $car['price'] }}<span
                                         class="text-sm font-semibold text-slate-500">/day</span></p>
                                 <button
-                                    class="rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-bold text-slate-950 transition-all duration-300 hover:bg-cyan-300 hover:scale-105 shadow-sm shadow-cyan-400/10">View
+                                    class="rounded-lg bg-cyan-400 px-5 py-2.5 text-sm font-bold text-black transition-all duration-300 hover:bg-cyan-500 shadow-sm">View
                                     Details</button>
                             </div>
                         </div>
@@ -379,7 +379,7 @@
                         class="text-xs font-bold uppercase tracking-widest text-cyan-600 bg-cyan-50 inline-block px-3 py-1 rounded-full">
                         Expert Drivers</p>
                     <h2 class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Meet Our
-                        Professional Chauffeurs</h2>
+                        Professional Drivers</h2>
                     <p class="mt-4 text-slate-600 text-base leading-relaxed">All drivers are deeply vetted,
                         background‑checked, and highly trained to ensure a reliable journey.</p>
                 </div>
@@ -401,7 +401,7 @@
                         ],
                         [
                             'name' => 'Sophia Rodriguez',
-                            'role' => 'Executive Chauffeur',
+                            'role' => 'Executive Driver',
                             'exp' => '12 years',
                             'rating' => 5.0,
                             'img' =>
@@ -428,7 +428,7 @@
                         ],
                         [
                             'name' => 'James O\'Connor',
-                            'role' => 'VIP Chauffeur',
+                            'role' => 'VIP Driver',
                             'exp' => '15 years',
                             'rating' => 5.0,
                             'img' =>
@@ -460,7 +460,7 @@
                                         @endfor
                                     </div>
                                     <button
-                                        class="bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 shadow-sm shadow-cyan-400/10">Book
+                                        class="rounded-lg bg-cyan-400 px-4 py-2 text-xs font-bold text-black shadow-sm hover:bg-cyan-500">Book
                                         Now</button>
                                 </div>
                             </div>
@@ -593,9 +593,9 @@
                                         class="h-3.5 w-3.5"></i> {{ $saleVehicle['location'] }}</div>
                             </div>
                             <div class="mt-5 flex items-center justify-between pt-4 border-t border-slate-100">
-                                <p class="font-black text-slate-950 text-lg">${{ $saleVehicle['price'] }}</p>
+                                <p class="font-black text-slate-950 text-lg">MMK {{ $saleVehicle['price'] }}</p>
                                 <button
-                                    class="rounded-xl bg-cyan-400 px-5 py-2.5 text-sm font-bold text-slate-950 transition-all duration-300 hover:bg-cyan-300 hover:scale-105 shadow-sm shadow-cyan-400/10">View
+                                    class="rounded-lg bg-cyan-400 px-5 py-2.5 text-sm font-bold text-black transition-all duration-300 hover:bg-cyan-500 shadow-sm">View
                                     Listing</button>
                             </div>
                         </div>
@@ -666,7 +666,7 @@
                 </div>
                 <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:mt-0">
                     <a href="mailto:support@skyline.demo"
-                        class="group inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-bold text-slate-950 transition-all duration-300 hover:bg-cyan-300 hover:scale-105 hover:shadow-lg pulse-hover">
+                        class="group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3.5 text-sm font-bold text-black shadow-sm hover:bg-cyan-500">
                         Contact Us <i data-lucide="mail"
                             class="h-4 w-4 transition-transform duration-300 group-hover:rotate-12"></i>
                     </a>

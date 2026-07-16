@@ -1,35 +1,36 @@
+@php
+    $adminUrl = auth()->user()->hasRole('super-admin') ? '/admin' : '/staff';
+@endphp
+
 <x-admin.layout>
     <div id="vehicleDetailsContainer" data-page="admin-vehicle-show" data-id="{{ $vehicleId }}"
-        data-api-base="{{ url('/api/admin/vehicles') }}" data-login-url="{{ route('login') }}" class="p-4 sm:p-6 md:p-8">
+        data-api-base="{{ url('/api/admin/vehicles') }}" data-login-url="{{ route('login') }}" data-admin-url="{{ $adminUrl }}" class="p-4 sm:p-6 md:p-8">
 
-        <div id="loadingState" class="flex flex-col items-center justify-center py-20 text-slate-400">
-            <i data-lucide="refresh-cw" class="h-10 w-10 animate-spin text-cyan-500 mb-4"></i>
-            <p class="text-sm font-medium">Fetching vehicle registry data from fleet engine...</p>
+        <div id="loadingState" class="flex items-center justify-center py-20">
+            <div class="flex items-center gap-3 text-slate-500 dark:text-slate-400">
+                <svg class="h-6 w-6 animate-spin" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                Loading vehicle details...
+            </div>
         </div>
 
         <div id="detailsContent" class="hidden">
-            <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <a href="{{ route('admin.vehicles.index') }}"
-                        class="mb-3 inline-flex items-center gap-2 text-sm font-semibold text-cyan-600 hover:text-cyan-700 dark:text-cyan-400">
-                        <i data-lucide="arrow-left" class="h-4 w-4"></i>
-                        Back to vehicles
-                    </a>
-                    <h1 id="vehicleTitleName" class="text-2xl font-bold text-slate-900 dark:text-white">Loading...</h1>
-                    <p id="vehicleSubtitleDesc" class="mt-1 text-slate-600 dark:text-slate-400"></p>
-                </div>
-
-                <div class="flex flex-wrap gap-3">
+            <div class="mb-8">
+                <a href="{{ $adminUrl }}/vehicles" class="mb-4 inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                    <i data-lucide="arrow-left" class="h-3 w-3"></i>
+                    Back
+                </a>
+                <div class="flex items-center justify-between gap-4">
+                    <div>
+                        <h1 id="vehicleTitleName" class="text-2xl font-bold text-slate-900 dark:text-white">Loading...</h1>
+                        <p id="vehicleSubtitleDesc" class="mt-1 text-slate-600 dark:text-slate-400"></p>
+                    </div>
+                    @role('super-admin')
                     <a id="editVehicleBtn" href="#"
-                        class="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
+                        class="shrink-0 inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
                         <i data-lucide="edit-2" class="h-4 w-4"></i>
                         Edit
                     </a>
-                    <button type="button"
-                        class="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-2.5 text-sm font-bold text-white shadow-lg transition hover:shadow-xl">
-                        <i data-lucide="calendar-plus" class="h-4 w-4"></i>
-                        New Booking
-                    </button>
+                    @endrole
                 </div>
             </div>
 
@@ -63,13 +64,13 @@
                             <div class="mt-6 flex flex-col gap-4 sm:flex-row">
                                 <div class="flex-1 rounded-xl bg-slate-50 p-4 dark:bg-slate-900">
                                     <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Price / Day</p>
-                                    <p id="cardPrice" class="mt-2 font-bold text-slate-900 dark:text-white">$0</p>
+                                    <p id="cardPrice" class="mt-2 font-bold text-slate-900 dark:text-white">MMK 0</p>
                                 </div>
 
                                 <div class="flex-[2] rounded-xl bg-slate-50 p-4 dark:bg-slate-900">
-                                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400">License Plate</p>
-                                    <p id="cardPlate"
-                                        class="mt-2 font-bold text-slate-900 dark:text-white font-mono tracking-wider">-
+                                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Stock (Avail / Total)</p>
+                                    <p id="cardStock"
+                                        class="mt-2 font-bold text-slate-900 dark:text-white">-
                                     </p>
                                 </div>
 
@@ -88,6 +89,11 @@
                             class="text-sm leading-relaxed text-slate-600 dark:text-slate-400 whitespace-pre-line">
                             No functional system descriptions are bound to this asset registry record.
                         </p>
+
+                        <div id="driversSection" class="mt-6 hidden">
+                            <h4 class="mb-3 text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Assigned Drivers</h4>
+                            <div id="driversList" class="space-y-3"></div>
+                        </div>
                     </div>
                 </section>
 

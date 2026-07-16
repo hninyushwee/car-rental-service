@@ -30,7 +30,7 @@
                 class="rounded border border-white/30 px-3 py-1.5 text-xs font-semibold transition sm:px-4 sm:py-2 sm:text-sm whitespace-nowrap text-white"
                 data-nav-contrast-button>Sign In</a>
             <a href="{{ route('register') }}"
-                class="btn-primary rounded-xl px-4 py-2 text-xs sm:text-sm whitespace-nowrap">Register</a>
+                class="rounded bg-cyan-400 px-4 py-2 text-xs font-bold text-black shadow-sm hover:bg-cyan-500 sm:text-sm">Sign Up</a>
         </div>
 
         <!-- Mobile Menu Button -->
@@ -55,7 +55,7 @@
                 <a href="{{ route('login') }}"
                     class="rounded-lg border border-slate-300 dark:border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 bg-transparent text-center">Sign In</a>
                 <a href="{{ route('register') }}"
-                    class="rounded-lg bg-cyan-400 px-3 py-1.5 text-xs font-bold text-slate-950 text-center">Register</a>
+                    class="rounded-lg bg-cyan-400 px-3 py-1.5 text-xs font-bold text-black text-center">Register</a>
             </div>
         </div>
     </div>

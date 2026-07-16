@@ -1,9 +1,13 @@
+@php
+    $adminUrl = auth()->user()->hasRole('super-admin') ? '/admin' : '/staff';
+@endphp
+
 <aside id="adminSidebar" class="h-screen flex-shrink-0 border-r-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 transition-all duration-300 flex flex-col overflow-hidden">
     <!-- Logo Section -->
     <div id="adminSidebarHeader" class="h-16 border-b-2 border-slate-200 dark:border-slate-700 px-4 flex items-center justify-between gap-2 flex-shrink-0">
         <div id="adminSidebarBrand" class="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
             <img id="adminSidebarLogo" src="{{ asset('images/logo.png') }}" alt="SkyLine" class="h-8 w-auto shrink-0">
-            <span id="adminSidebarText" data-sidebar-label class="bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 bg-clip-text text-transparent font-black text-sm tracking-wide truncate">
+            <span id="adminSidebarText" data-sidebar-label class="bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 bg-clip-text text-transparent font-black text-xl tracking-wide truncate">
                 SkyLine Admin
             </span>
         </div>
@@ -20,13 +24,26 @@
             Overview
         </div>
         <!-- Dashboard -->
-        <a href="/admin" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <a href="{{ $adminUrl }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
             <i data-lucide="grid-3x3" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>Dashboard</span>
         </a>
 
+        <!-- Notifications -->
+        <a href="{{ $adminUrl }}/notifications" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+            <i data-lucide="bell" class="h-5 w-5 flex-shrink-0"></i>
+            <span data-sidebar-label>Notifications</span>
+        </a>
+
+        <!-- Inquiries -->
+        <a href="{{ $adminUrl }}/inquiries" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+            <i data-lucide="message-circle" class="h-5 w-5 flex-shrink-0"></i>
+            <span data-sidebar-label>Inquiries</span>
+        </a>
+
+        @role('super-admin')
         <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Fleet Management
+            Fleet
         </div>
 
         <!-- Vehicle Management -->
@@ -45,25 +62,10 @@
                 <a href="{{ route('admin.brands.index') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Brands</a>
             </div>
         </div>
-
-        <!-- Driver Management -->
-        <div>
-            <button type="button" data-submenu-toggle class="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="users" class="h-5 w-5 flex-shrink-0"></i>
-                    <span data-sidebar-label>Drivers</span>
-                </div>
-                <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
-            </button>
-            <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/drivers" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Drivers</a>
-                <a href="/admin/drivers/add" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Add Driver</a>
-                <a href="/admin/drivers/documents" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Documents</a>
-            </div>
-        </div>
+        @endrole
 
         <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Operations
+            Bookings
         </div>
 
         <!-- Booking Management -->
@@ -76,12 +78,13 @@
                 <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
             </button>
             <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/bookings" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Bookings</a>
-                <a href="/admin/bookings/pending" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Pending</a>
-                <a href="/admin/bookings/active" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Active</a>
-                <a href="/admin/bookings/completed" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Completed</a>
-                <a href="/admin/bookings/cancelled" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Cancelled</a>
+                <a href="{{ $adminUrl }}/bookings" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Bookings</a>
             </div>
+        </div>
+
+        @role('super-admin')
+        <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            Customers
         </div>
 
         <!-- Customer Management -->
@@ -94,25 +97,28 @@
                 <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
             </button>
             <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/customers" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Customers</a>
-                <a href="/admin/customers/reviews" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Reviews</a>
+                <a href="{{ route('admin.customers.index') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Customers</a>
             </div>
+        </div>
+        @endrole
+        <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            Financial
+        </div>
+
+        <!-- Deposit Settings -->
+        <div>
+            <a href="{{ $adminUrl }}/deposit-settings" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <i data-lucide="banknote" class="h-5 w-5 flex-shrink-0"></i>
+                <span data-sidebar-label>Deposit Settings</span>
+            </a>
         </div>
 
         <!-- Payment Management -->
         <div>
-            <button type="button" data-submenu-toggle class="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="credit-card" class="h-5 w-5 flex-shrink-0"></i>
-                    <span data-sidebar-label>Payments</span>
-                </div>
-                <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
-            </button>
-            <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/payments/transactions" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Transactions</a>
-                <a href="/admin/payments/invoices" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Invoices</a>
-                <a href="/admin/payments/refunds" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Refunds</a>
-            </div>
+            <a href="{{ $adminUrl }}/payments" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <i data-lucide="credit-card" class="h-5 w-5 flex-shrink-0"></i>
+                <span data-sidebar-label>Payments</span>
+            </a>
         </div>
 
         <!-- Promotion Management -->
@@ -125,46 +131,54 @@
                 <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
             </button>
             <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/promotions/coupons" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Coupons</a>
-                <a href="/admin/promotions" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Active</a>
-            </div>
-        </div>
-
-        <!-- License Services -->
-        <div>
-            <button type="button" data-submenu-toggle class="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="file-text" class="h-5 w-5 flex-shrink-0"></i>
-                    <span data-sidebar-label>Licenses</span>
-                </div>
-                <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
-            </button>
-            <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/licenses/applications" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Applications</a>
-                <a href="/admin/licenses/schedule" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Schedule</a>
-                <a href="/admin/licenses/packages" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Packages</a>
-            </div>
-        </div>
-
-        <!-- Content Management -->
-        <div>
-            <button type="button" data-submenu-toggle class="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="layers" class="h-5 w-5 flex-shrink-0"></i>
-                    <span data-sidebar-label>Content</span>
-                </div>
-                <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
-            </button>
-            <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/content/banners" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Banners</a>
-                <a href="/admin/content/testimonials" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Testimonials</a>
-                <a href="/admin/content/faq" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">FAQ</a>
-                <a href="/admin/content/blog" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Blog</a>
+                <a href="{{ $adminUrl }}/promotions" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Promotions</a>
+                @role('super-admin')
+                <a href="{{ route('admin.promotions.create') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Add Coupon</a>
+                @endrole
             </div>
         </div>
 
         <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            Analytics
+            Services
+        </div>
+
+        <!-- Driver Management -->
+        <div>
+            <button type="button" data-submenu-toggle class="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="users" class="h-5 w-5 flex-shrink-0"></i>
+                    <span data-sidebar-label>Drivers</span>
+                </div>
+                <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
+            </button>
+            <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
+                <a href="{{ $adminUrl }}/drivers" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Drivers</a>
+                @role('super-admin')
+                <a href="{{ route('admin.drivers.create') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Add Driver</a>
+                <a href="{{ route('admin.driving-license-types.index') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Driving License Types</a>
+                @endrole
+            </div>
+        </div>
+
+        <!-- Fleet Status (staff) -->
+        @role('staff')
+        <div>
+            <button type="button" data-submenu-toggle class="w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="car" class="h-5 w-5 flex-shrink-0"></i>
+                    <span data-sidebar-label>Fleet</span>
+                </div>
+                <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
+            </button>
+            <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
+                <a href="{{ $adminUrl }}/vehicles" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">All Vehicles</a>
+            </div>
+        </div>
+        @endrole
+
+        @role('super-admin')
+        <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+            Reports
         </div>
 
         <!-- Analytics -->
@@ -177,14 +191,15 @@
                 <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
             </button>
             <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/reports/revenue" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Revenue</a>
-                <a href="/admin/reports/bookings" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Bookings</a>
-                <a href="/admin/reports/customers" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Customers</a>
+                <a href="{{ $adminUrl }}/analytics/bookings" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Bookings</a>
+                <a href="{{ $adminUrl }}/analytics/customers" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Customers</a>
             </div>
         </div>
+        @endrole
 
+        @role('super-admin')
         <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-            System Config
+            Configuration
         </div>
 
         <!-- Settings -->
@@ -197,18 +212,19 @@
                 <i data-lucide="chevron-down" class="h-4 w-4 flex-shrink-0 transition-transform"></i>
             </button>
             <div class="submenu hidden space-y-1 px-4 py-2 ml-4 border-l-2 border-slate-200 dark:border-slate-700">
-                <a href="/admin/settings/general" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">General</a>
-                <a href="/admin/settings/email" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Email</a>
-                <a href="/admin/settings/roles" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Roles</a>
+                <a href="{{ $adminUrl }}/profile" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">My Profile</a>
+                <a href="{{ url('/admin/settings/roles') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Roles</a>
+                <a href="{{ route('admin.staff.index') }}" class="block rounded-lg px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Account</a>
             </div>
         </div>
+        @endrole
     </nav>
 
     <!-- Footer -->
     <div class="border-t-2 border-slate-200 dark:border-slate-700 p-2 flex-shrink-0">
-        <button type="button" class="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-            <i data-lucide="help-circle" class="h-4 w-4 flex-shrink-0"></i>
-            <span data-sidebar-label>Help</span>
+        <button type="button" id="adminLogoutBtn" class="flex w-full items-center gap-2 rounded-xl px-3 py-2 text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition">
+            <i data-lucide="log-out" class="h-4 w-4 flex-shrink-0"></i>
+            <span data-sidebar-label>Logout</span>
         </button>
     </div>
 </aside>

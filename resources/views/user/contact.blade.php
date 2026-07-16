@@ -79,7 +79,7 @@
               <select class="w-full appearance-none rounded-xl border border-slate-200/80 bg-slate-50/50 px-4 py-3 text-sm transition focus:border-cyan-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/10 text-slate-800">
                 <option>General inquiry</option>
                 <option>Booking support & changes</option>
-                <option>Chauffeur & driver services</option>
+                <option>Driver services</option>
                 <option>Corporate accounts</option>
                 <option>Marketplace partnerships</option>
               </select>
@@ -94,7 +94,7 @@
             <textarea rows="4" required class="w-full rounded-xl border border-slate-200/80 bg-slate-50/50 px-4 py-3 text-sm transition focus:border-cyan-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/10" placeholder="Tell us how we can help make your journey perfect..."></textarea>
           </div>
           
-          <button type="submit" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-400/20 transition-all duration-300 hover:bg-cyan-300 hover:scale-[1.02] w-full sm:w-auto">
+          <button type="submit" class="group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3.5 text-sm font-bold text-black shadow-sm hover:bg-cyan-500 w-full sm:w-auto">
             Send Message <i data-lucide="send" class="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
           </button>
         </form>
@@ -273,7 +273,7 @@
       <h2 class="text-3xl font-black tracking-tight text-white">Ready to experience SkyLine?</h2>
       <p class="mt-3 max-w-2xl mx-auto text-slate-300 text-sm">Join thousands of satisfied customers – rent your first car or book a driver today.</p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row justify-center">
-        <a href="#vehicles" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-bold text-slate-950 transition-all duration-300 hover:bg-cyan-300 hover:scale-105">
+        <a href="#vehicles" class="group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3.5 text-sm font-bold text-black shadow-sm hover:bg-cyan-500">
           Rent a Car <i data-lucide="arrow-right" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"></i>
         </a>
         <a href="#services" class="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/50 hover:text-cyan-100 hover:scale-105">

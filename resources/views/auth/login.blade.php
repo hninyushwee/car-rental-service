@@ -12,8 +12,9 @@
             <span id="globalAlertMessage" class="font-medium"></span>
         </div>
 
-        <form id="loginForm" data-auth-login-form data-redirect="{{ route('admin.dashboard') }}" method="POST" action="{{ route('api.login') }}" class="space-y-4">
+        <form id="loginForm" data-auth-login-form data-redirect="{{ $redirect ?? route('admin.dashboard') }}" method="POST" action="{{ route('api.login') }}" class="space-y-4">
             @csrf
+            <input type="hidden" name="expected_role" value="{{ $expected_role ?? '' }}">
             <div class="group">
                 <label for="email" class="block text-sm font-semibold text-white mb-2">
                     <span class="inline-flex items-center gap-2">
@@ -32,12 +33,18 @@
                         Password
                     </span>
                 </label>
-                <input type="password" id="password" name="password" required
-                    class="w-full px-4 py-2 rounded-lg bg-white/10 text-white border-2 border-white/20">
+                <div class="relative">
+                    <input type="password" id="password" name="password" required
+                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 text-white border-2 border-white/20">
+                    <button type="button" onclick="togglePassword(this, 'password')"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors">
+                        <i data-lucide="eye" class="h-4 w-4"></i>
+                    </button>
+                </div>
                 <span id="passwordError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
             </div>
             <button type="submit" id="loginSubmitBtn"
-                class="w-full py-2 px-6 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-lg hover:shadow-xl hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group">
+                class="w-full py-2 px-6 rounded-lg bg-cyan-400 text-black font-bold shadow-sm hover:bg-cyan-500 transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 group">
                 <i data-lucide="log-in" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                 <span id="loginBtnText">Sign In</span>
             </button>
@@ -60,11 +67,13 @@
             </button>
         </div>
 
-        <p class="text-center text-white/70">
-            Don't have an account?
-            <a href="{{ url('/register') }}"
-                class="font-bold text-cyan-400 hover:text-cyan-300 transition-colors">Create one now</a>
-        </p>
+        @if ($showRegisterLink)
+            <p class="text-center text-white/70">
+                Don't have an account?
+                <a href="{{ url('/register') }}"
+                    class="font-bold text-cyan-400 hover:text-cyan-300 transition-colors">Create one now</a>
+            </p>
+        @endif
     </div>
 
 </x-auth.layout>

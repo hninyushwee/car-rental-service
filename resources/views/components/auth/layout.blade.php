@@ -87,6 +87,17 @@
         </div>
     </div>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        function togglePassword(btn, inputId) {
+            const input = document.getElementById(inputId);
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            btn.innerHTML = isPassword
+                ? '<i data-lucide="eye-off" class="h-4 w-4"></i>'
+                : '<i data-lucide="eye" class="h-4 w-4"></i>';
+            if (window.initLucideIcons) window.initLucideIcons();
+        }
+    </script>
     @stack('scripts')
 </body>
 </html>

@@ -12,7 +12,7 @@
             <div class="rounded-xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700 dark:bg-slate-800">
                 <div class="space-y-4">
                     <div class="flex flex-wrap gap-3">
-                        <button class="rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-2.5 text-sm font-bold text-white shadow-lg transition hover:shadow-xl">
+                        <button class="rounded-lg bg-cyan-400 px-6 py-2.5 text-sm font-bold text-black shadow-sm transition hover:bg-cyan-500">
                             Primary Button
                         </button>
                         <button class="rounded-lg border border-slate-300 px-6 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700">
@@ -27,11 +27,11 @@
                     </div>
 
                     <div class="flex flex-wrap gap-3 pt-4">
-                        <button class="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-2 text-sm font-bold text-white shadow-lg transition hover:shadow-xl">
+                        <button class="inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-4 py-2 text-sm font-bold text-black shadow-sm transition hover:bg-cyan-500">
                             <i data-lucide="plus" class="h-5 w-5"></i>
                             With Icon
                         </button>
-                        <button class="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-3 py-3 text-white shadow-lg hover:shadow-xl">
+                        <button class="inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-3 py-3 text-black shadow-sm hover:bg-cyan-500">
                             <i data-lucide="check" class="h-5 w-5"></i>
                         </button>
                     </div>
@@ -227,7 +227,7 @@
                 <i data-lucide="inbox" class="mx-auto h-12 w-12 text-slate-400 dark:text-slate-600"></i>
                 <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">No data available</h3>
                 <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Create your first item to get started.</p>
-                <button class="mt-6 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-2.5 text-sm font-bold text-white shadow-lg transition hover:shadow-xl">
+                <button class="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-400 px-6 py-2.5 text-sm font-bold text-black shadow-sm transition hover:bg-cyan-500">
                     <i data-lucide="plus" class="h-5 w-5"></i>
                     Create Item
                 </button>

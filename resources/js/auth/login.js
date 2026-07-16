@@ -1,4 +1,4 @@
-import { jsonRequest } from '../admin/http';
+import { jsonRequest } from '../admin/common/http';
 
 function setText(element, value) {
     if (element) element.textContent = value;
@@ -41,16 +41,18 @@ function initLoginForm() {
         setLoading(true);
 
         try {
-            await jsonRequest(form.action, {
+            const result = await jsonRequest(form.action, {
                 method: 'POST',
                 body: {
                     email: form.email.value.trim(),
                     password: form.password.value,
+                    expected_role: (form.querySelector('[name="expected_role"]') || form.expected_role)?.value || '',
                 },
             });
 
-            setText(buttonText, 'Authenticated! Redirecting...');
-            window.location.assign(form.dataset.redirect || '/admin');
+            setText(buttonText, 'Redirecting...');
+
+            window.location.assign(result?.data?.redirect || '/admin');
         } catch (error) {
             const errors = error.payload?.errors || {};
 

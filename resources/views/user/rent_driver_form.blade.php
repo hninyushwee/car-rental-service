@@ -15,85 +15,131 @@
 </style>
 @endpush
 
-<div class="pt-24 pb-16 bg-slate-50/50 min-h-screen fade-up">
+<div data-page="rent-driver-form" data-api-base="{{ url('/') }}" data-license-type-id="{{ request('license_type_id') }}" class="pt-8 pb-16 bg-slate-50/50 dark:bg-slate-950 min-h-screen fade-up">
   <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-    
-    {{-- Header Banner Section --}}
-    <div class="mb-8">
-      <h1 class="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Complete Booking</h1>
-      <p class="mt-2 text-sm text-slate-500">Provide final schedule operational parameters below to complete your dispatch.</p>
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-black text-slate-950 dark:text-white tracking-tight">Hire a Driver</h1>
+        <p class="mt-2 text-slate-500 dark:text-slate-400">Select your license type and schedule. A driver will be assigned by our team.</p>
+      </div>
+      <a href="{{ route('rent_driver') }}" class="flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 transition hover:bg-slate-50 dark:hover:bg-slate-700">
+        <i data-lucide="arrow-left" class="h-3 w-3"></i>
+        Back
+      </a>
     </div>
 
-    <div class="grid gap-8 lg:grid-cols-3 items-start">
-      {{-- Booking Execution Form --}}
-      <div class="lg:col-span-2">
+    <div class="mt-8 grid gap-8 lg:grid-cols-5">
+      {{-- Booking Form --}}
+      <div class="lg:col-span-3">
         <form id="hireForm" class="space-y-6">
-          <input type="hidden" name="_token" value="demo">
 
-          {{-- Selected Active Chauffeur Block --}}
-          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
+          {{-- License type summary --}}
+          <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm">
             <div class="flex items-center gap-5">
-              <img id="driverImg" src="" class="h-20 w-20 rounded-xl object-cover border border-slate-100 shadow-xs" alt="Chauffeur profile">
+              <img id="licenseTypeImg" src="" class="h-20 w-20 rounded-xl object-cover border border-slate-100 dark:border-slate-700 shadow-xs" alt="License type">
               <div>
-                <span class="inline-block rounded-md bg-cyan-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-cyan-700 mb-1">Assigned Unit</span>
-                <h3 id="driverName" class="text-xl font-bold tracking-tight text-slate-900">Loading...</h3>
-                <p id="driverType" class="text-xs text-slate-500 font-medium"></p>
-                <p id="driverPrice" class="mt-1 text-sm font-bold text-slate-900"></p>
+                <span class="inline-block rounded-md bg-cyan-50 dark:bg-cyan-950/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-cyan-700 dark:text-cyan-300 mb-1">Driver Service</span>
+                <h3 id="licenseTypeName" class="text-xl font-bold text-slate-900 dark:text-white">Loading...</h3>
+                <p id="licenseTypeDesc" class="text-xs text-slate-500 dark:text-slate-400 font-medium"></p>
+                <p id="licenseTypePrice" class="mt-1 text-lg font-black text-cyan-600 dark:text-cyan-400"></p>
               </div>
             </div>
           </div>
 
-          {{-- Operational Windows & Location --}}
-          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-            <h3 class="text-md font-bold text-slate-900 uppercase tracking-wider text-xs text-slate-400 mb-4">Scheduling Metrics</h3>
-            <div class="grid gap-4 sm:grid-cols-2">
+          {{-- Dates --}}
+          <div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="flex h-6 w-6 items-center justify-center rounded-md bg-slate-100 dark:bg-slate-700 text-xs text-slate-700 dark:text-slate-300">1</span>
+              Service Schedule
+            </h3>
+            <div class="mt-4 grid gap-4 sm:grid-cols-2">
               <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Start Date</label>
-                <input type="date" id="start_date" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 bg-slate-50/50 focus:bg-white focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/10 transition">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Start Date</label>
+                <input type="date" id="start_date" required class="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-600 px-4 py-2.5 text-sm focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-slate-50/50 dark:bg-slate-800/50 focus:bg-white dark:focus:bg-slate-800 text-slate-900 dark:text-slate-100 dark:[color-scheme:dark]">
+                <span id="startDateError" class="mt-1 hidden text-xs font-medium text-rose-500"></span>
               </div>
               <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">End Date</label>
-                <input type="date" id="end_date" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 bg-slate-50/50 focus:bg-white focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/10 transition">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">End Date</label>
+                <input type="date" id="end_date" required class="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-600 px-4 py-2.5 text-sm focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-slate-50/50 dark:bg-slate-800/50 focus:bg-white dark:focus:bg-slate-800 text-slate-900 dark:text-slate-100 dark:[color-scheme:dark]">
+                <span id="endDateError" class="mt-1 hidden text-xs font-medium text-rose-500"></span>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Pickup location</label>
+                <textarea id="pickup_location" rows="2" required placeholder="Enter pickup location" class="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-600 px-4 py-2.5 text-sm focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-slate-50/50 dark:bg-slate-800/50 focus:bg-white dark:focus:bg-slate-800 text-slate-900 dark:text-slate-100 resize-none"></textarea>
+                <span id="pickupLocationError" class="mt-1 hidden text-xs font-medium text-rose-500"></span>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Dropoff location</label>
+                <textarea id="dropoff_location" rows="2" placeholder="Enter dropoff location" class="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-600 px-4 py-2.5 text-sm focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-slate-50/50 dark:bg-slate-800/50 focus:bg-white dark:focus:bg-slate-800 text-slate-900 dark:text-slate-100 resize-none"></textarea>
+                <span id="dropoffLocationError" class="mt-1 hidden text-xs font-medium text-rose-500"></span>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Quantity</label>
+                <div class="mt-1.5 flex items-center gap-2">
+                  <button type="button" id="qtyDecrease" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 transition dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                    <i data-lucide="minus" class="h-4 w-4"></i>
+                  </button>
+                  <input type="number" id="driverQty" value="1" min="1" max="99" readonly class="h-9 w-16 rounded-lg border border-slate-200 bg-white text-center text-sm font-bold text-slate-900 dark:border-slate-600 dark:bg-slate-800 dark:text-white">
+                  <button type="button" id="qtyIncrease" class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 transition dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700">
+                    <i data-lucide="plus" class="h-4 w-4"></i>
+                  </button>
+                </div>
               </div>
               <div class="sm:col-span-2">
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600">Primary Pickup Destination</label>
-                <input type="text" placeholder="Specify hotel lobby, airport terminal code, or residence address" required class="mt-1.5 w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/10 transition placeholder:text-slate-400">
+                <span id="driverAvailabilityError" class="hidden text-xs font-medium text-rose-500"></span>
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Notes</label>
+                <textarea id="booking_notes" rows="3" placeholder="Any special requests or instructions for the driver..." class="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-600 px-4 py-2.5 text-sm focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500 transition-all bg-slate-50/50 dark:bg-slate-800/50 focus:bg-white dark:focus:bg-slate-800 text-slate-900 dark:text-slate-100 resize-none"></textarea>
               </div>
             </div>
           </div>
 
-          {{-- Operations Addendum --}}
-          <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Operational Addendum (Optional)</h3>
-            <textarea rows="3" placeholder="Specify custom child seat configurations, complex multi-stop routes, or specialized security requirements..." class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm text-slate-700 focus:border-cyan-500 focus:outline-none focus:ring-4 focus:ring-cyan-500/10 transition placeholder:text-slate-400"></textarea>
-          </div>
-
-          <button type="submit" id="confirmHireBtn" class="w-full rounded-xl bg-slate-900 py-3.5 text-sm font-bold text-white shadow-xs transition hover:bg-slate-800">
-            Confirm Verification & Request Chauffeur
+          <button type="button" id="confirmHireBtn" class="w-full rounded-lg bg-cyan-400 py-3.5 text-md font-bold text-black shadow-sm transition hover:bg-cyan-500 dark:bg-cyan-500 dark:hover:bg-cyan-400 dark:text-slate-900 hover:scale-[1.01] active:scale-[0.99]">
+            <i data-lucide="shopping-cart" class="inline h-5 w-5 mr-2"></i> Add to Cart
           </button>
         </form>
       </div>
 
-      {{-- Price Aggregation Sticky Panel --}}
-      <div class="lg:col-span-1">
-        <div class="sticky top-24 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wider pb-3 border-b border-slate-100">Billing Profile</h3>
-          <div class="mt-4 space-y-3 text-sm">
-            <div class="flex justify-between items-center">
-              <span class="text-slate-500 font-medium">Base Contract Daily Rate</span>
-              <span id="dailyRate" class="font-bold text-slate-900">$0.00</span>
+      {{-- Price Summary Sidebar --}}
+      <div class="lg:col-span-2">
+        <div class="sticky top-24 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 shadow-sm">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white">Price Summary</h3>
+
+          <div class="mt-4 space-y-2 text-xs text-slate-500 dark:text-slate-400 border-b border-slate-100 dark:border-slate-700 pb-3 mb-3">
+            <div class="flex justify-between">
+              <span>Start</span>
+              <span id="displayStartDate" class="font-medium text-slate-700 dark:text-slate-300">-</span>
             </div>
-            <div class="flex justify-between items-center">
-              <span class="text-slate-500 font-medium">Service Window Runtime</span>
-              <span id="daysCount" class="font-bold text-slate-900">0 days</span>
+            <div class="flex justify-between">
+              <span>End</span>
+              <span id="displayEndDate" class="font-medium text-slate-700 dark:text-slate-300">-</span>
             </div>
-            
-            <div class="border-t border-slate-100 pt-4 mt-2 flex justify-between items-baseline">
-              <span class="text-base font-bold text-slate-900">Total Valuation</span>
-              <div class="text-right">
-                <span id="totalPrice" class="text-2xl font-black text-slate-950">$0.00</span>
-                <p class="text-[10px] text-slate-400 font-medium mt-0.5">VAT, luxury assessments, & insurance covered.</p>
+            <div class="flex justify-between">
+              <span>Pickup</span>
+              <span id="displayPickupLocation" class="font-medium text-slate-700 dark:text-slate-300">-</span>
+            </div>
+            <div class="flex justify-between">
+              <span>Dropoff</span>
+              <span id="displayDropoffLocation" class="font-medium text-slate-700 dark:text-slate-300">-</span>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between">
+              <span class="text-slate-500 dark:text-slate-400">Service (<span id="displayQty">1</span> × <span id="displayDaysText">0 days</span>)</span>
+              <span id="displaySubtotal" class="font-semibold text-slate-800 dark:text-slate-200">MMK 0.00</span>
+            </div>
+            <div id="depositRow" class="hidden">
+              <div class="flex justify-between border-t border-slate-100 dark:border-slate-700 pt-2 bg-amber-50 dark:bg-amber-900/20 -mx-6 px-6 py-2 rounded-md">
+                <span class="text-sm font-semibold text-amber-700 dark:text-amber-400">Initial Payment (not refund)</span>
+                <span id="displayDeposit" class="text-sm font-black text-amber-800 dark:text-amber-300">MMK 0.00</span>
               </div>
+            </div>
+
+            <div class="border-t border-slate-100 dark:border-slate-700 pt-3 flex justify-between text-lg font-black text-slate-950 dark:text-white">
+              <span>Total cost</span>
+              <span id="displayTotal">MMK 0.00</span>
             </div>
           </div>
         </div>
@@ -102,108 +148,17 @@
   </div>
 </div>
 
-{{-- Notification Toast Layer --}}
-<div id="demoToast" class="fixed bottom-5 right-5 hidden z-50 rounded-xl bg-slate-900 text-white p-4 shadow-xl text-xs font-semibold max-w-sm tracking-wide animate-in fade-in slide-in-from-bottom-5 duration-300"></div>
+{{-- Toast Component --}}
+<div id="demoToast" class="fixed bottom-5 right-5 z-50 hidden translate-y-0 transform rounded-xl px-5 py-3 text-sm font-bold text-white shadow-xl transition-all duration-300"></div>
 
 @push('scripts')
 <script>
-  // Runtime Chauffeur Parameter Store
-  const driver = {
-    id: 1,
-    name: 'Michael Chen',
-    type: 'Luxury Sedan Specialist',
-    price: 89.00,
-    img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'
-  };
-
-  // Static Elements Assignment
-  document.getElementById('driverName').innerText = driver.name;
-  document.getElementById('driverType').innerText = driver.type;
-  document.getElementById('driverPrice').innerHTML = `$${driver.price.toFixed(2)} <span class="text-xs font-medium text-slate-400">/ day</span>`;
-  document.getElementById('driverImg').src = driver.img;
-  document.getElementById('dailyRate').innerText = `$${driver.price.toFixed(2)}`;
-
-  const startDateInput = document.getElementById('start_date');
-  const endDateInput = document.getElementById('end_date');
-
-  // Baseline Safety Calculations Matrix
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const dayAfter = new Date(today);
-  dayAfter.setDate(dayAfter.getDate() + 2);
-
-  // Parse strings directly for raw ISO formatting safely
-  const tomorrowStr = tomorrow.toISOString().split('T')[0];
-  const dayAfterStr = dayAfter.toISOString().split('T')[0];
-
-  // Set structural defaults securely
-  startDateInput.value = tomorrowStr;
-  startDateInput.min = tomorrowStr;
-  endDateInput.value = dayAfterStr;
-  endDateInput.min = dayAfterStr;
-
-  function calculateTotal() {
-    const startVal = startDateInput.value;
-    let endVal = endDateInput.value;
-
-    if (!startVal) return;
-
-    // Safety Optimization: Force end date baseline constraints forward dynamically
-    endDateInput.min = startVal;
-
-    // Prevent date inverting values tracking error gracefully
-    if (endVal && new Date(endVal) < new Date(startVal)) {
-      const adjustedEndDate = new Date(startVal);
-      adjustedEndDate.setDate(adjustedEndDate.getDate() + 1);
-      endVal = adjustedEndDate.toISOString().split('T')[0];
-      endDateInput.value = endVal;
-    }
-
-    if (!endVal) {
-      document.getElementById('daysCount').innerText = '0 days';
-      document.getElementById('totalPrice').innerText = '$0.00';
-      return;
-    }
-
-    // Precise Millisecond Delta Calculation Engine
-    const deltaMs = new Date(endVal).getTime() - new Date(startVal).getTime();
-    const days = Math.max(1, Math.ceil(deltaMs / (1000 * 60 * 60 * 24)));
-    const total = driver.price * days;
-
-    document.getElementById('daysCount').innerText = `${days} ${days === 1 ? 'day' : 'days'}`;
-    document.getElementById('totalPrice').innerText = `$${total.toFixed(2)}`;
-  }
-
-  startDateInput.addEventListener('change', calculateTotal);
-  endDateInput.addEventListener('change', calculateTotal);
-  
-  // Prime system execution calculation
-  calculateTotal();
-
-  // Notification UI Manager
-  const form = document.getElementById('hireForm');
-  const toast = document.getElementById('demoToast');
-
-  function showToast(message) {
-    toast.textContent = message;
-    toast.classList.remove('hidden');
-    setTimeout(() => toast.classList.add('hidden'), 4000);
-  }
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const total = document.getElementById('totalPrice').innerText;
-    showToast(`Allocation Complete! Chauffeur dispatch pipeline confirmed. Mock Charge Value: ${total}.`);
-  });
-
-  // Animation Entry Observer Layout
   const fadeElements = document.querySelectorAll('.fade-up');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) entry.target.classList.add('visible');
     });
-  }, { threshold: 0.05 });
+  }, { threshold: 0.1 });
   fadeElements.forEach(el => observer.observe(el));
 </script>
 @endpush

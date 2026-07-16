@@ -27,13 +27,16 @@ class DriverRequest extends FormRequest
 
         return [
             'name'                => 'required|string|max:255',
+            'email'               => 'nullable|email|max:255',
             'phone'               => ['required', 'string', Rule::unique('drivers', 'phone')->ignore($driverId)],
             'license_number'      => ['required', 'string', Rule::unique('drivers', 'license_number')->ignore($driverId)],
             'license_expiry_date' => 'required|date|after:today',
-            'price_per_day'       => 'required|numeric|min:0',
+            'driving_license_type_id' => 'nullable|exists:driving_license_types,id',
             'address'             => 'nullable|string',
             'image'               => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'vehicle_id'          => 'nullable|exists:vehicles,id',
+            'vehicle_ids'         => 'nullable|array',
+            'vehicle_ids.*'       => 'exists:vehicles,id',
+            'primary_vehicle_id'  => 'nullable|exists:vehicles,id',
             'status'              => 'nullable|in:available,on_trip,off_duty',
         ];
     }
@@ -48,7 +51,6 @@ class DriverRequest extends FormRequest
             'license_number.unique' => 'This license number is already registered.',
             'license_expiry_date.required' => 'Please choose the license expiry date.',
             'license_expiry_date.after' => 'License expiry date must be after today.',
-            'price_per_day.required' => 'Please enter the daily driver rate.',
             'image.image' => 'Please upload a valid driver photo.',
             'image.mimes' => 'Driver photo must be a JPG or PNG file.',
             'image.max' => 'Driver photo may not be greater than 2MB.',

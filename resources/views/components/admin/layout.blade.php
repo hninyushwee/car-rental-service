@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="SkyLine Car Rental - Admin Dashboard" />
-    <title>Admin Dashboard | SkyLine Car Rental</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <title>Admin Dashboard | Car Rental Service</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         * {
@@ -382,6 +384,23 @@
                 document.addEventListener('click', closeAllDropdowns);
                 el.notificationDropdown?.addEventListener('click', (e) => e.stopPropagation());
                 el.profileDropdown?.addEventListener('click', (e) => e.stopPropagation());
+
+                // Logout handler
+                async function handleLogout() {
+                    try {
+                        await fetch('/api/logout', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                                'Accept': 'application/json',
+                            },
+                        });
+                    } catch (e) {}
+                    window.location.href = '/login';
+                }
+
+                document.getElementById('adminLogoutBtn')?.addEventListener('click', handleLogout);
+                document.getElementById('adminProfileLogoutBtn')?.addEventListener('click', handleLogout);
 
                 // Setup submenus
                 setupSubmenus();

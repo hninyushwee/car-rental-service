@@ -37,7 +37,7 @@
        
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8 animate-fade-in" style="animation-delay: 0.4s;">
-            <a href="/" class="px-8 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-lg hover:shadow-xl hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center gap-2 group">
+            <a href="/" class="px-8 py-3 rounded-lg bg-cyan-400 text-black font-bold shadow-sm hover:bg-cyan-500 transition-all duration-300 transform hover:scale-105 inline-flex items-center justify-center gap-2 group">
                 <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>

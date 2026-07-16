@@ -14,12 +14,12 @@ class DriverRepository implements DriverInterface
 
     public function all(int $perPage = 15): LengthAwarePaginator
     {
-        return Driver::with('primaryVehicle')->latest()->paginate($perPage);
+        return Driver::with('primaryVehicle', 'drivingLicenseType')->latest()->paginate($perPage);
     }
 
     public function findById(int $id): Driver
     {
-        return Driver::with('vehicles')->findOrFail($id);
+        return Driver::with('vehicles.brand', 'vehicles.category', 'drivingLicenseType')->findOrFail($id);
     }
 
     public function create(array $data): Driver
@@ -63,5 +63,18 @@ class DriverRepository implements DriverInterface
                 'assigned_at' => now()
             ]
         ]);
+    }
+
+    public function syncVehicles(Driver $driver, array $vehicleIds, ?int $primaryVehicleId = null): void
+    {
+        $pivotData = [];
+        foreach ($vehicleIds as $id) {
+            $pivotData[$id] = [
+                'is_primary' => $primaryVehicleId === (int) $id,
+                'assigned_at' => now(),
+            ];
+        }
+
+        $driver->vehicles()->sync($pivotData);
     }
 }

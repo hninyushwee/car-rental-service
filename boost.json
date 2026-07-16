@@ -5,7 +5,6 @@
     "cloud": false,
     "skills": [
         "laravel-best-practices",
-        "inertia-vue-development",
         "tailwindcss-development"
     ]
 }

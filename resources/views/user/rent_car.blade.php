@@ -9,304 +9,133 @@
   }
   .fade-up.visible { opacity: 1; transform: translateY(0); }
   
-  .car-tag {
-    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold;
+  .hero-gradient {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
   }
-  .badge-popular {
-    @apply bg-red-100 text-red-700;
+  
+  .dark .hero-gradient {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
   }
-  .badge-eco {
-    @apply bg-emerald-100 text-emerald-700;
+
+  .shadow-glow {
+    box-shadow: 0 2px 15px rgba(6, 182, 212, 0.12), 0 4px 25px rgba(6, 182, 212, 0.05);
   }
-  .badge-luxury {
-    @apply bg-amber-100 text-amber-700;
+  
+  .dark .shadow-glow {
+    box-shadow: 0 2px 15px rgba(6, 182, 212, 0.2), 0 4px 25px rgba(6, 182, 212, 0.08);
   }
 </style>
 @endpush
 
-<!-- Hero Section -->
-<div class="pt-24 pb-8 bg-gradient-to-b from-slate-800 to-slate-700">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-    <h1 class="text-5xl md:text-6xl font-black text-white">Find Your Perfect Ride</h1>
-    <p class="mt-4 text-xl text-slate-200">Premium vehicles, competitive prices, and exceptional service</p>
+<div data-page="rent-car" data-api-base="{{ url('/') }}" class="min-h-screen">
+
+<!-- Hero Section with Lighter Gradient -->
+<div class="hero-gradient py-12 relative overflow-hidden shadow-lg shadow-cyan-500/5 dark:shadow-cyan-400/10">
+  <div class="absolute inset-0 overflow-hidden opacity-10 dark:opacity-15">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-cyan-400 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-400 rounded-full blur-3xl"></div>
+  </div>
+  
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <h1 class="text-2xl md:text-4xl font-black bg-gradient-to-r from-cyan-500 to-cyan-400 dark:from-cyan-400 dark:to-cyan-300 bg-clip-text text-transparent drop-shadow-sm">
+      Find Your Perfect Ride
+    </h1>
+    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300 font-medium">Premium vehicles, competitive prices, and exceptional service</p>
+    
+    <div class="mt-4 flex justify-center">
+      <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent rounded-full shadow-glow"></div>
+    </div>
   </div>
 </div>
 
-<!-- Search Bar Section (transitions to white) -->
-<div class="bg-white">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-    <div class="rounded-2xl bg-gradient-to-r from-cyan-50 to-blue-50 p-6 border border-cyan-200 shadow-xl">
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 items-end">
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">📍 Location</label>
-          <input type="text" placeholder="Pickup location" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium bg-white focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">📅 From</label>
-          <input type="date" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium bg-white focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">📅 To</label>
-          <input type="date" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium bg-white focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">💰 Budget</label>
-          <select class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium bg-white focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
-            <option>All Prices</option>
-            <option>Under $50/day</option>
-            <option>$50-100/day</option>
-            <option>$100-150/day</option>
-            <option>$150+/day</option>
-          </select>
-        </div>
-        <button class="w-full rounded-lg bg-cyan-500 px-6 py-2.5 text-sm font-bold text-white shadow-lg hover:bg-cyan-600 transition-all active:scale-95">
-          Search
-        </button>
+<!-- Category Filters -->
+<div class="bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+    <div id="categoryFilters" class="flex flex-wrap gap-2">
+    </div>
+  </div>
+</div>
+
+<!-- Filters: Location, Date, Sort -->
+<div class="bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5 items-end">
+      <div class="lg:col-span-2">
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">
+          <i data-lucide="search" class="inline h-3.5 w-3.5"></i> Search
+        </label>
+        <input type="text" id="searchFilter" placeholder="Search by model, brand, color..." class="w-full rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2.5 text-sm font-medium bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
+      </div>
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">
+          <i data-lucide="map-pin" class="inline h-3.5 w-3.5"></i> Location
+        </label>
+        <select id="locationFilter" class="w-full rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2.5 text-sm font-medium bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
+          <option value="">All location</option>
+          <option value="Yangon">Yangon</option>
+          <option value="Mandalay">Mandalay</option>
+          <option value="Nay Pyi Taw">Nay Pyi Taw</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">
+          <i data-lucide="calendar" class="inline h-3.5 w-3.5"></i> From
+        </label>
+        <input type="date" id="fromDateFilter" class="w-full rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2.5 text-sm font-medium bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 dark:[color-scheme:dark]">
+      </div>
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">
+          <i data-lucide="calendar" class="inline h-3.5 w-3.5"></i> To
+        </label>
+        <input type="date" id="toDateFilter" class="w-full rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2.5 text-sm font-medium bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 dark:[color-scheme:dark]">
+      </div>
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-2">
+          <i data-lucide="arrow-up-down" class="inline h-3.5 w-3.5"></i> Sort By
+        </label>
+        <select id="sortFilter" class="w-full rounded-lg border border-slate-300 dark:border-slate-600 px-4 py-2.5 text-sm font-medium bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
+          <option value="popular">Popular</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="newest">Newest</option>
+        </select>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Main Content -->
-<div class="bg-white pb-16">
+<div class="bg-white dark:bg-slate-950 pb-16">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <!-- Filters & Sort -->
-    <div class="py-8 border-b border-slate-100">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div class="flex flex-wrap gap-2">
-          <button class="filter-chip rounded-full border-2 border-cyan-400 bg-cyan-50 px-4 py-2 text-sm font-bold text-cyan-700 transition-all">
-            All Vehicles
-          </button>
-          <button class="filter-chip rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-cyan-400 hover:bg-cyan-50 transition-all">
-            Luxury
-          </button>
-          <button class="filter-chip rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-cyan-400 hover:bg-cyan-50 transition-all">
-            SUV
-          </button>
-          <button class="filter-chip rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-cyan-400 hover:bg-cyan-50 transition-all">
-            Electric
-          </button>
-          <button class="filter-chip rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:border-cyan-400 hover:bg-cyan-50 transition-all">
-            Economy
-          </button>
-        </div>
-        <div class="flex items-center gap-2">
-          <span class="text-sm font-medium text-slate-600">Sort:</span>
-          <select class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium focus:border-cyan-500 focus:outline-none">
-            <option>Popular</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
-            <option>Top Rated</option>
-            <option>Newest</option>
-          </select>
-        </div>
-      </div>
+    <!-- Loading State -->
+    <div id="loadingState" class="py-16 text-center hidden">
+      <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-slate-300 border-t-cyan-500"></div>
+      <p class="mt-3 text-sm text-slate-500">Loading vehicles...</p>
     </div>
 
     <!-- Cars Grid -->
-    <div class="py-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      @php
-        $cars = [
-          ['id' => 1, 'name' => 'Tesla Model 3', 'type' => 'Electric', 'price' => 85, 'rating' => 4.9, 'reviews' => 324, 'img' => 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=600&q=80', 'specs' => ['Auto', '5 seats', 'EV'], 'badge' => 'eco', 'popular' => true],
-          ['id' => 2, 'name' => 'BMW 7 Series', 'type' => 'Luxury', 'price' => 180, 'rating' => 4.95, 'reviews' => 512, 'img' => 'https://images.unsplash.com/photo-1549399542-7e3f8b83ad38?auto=format&fit=crop&w=600&q=80', 'specs' => ['Auto', '5 seats', 'Diesel'], 'badge' => 'luxury', 'popular' => true],
-          ['id' => 3, 'name' => 'Mercedes S-Class', 'type' => 'Luxury', 'price' => 200, 'rating' => 5.0, 'reviews' => 428, 'img' => 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=600&q=80', 'specs' => ['Auto', '5 seats', 'Diesel'], 'badge' => 'luxury', 'popular' => true],
-          ['id' => 4, 'name' => 'Range Rover', 'type' => 'SUV', 'price' => 220, 'rating' => 4.8, 'reviews' => 367, 'img' => 'https://images.unsplash.com/photo-1606611013016-969c19d14444?auto=format&fit=crop&w=600&q=80', 'specs' => ['Auto', '7 seats', 'Hybrid'], 'badge' => null, 'popular' => false],
-          ['id' => 5, 'name' => 'Honda Civic', 'type' => 'Economy', 'price' => 45, 'rating' => 4.7, 'reviews' => 189, 'img' => 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=600&q=80', 'specs' => ['Manual', '5 seats', 'Petrol'], 'badge' => null, 'popular' => false],
-          ['id' => 6, 'name' => 'Porsche 911', 'type' => 'Sports', 'price' => 350, 'rating' => 4.99, 'reviews' => 287, 'img' => 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80', 'specs' => ['Auto', '2 seats', 'Petrol'], 'badge' => null, 'popular' => false],
-        ];
-      @endphp
-
-      @foreach($cars as $car)
-      <div class="group rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
-        <!-- Image -->
-        <div class="relative overflow-hidden h-56 bg-slate-100">
-          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $car['img'] }}" alt="{{ $car['name'] }}" />
-          
-          <!-- Badges -->
-          <div class="absolute top-3 left-3 flex flex-col gap-2">
-            @if($car['popular'])
-            <span class="car-tag badge-popular">🔥 Popular</span>
-            @endif
-            @if($car['badge'] === 'luxury')
-            <span class="car-tag badge-luxury">👑 Luxury</span>
-            @elseif($car['badge'] === 'eco')
-            <span class="car-tag badge-eco">♻️ Eco</span>
-            @endif
-          </div>
-
-          <!-- Rating Badge -->
-          <div class="absolute top-3 right-3 flex items-center gap-1 bg-white/95 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-bold text-slate-900 shadow-md">
-            <i data-lucide="star" class="h-4 w-4 fill-amber-400 text-amber-400"></i>
-            {{ $car['rating'] }}
-          </div>
-
-          <!-- Overlay on Hover -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        </div>
-
-        <!-- Content -->
-        <div class="p-5">
-          <!-- Header -->
-          <div class="mb-2">
-            <h3 class="text-lg font-bold text-slate-900">{{ $car['name'] }}</h3>
-            <p class="text-xs text-slate-500 font-medium">{{ $car['type'] }} • {{ $car['reviews'] }} reviews</p>
-          </div>
-
-          <!-- Specs -->
-          <div class="mb-4 flex flex-wrap gap-2">
-            @foreach($car['specs'] as $spec)
-            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 text-xs font-medium text-slate-700">
-              <i data-lucide="check" class="h-3 w-3 text-cyan-500"></i>
-              {{ $spec }}
-            </span>
-            @endforeach
-          </div>
-
-          <!-- Footer -->
-          <div class="flex items-center justify-between border-t border-slate-100 pt-4">
-            <div>
-              <p class="text-lg font-black text-slate-950">${{ $car['price'] }}</p>
-              <p class="text-xs text-slate-500">per day</p>
-            </div>
-            <button class="book-btn rounded-lg bg-cyan-500 px-4 py-2.5 text-sm font-bold text-white shadow-md hover:bg-cyan-600 active:scale-95 transition-all"
-                    data-car="{{ json_encode($car) }}">
-              Book Now
-            </button>
-          </div>
-        </div>
-      </div>
-      @endforeach
+    <div id="vehicleGrid" class="py-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     </div>
 
-    <!-- CTA Section -->
-    <div class="mt-16 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 p-8 md:p-12 text-white text-center shadow-xl">
-      <h2 class="text-3xl md:text-4xl font-black">Can't Find What You're Looking For?</h2>
-      <p class="mt-2 text-cyan-100">Contact our team for custom rental solutions</p>
-      <button class="mt-6 px-8 py-3 rounded-lg bg-white text-cyan-600 font-bold hover:bg-cyan-50 transition-colors shadow-lg">
-        Get in Touch
-      </button>
+    <!-- Empty State -->
+    <div id="emptyState" class="col-span-full py-16 text-center hidden">
+      <i data-lucide="car" class="mx-auto h-14 w-14 text-slate-300 dark:text-slate-600"></i>
+      <h3 class="mt-3 text-lg font-bold text-slate-600 dark:text-slate-400">No vehicles available</h3>
+      <p class="mt-1 text-sm text-slate-400 dark:text-slate-500">Check back later for new listings.</p>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="mt-6">
     </div>
   </div>
 </div>
 
-<!-- Booking Modal -->
-<div id="bookingModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-  <div class="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
-    <div class="sticky top-0 flex items-center justify-between border-b border-slate-100 bg-white px-6 py-4">
-      <h2 class="text-2xl font-black text-slate-900">Complete Your Booking</h2>
-      <button id="closeModal" class="rounded-lg p-1 hover:bg-slate-100 transition">
-        <i data-lucide="x" class="h-6 w-6 text-slate-400"></i>
-      </button>
-    </div>
-    
-    <div class="p-6 space-y-4">
-      <div class="flex items-center gap-4 pb-4 border-b border-slate-100">
-        <img id="carImg" class="h-16 w-16 rounded-xl object-cover shadow-md" src="" alt="">
-        <div>
-          <h3 id="carName" class="font-bold text-slate-900"></h3>
-          <p id="carPrice" class="text-sm text-cyan-600 font-semibold"></p>
-        </div>
-      </div>
-
-      <div class="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Pickup Date</label>
-          <input type="date" id="pickupDate" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
-        </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Return Date</label>
-          <input type="date" id="returnDate" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold text-slate-600 uppercase mb-2">Pickup Location</label>
-        <input type="text" placeholder="Enter location" class="w-full rounded-lg border border-slate-200 px-4 py-2.5 focus:border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400/20">
-      </div>
-
-      <button id="confirmBook" class="w-full rounded-lg bg-cyan-500 py-3 text-sm font-bold text-white hover:bg-cyan-600 transition-all shadow-lg">
-        Confirm Booking
-      </button>
-    </div>
-
-    <!-- Pricing -->
-    <div class="border-t border-slate-100 bg-slate-50 px-6 py-4">
-      <div class="space-y-2 text-sm">
-        <div class="flex justify-between">
-          <span class="text-slate-600">Daily Rate</span>
-          <span id="dailyRate" class="font-semibold">$0</span>
-        </div>
-        <div class="flex justify-between">
-          <span class="text-slate-600">Days</span>
-          <span id="days" class="font-semibold">0</span>
-        </div>
-        <div class="border-t border-slate-200 pt-2 flex justify-between text-base font-bold">
-          <span>Total</span>
-          <span id="totalPrice" class="text-cyan-600">$0</span>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 @push('scripts')
 <script>
-  let selectedCar = null;
-
-  // Fade-up animation
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
-  });
-
-  // Set default dates
-  const today = new Date();
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const nextDay = new Date(tomorrow);
-  nextDay.setDate(nextDay.getDate() + 1);
-  
-  document.getElementById('pickupDate').value = tomorrow.toISOString().split('T')[0];
-  document.getElementById('returnDate').value = nextDay.toISOString().split('T')[0];
-
-  // Booking modal
-  const modal = document.getElementById('bookingModal');
-  const closeBtn = document.getElementById('closeModal');
-  const bookBtns = document.querySelectorAll('.book-btn');
-
-  bookBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      selectedCar = JSON.parse(btn.dataset.car);
-      document.getElementById('carImg').src = selectedCar.img;
-      document.getElementById('carName').innerText = selectedCar.name;
-      document.getElementById('carPrice').innerText = `$${selectedCar.price}/day`;
-      document.getElementById('dailyRate').innerText = `$${selectedCar.price}`;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-      calculateTotal();
-    });
-  });
-
-  closeBtn.addEventListener('click', () => {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  });
-
-  function calculateTotal() {
-    const pickup = new Date(document.getElementById('pickupDate').value);
-    const ret = new Date(document.getElementById('returnDate').value);
-    const days = Math.ceil((ret - pickup) / (1000 * 60 * 60 * 24)) || 1;
-    const total = selectedCar.price * days;
-    
-    document.getElementById('days').innerText = days;
-    document.getElementById('totalPrice').innerText = `$${total}`;
-  }
-
-  document.getElementById('pickupDate').addEventListener('change', calculateTotal);
-  document.getElementById('returnDate').addEventListener('change', calculateTotal);
-
-  document.getElementById('confirmBook').addEventListener('click', () => {
-    alert('🎉 Booking confirmed! Check your email for details.');
-    modal.classList.add('hidden');
   });
 </script>
 @endpush

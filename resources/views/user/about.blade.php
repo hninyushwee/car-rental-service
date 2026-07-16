@@ -35,7 +35,7 @@
       We started SkyLine with one goal: to make premium mobility effortless, transparent, and accessible to everyone.
     </p>
     <div class="mt-8 flex flex-col gap-4 sm:flex-row justify-center">
-      <a href="#vehicles" class="group inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-400 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-cyan-400/20 transition-all duration-300 hover:bg-cyan-300 hover:scale-105">
+      <a href="#vehicles" class="group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3.5 text-sm font-bold text-black shadow-sm hover:bg-cyan-500">
         Rent a Car <i data-lucide="arrow-right" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"></i>
       </a>
       <a href="#services" class="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/50 hover:text-cyan-100 hover:scale-105">

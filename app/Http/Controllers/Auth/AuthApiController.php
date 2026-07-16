@@ -23,7 +23,10 @@ class AuthApiController extends Controller
 
         $request->session()->regenerate();
 
-        return $this->successResponse($result['user'], 'User registered successfully', 201);
+        return $this->successResponse([
+            'user'     => $result['user'],
+            'redirect' => '/dashboard',
+        ], 'User registered successfully', 201);
     }
 
     public function login(LoginRequest $request)
@@ -34,9 +37,29 @@ class AuthApiController extends Controller
             return $this->errorResponse('Invalid email or password credentials.', 401);
         }
 
+        $user = $result['user'];
+
+        $expectedRole = $request->input('expected_role', '') ?: 'customer';
+
+        if (!$user->hasRole($expectedRole)) {
+            $this->authRepo->logout($user);
+
+            return $this->errorResponse('Invalid email or password credentials.', 401);
+        }
+
         $request->session()->regenerate();
 
-        return $this->successResponse($result['user'], 'Login authenticated successfully', 200);
+        $redirectMap = [
+            'super-admin' => '/admin',
+            'staff' => '/staff',
+            'customer' => '/dashboard',
+        ];
+        $redirect = $redirectMap[$expectedRole] ?? '/';
+
+        return $this->successResponse([
+            'user'     => $user,
+            'redirect' => $redirect,
+        ], 'Login authenticated successfully', 200);
     }
 
     public function logout(Request $request)

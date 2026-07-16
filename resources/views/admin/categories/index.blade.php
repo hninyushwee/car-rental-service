@@ -1,13 +1,12 @@
 <x-admin.layout>
     <div data-page="admin-categories" data-api-base="{{ url('/api/admin/categories') }}" data-login-url="{{ route('login') }}" class="p-4 sm:p-6 md:p-8">
-        <div class="mb-5 rounded-xl border border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-purple-500/10 px-4 py-3 backdrop-blur-sm dark:border-cyan-500/10 sm:px-5 sm:py-4">
+        <div class="mb-5 rounded-xl border border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 via-cyan-400/5 to-cyan-600/10 px-3 py-2 backdrop-blur-sm dark:border-cyan-500/10 sm:px-4 sm:py-2.5">
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                    <h1 class="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-lg font-bold text-transparent dark:from-cyan-400 dark:to-blue-400 sm:text-xl">
-                        Vehicle Categories
+                    <h1 class="bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text text-base font-bold text-transparent dark:from-cyan-400 dark:to-blue-400 sm:text-lg">Vehicle Categories
                     </h1>
-                    <p class="mt-0.5 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-                        <i data-lucide="layers-3" class="h-4 w-4"></i>
+                    <p class="mt-0.5 flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                        <i data-lucide="layers-3" class="h-3 w-3"></i>
                         Manage your fleet labels seamlessly on a single dashboard workspace.
                     </p>
                 </div>
@@ -96,8 +95,8 @@
                             <button type="button" id="cancelBtn" class="hidden h-10 w-1/3 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300">
                                 Cancel
                             </button>
-                            <button type="submit" id="saveBtn" class="h-10 w-full rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-xs font-bold text-white shadow-md transition hover:-translate-y-0.5">
-                                Save Record
+                            <button type="submit" id="saveBtn" class="h-10 w-full rounded-lg bg-cyan-400 text-xs font-bold text-black shadow-md transition hover:-translate-y-0.5">
+                                Create Category
                             </button>
                         </div>
                     </form>

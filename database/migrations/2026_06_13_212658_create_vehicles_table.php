@@ -17,13 +17,15 @@ return new class extends Migration
             $table->foreignId('brand_id')->constrained()->cascadeOnDelete();
             $table->string('model');
             $table->integer('year')->nullable();
-            $table->string('license_plate')->unique();
             $table->string('color')->nullable();
             $table->integer('capacity')->default(4);
-            $table->decimal('price_per_day',10,2);
-            $table->enum('status',['available','rented','maintenance'])->default('available');
+            $table->decimal('price_per_day', 10, 2);
+            $table->string('location')->nullable();
             $table->text('description')->nullable();
-            $table->string('image')->nullable();
+            $table->json('images')->nullable();
+            $table->integer('total_stock')->default(5);
+            $table->integer('available_stock')->default(5);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
