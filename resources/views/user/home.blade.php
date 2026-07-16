@@ -95,10 +95,10 @@
 @endpush
 
 {{-- 1. HERO SECTION --}}
-<section data-hero-section class="relative overflow-hidden bg-slate-950 pt-24 text-white lg:pt-32 fade-up">
+<section data-hero-section aria-labelledby="hero-heading" class="relative overflow-hidden bg-slate-950 pt-24 text-white lg:pt-32 fade-up">
   <div class="absolute inset-0 -z-10">
     <div class="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/80 to-slate-950/40"></div>
-    <img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1800&q=80" alt="Premium Sports Car" />
+    <img loading="lazy" class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1800&q=80" alt="Premium Sports Car" />
   </div>
 
   <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 pb-18 sm:px-6 lg:grid-cols-[1fr_0.92fr] lg:px-8 lg:pb-22">
@@ -106,26 +106,45 @@
       <p class="mb-4 inline-flex items-center gap-2 rounded-full bg-cyan-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-cyan-400 ring-1 ring-cyan-400/20 backdrop-blur-md">
         <i data-lucide="sparkles" class="h-4 w-4"></i> Premium mobility, simplified
       </p>
-      <h1 class="max-w-3xl text-3xl font-black leading-tight sm:text-4xl lg:text-5xl tracking-tight text-white">
+      <h1 id="hero-heading" class="max-w-3xl text-3xl font-black leading-tight sm:text-4xl lg:text-5xl tracking-tight text-white">
         Your Trusted <br>
         <span class="bg-gradient-to-r from-cyan-400 to-cyan-200 bg-clip-text text-transparent">Automotive Partner</span>
       </h1>
       <p class="mt-6 max-w-2xl leading-8 text-slate-200">Rent verified vehicles, book professional drivers, manage licensing needs, and explore premium automotive services from one polished portal.</p>
       
       <div class="mt-8 flex flex-col gap-4 sm:flex-row">
-        <a href="/login" class="group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3.5 text-sm font-bold text-black shadow-sm hover:bg-cyan-500">
+        <a href="/login" class="group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3.5 text-sm font-bold text-black shadow-sm hover:bg-cyan-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
           Rent a Car <i data-lucide="arrow-right" class="h-4 w-4 transition-all duration-300 group-hover:translate-x-1"></i>
         </a>
-        <a href="#services" class="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/50 hover:text-cyan-100 hover:scale-105">
+        <a href="#services" class="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-3.5 text-sm font-bold text-white backdrop-blur-sm transition-all duration-300 hover:border-cyan-400/50 hover:text-cyan-100 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950">
           Explore Marketplace <i data-lucide="shopping-bag" class="h-4 w-4 transition-all duration-300 group-hover:rotate-12"></i>
         </a>
       </div>
-
+ 
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-3xl border border-white/10 bg-white/10 px-4 py-4 text-center text-sm text-slate-200 transition hover:border-cyan-400/30 hover:bg-white/15">
+          <p class="font-black text-white">24/7</p>
+          <p class="mt-2">Support whenever you need it</p>
+        </div>
+        <div class="rounded-3xl border border-white/10 bg-white/10 px-4 py-4 text-center text-sm text-slate-200 transition hover:border-cyan-400/30 hover:bg-white/15">
+          <p class="font-black text-white">500+</p>
+          <p class="mt-2">Verified vehicles</p>
+        </div>
+        <div class="rounded-3xl border border-white/10 bg-white/10 px-4 py-4 text-center text-sm text-slate-200 transition hover:border-cyan-400/30 hover:bg-white/15">
+          <p class="font-black text-white">95%</p>
+          <p class="mt-2">Repeat customer satisfaction</p>
+        </div>
+        <div class="rounded-3xl border border-white/10 bg-white/10 px-4 py-4 text-center text-sm text-slate-200 transition hover:border-cyan-400/30 hover:bg-white/15">
+          <p class="font-black text-white">Fast</p>
+          <p class="mt-2">Instant booking confirmation</p>
+        </div>
+      </div>
+ 
       <div class="mt-4 grid gap-4 sm:grid-cols-2 border-t border-white/10 pt-8">
-        <div class="flex items-center gap-3 text-sm font-medium text-slate-200 transition-all duration-300 hover:translate-x-1"><i data-lucide="check-circle-2" class="h-5 w-5 text-cyan-400"></i>Professional Drivers</div>
-        <div class="flex items-center gap-3 text-sm font-medium text-slate-200 transition-all duration-300 hover:translate-x-1"><i data-lucide="check-circle-2" class="h-5 w-5 text-cyan-400"></i>Verified Vehicles</div>
-        <div class="flex items-center gap-3 text-sm font-medium text-slate-200 transition-all duration-300 hover:translate-x-1"><i data-lucide="check-circle-2" class="h-5 w-5 text-cyan-400"></i>Secure Payments</div>
-        <div class="flex items-center gap-3 text-sm font-medium text-slate-200 transition-all duration-300 hover:translate-x-1"><i data-lucide="check-circle-2" class="h-5 w-5 text-cyan-400"></i>License Assistance</div>
+        <div class="flex items-center gap-3 rounded-3xl bg-white/10 p-4 text-sm font-medium text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15"><i data-lucide="check-circle-2" class="h-5 w-5 text-cyan-400"></i>Professional Drivers</div>
+        <div class="flex items-center gap-3 rounded-3xl bg-white/10 p-4 text-sm font-medium text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15"><i data-lucide="check-circle-2" class="h-5 w-5 text-cyan-400"></i>Verified Vehicles</div>
+        <div class="flex items-center gap-3 rounded-3xl bg-white/10 p-4 text-sm font-medium text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15"><i data-lucide="check-circle-2" class="h-5 w-5 text-cyan-400"></i>Secure Payments</div>
+        <div class="flex items-center gap-3 rounded-3xl bg-white/10 p-4 text-sm font-medium text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15"><i data-lucide="check-circle-2" class="h-5 w-5 text-cyan-400"></i>License Assistance</div>
       </div>
     </div>
 
@@ -149,11 +168,11 @@
 </section>
 
 {{-- 2. WHY SKYLINE --}}
-<section class="bg-white py-12 fade-up">
+<section aria-labelledby="why-heading" class="bg-white py-12 fade-up">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-3xl mx-auto">
       <p class="text-xs font-bold uppercase tracking-widest text-cyan-600 bg-cyan-50 inline-block px-3 py-1 rounded-full">Why SkyLine</p>
-      <h2 class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Driven by excellence, trusted by thousands</h2>
+      <h2 id="why-heading" class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Driven by excellence, trusted by thousands</h2>
       <p class="mt-4 text-slate-600 text-base leading-relaxed">We combine cutting‑edge technology, absolute transparency, and top‑tier customer service to give you the ultimate automotive experience.</p>
     </div>
     <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -177,12 +196,12 @@
 </section>
 
 {{-- 3. FEATURED VEHICLES --}}
-<section id="vehicles" class="bg-slate-100 py-12 fade-up">
+<section id="vehicles" aria-labelledby="fleet-heading" class="bg-slate-100 py-12 fade-up">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-10">
       <div class="text-left max-w-3xl">
         <p class="text-xs font-bold uppercase tracking-widest text-cyan-600 bg-cyan-50 inline-block px-3 py-1 rounded-full">Featured Fleet</p>
-        <h2 class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Ready For Your Next Booking</h2>
+        <h2 id="fleet-heading" class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Ready For Your Next Booking</h2>
         <p class="mt-4 text-slate-600 text-base leading-relaxed">Impeccably maintained machinery. Pick your ideal ride from our premium tier offerings.</p>
       </div>
       <a href="/login" class="rounded-xl bg-slate-950 px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-slate-800 hover:scale-105 hover:shadow-xl shrink-0 inline-block text-center">View Full Fleet &rarr;</a>
@@ -199,7 +218,7 @@
       <div class="item px-2">
       <div class="group rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden">
         <div class="relative overflow-hidden h-44 bg-slate-100 dark:bg-slate-800">
-          <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $imgUrl }}" alt="{{ $v->brand->name ?? '' }} {{ $v->model }}" />
+          <img loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" src="{{ $imgUrl }}" alt="{{ $v->brand->name ?? '' }} {{ $v->model }}" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </div>
         <div class="p-3">
@@ -242,11 +261,11 @@
 </section>
 
 {{-- 4. SERVICES OVERVIEW --}}
-<section id="services" class="bg-white py-12 fade-up">
+<section id="services" aria-labelledby="services-heading" class="bg-white py-12 fade-up">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-3xl mx-auto mb-10">
       <p class="text-xs font-bold uppercase tracking-widest text-cyan-600 bg-cyan-50 inline-block px-3 py-1 rounded-full">Services Overview</p>
-      <h2 class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Complete Automotive Support</h2>
+      <h2 id="services-heading" class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Complete Automotive Support</h2>
       <p class="mt-4 text-slate-600 text-base">Everything structural your driving ecosystem requires under a modern digital layout.</p>
     </div>
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -267,9 +286,9 @@
           <h3 class="mt-5 text-lg font-black text-slate-900 group-hover:text-cyan-600 transition-colors">{{ $service['title'] }}</h3>
           <p class="mt-3 text-sm leading-6 text-slate-600">{{ $service['desc'] }}</p>
         </div>
-        <button class="mt-6 text-sm font-bold text-cyan-600 transition-all duration-300 group-hover:text-cyan-800 group-hover:translate-x-1 inline-flex items-center gap-1 self-start">
+        <a href="#contact" class="mt-6 text-sm font-bold text-cyan-600 transition-all duration-300 group-hover:text-cyan-800 group-hover:translate-x-1 inline-flex items-center gap-1 self-start" aria-label="Contact us to learn more about services">
           Learn More <i data-lucide="arrow-right" class="h-3 w-3"></i>
-        </button>
+        </a>
       </article>
       @endforeach
     </div>
@@ -277,12 +296,12 @@
 </section>
 
 {{-- 5. EXPERT DRIVERS LICENSE TYPES --}}
-<section class="bg-slate-100 py-12 fade-up">
+<section aria-labelledby="expert-heading" class="bg-slate-100 py-12 fade-up">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-4 mb-10">
       <div class="text-left max-w-3xl">
         <p class="text-xs font-bold uppercase tracking-widest text-cyan-600 bg-cyan-50 inline-block px-3 py-1 rounded-full">Expert Drivers</p>
-        <h2 class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Ready For Your Next Booking</h2>
+        <h2 id="expert-heading" class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">Ready For Your Next Booking</h2>
         <p class="mt-4 text-slate-600 text-base leading-relaxed">All drivers are deeply vetted, background‑checked, and highly trained to ensure a reliable journey.</p>
       </div>
       <a href="/login" class="rounded-xl bg-slate-950 px-6 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-slate-800 hover:scale-105 hover:shadow-xl shrink-0 inline-block text-center">View All Drivers &rarr;</a>
@@ -353,11 +372,11 @@
 </section>
 
 {{-- 6. HOW IT WORKS --}}
-<section class="bg-white py-12 fade-up">
+<section aria-labelledby="how-heading" class="bg-white py-12 fade-up">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-3xl mx-auto">
       <p class="text-xs font-bold uppercase tracking-widest text-cyan-600 bg-cyan-50 inline-block px-3 py-1 rounded-full">Simple Process</p>
-      <h2 class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">How SkyLine works</h2>
+      <h2 id="how-heading" class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">How SkyLine works</h2>
       <p class="mt-4 text-slate-600 text-base">From simple initial search up to premium driving execution — entirely effortless.</p>
     </div>
     <div class="mt-10 grid gap-8 sm:grid-cols-3">
@@ -387,11 +406,11 @@
 </section>
 
 {{-- 7. TRUST STATS --}}
-<section id="about" class="bg-white py-12 fade-up">
+<section id="about" aria-labelledby="stats-heading" class="bg-white py-12 fade-up">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-3xl mx-auto mb-10">
       <p class="text-xs font-bold uppercase tracking-widest text-cyan-600 bg-cyan-50 inline-block px-3 py-1 rounded-full">SkyLine By The Numbers</p>
-      <h2 class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">We Don’t Just Talk – We Deliver</h2>
+      <h2 id="stats-heading" class="mt-4 text-3xl font-black text-slate-950 sm:text-4xl tracking-tight">We Don’t Just Talk – We Deliver</h2>
       <p class="mt-4 text-slate-600 text-base">Real figures, real trust, real results.</p>
     </div>
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -424,20 +443,21 @@
 </section>
 
 {{-- 9. CONTACT CTA --}}
-<section id="contact" class="py-12 fade-up">
+<section id="contact" aria-labelledby="contact-heading" class="py-12 fade-up">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="rounded-2xl bg-gradient-to-br from-slate-800 to-slate-950 px-6 py-10 shadow-2xl transition-all duration-500 hover:shadow-cyan-900/30 sm:px-10 lg:flex lg:items-center lg:justify-between">
       <div class="text-center lg:text-left">
-        <h2 class="text-3xl font-black tracking-tight text-white">Need Immediate Assistance?</h2>
+        <h2 id="contact-heading" class="text-3xl font-black tracking-tight text-white">Need Immediate Assistance?</h2>
         <p class="mt-3 max-w-2xl text-slate-300 text-sm leading-relaxed">Our support infrastructure responds 24/7 regarding high‑tier vehicle rentals, licensing tracking updates, and direct marketplace queries.</p>
       </div>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:mt-0">
         <a href="mailto:support@skyline.demo" class="group inline-flex items-center justify-center gap-2 rounded-lg bg-cyan-400 px-6 py-3.5 text-sm font-bold text-black shadow-sm hover:bg-cyan-500">
           Contact Us <i data-lucide="mail" class="h-4 w-4 transition-transform duration-300 group-hover:rotate-12"></i>
         </a>
-        <button class="group rounded-xl border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:border-cyan-400/50 hover:text-cyan-100 hover:scale-105 pulse-hover">
+        <a href="mailto:support@skyline.demo" class="group rounded-xl border border-white/25 bg-white/5 px-6 py-3.5 text-sm font-bold text-white transition-all duration-300 hover:border-cyan-400/50 hover:text-cyan-100 hover:scale-105 pulse-hover inline-flex items-center justify-center gap-2"
+           aria-label="Send an inquiry by email">
           Send Inquiry <i data-lucide="send" class="h-4 w-4 inline ml-1 transition-transform duration-300 group-hover:translate-x-1"></i>
-        </button>
+        </a>
       </div>
     </div>
   </div>

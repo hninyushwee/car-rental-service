@@ -1,4 +1,9 @@
 <aside id="userSidebar" class="h-screen flex-shrink-0 border-r-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 transition-all duration-300 flex flex-col overflow-hidden">
+    @php
+        $sidebarLinkBase = 'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition';
+        $sidebarLinkDefault = 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800';
+        $sidebarLinkActive = 'bg-cyan-50 text-slate-950 dark:bg-cyan-950/40 dark:text-cyan-100 ring-1 ring-cyan-200 dark:ring-cyan-700';
+    @endphp
     <!-- Logo Section (fixed at top) -->
     <div id="userSidebarHeader" class="h-16 border-b-2 border-slate-200 dark:border-slate-700 px-4 flex items-center justify-between gap-2 flex-shrink-0">
         <a id="userSidebarBrand" href="{{ route('dashboard') }}" class="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
@@ -19,7 +24,8 @@
         <div data-sidebar-label class="px-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
             Main
         </div>
-        <a href="{{ route('dashboard') }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <a href="{{ route('dashboard') }}" class="{{ $sidebarLinkBase }} {{ request()->routeIs('dashboard') ? $sidebarLinkActive : $sidebarLinkDefault }}"
+            @if(request()->routeIs('dashboard')) aria-current="page" @endif>
             <i data-lucide="grid-3x3" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>Dashboard</span>
         </a>
@@ -27,26 +33,31 @@
         <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
             Our Services
         </div>
-        <a href="{{ route('rent_car') }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <a href="{{ route('rent_car') }}" class="{{ $sidebarLinkBase }} {{ request()->routeIs('rent_car') ? $sidebarLinkActive : $sidebarLinkDefault }}"
+            @if(request()->routeIs('rent_car')) aria-current="page" @endif>
             <i data-lucide="car" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>Rent a Car</span>
         </a>
-        <a href="{{ route('rent_driver') }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <a href="{{ route('rent_driver') }}" class="{{ $sidebarLinkBase }} {{ request()->routeIs('rent_driver') ? $sidebarLinkActive : $sidebarLinkDefault }}"
+            @if(request()->routeIs('rent_driver')) aria-current="page" @endif>
             <i data-lucide="user-check" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>Hire a Driver</span>
         </a>
         <div data-sidebar-label class="px-4 pt-4 pb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
             My Activity
         </div>
-        <a href="{{ route('history') }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <a href="{{ route('history') }}" class="{{ $sidebarLinkBase }} {{ request()->routeIs('history') ? $sidebarLinkActive : $sidebarLinkDefault }}"
+            @if(request()->routeIs('history')) aria-current="page" @endif>
             <i data-lucide="history" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>Booking History</span>
         </a>
-        <a href="{{ route('inquiry') }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <a href="{{ route('inquiry') }}" class="{{ $sidebarLinkBase }} {{ request()->routeIs('inquiry') ? $sidebarLinkActive : $sidebarLinkDefault }}"
+            @if(request()->routeIs('inquiry')) aria-current="page" @endif>
             <i data-lucide="messages-square" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>General Inquiries</span>
         </a>
-        <a href="{{ route('noti') }}" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+        <a href="{{ route('noti') }}" class="{{ $sidebarLinkBase }} {{ request()->routeIs('noti') ? $sidebarLinkActive : $sidebarLinkDefault }}"
+            @if(request()->routeIs('noti')) aria-current="page" @endif>
             <i data-lucide="bell" class="h-5 w-5 flex-shrink-0"></i>
             <span data-sidebar-label>Notifications</span>
         </a>

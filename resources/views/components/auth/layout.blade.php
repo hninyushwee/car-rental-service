@@ -53,10 +53,25 @@
         .animation-delay-4000 {
             animation-delay: 4s;
         }
+
+        :focus-visible {
+            outline: 3px solid rgba(6, 182, 212, 0.75);
+            outline-offset: 3px;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid rgba(6, 182, 212, 0.75);
+            outline-offset: 3px;
+        }
     </style>
 </head>
 
 <body>
+    <a href="#auth-form" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:text-slate-900 focus:bg-white focus:shadow-lg dark:focus:bg-slate-900 dark:focus:text-white">Skip to form</a>
     <div>
         <div
             class="pt-6 sm:pt-4 pb-8 sm:pb-6 min-h-screen bg-gradient-to-br from-slate-950 to-slate-800 flex items-center justify-center px-8 sm:px-10 lg:px-12 relative overflow-hidden">
@@ -72,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="relative z-10 w-full max-w-md">
+            <div class="relative z-10 w-full max-w-md" role="main">
                 <div class="text-center mb-5 animate-fade-in">
                     <img class="mx-auto h-10 w-10 object-contain sm:h-14 sm:w-14 md:h-18 md:w-18"
                         src="{{ asset('images/logo.png') }}" alt="SkyLine Automotive logo" />

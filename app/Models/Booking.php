@@ -27,6 +27,32 @@ class Booking extends Model
         'total_price',
     ];
 
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_CONFIRMED = 'confirmed';
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_COMPLETED = 'completed';
+    public const STATUS_CANCELLED = 'cancelled';
+
+    public static function blockingStatuses(): array
+    {
+        return [self::STATUS_PENDING, self::STATUS_CONFIRMED, self::STATUS_ACTIVE];
+    }
+
+    public static function activeStatuses(): array
+    {
+        return [self::STATUS_CONFIRMED, self::STATUS_ACTIVE];
+    }
+
+    public static function pendingOrConfirmedStatuses(): array
+    {
+        return [self::STATUS_PENDING, self::STATUS_CONFIRMED];
+    }
+
+    public static function closedStatuses(): array
+    {
+        return [self::STATUS_COMPLETED, self::STATUS_CANCELLED];
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

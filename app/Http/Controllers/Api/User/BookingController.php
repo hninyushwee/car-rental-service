@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
 use App\Models\Booking;
 use App\Models\BookingItem;
+use App\Models\DepositSetting;
 use App\Models\Driver;
 use App\Models\DrivingLicenseType;
 use App\Models\Notification;
@@ -17,6 +18,7 @@ use App\Models\Vehicle;
 use App\Repositories\Interface\BookingInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
@@ -100,9 +102,19 @@ class BookingController extends Controller
         ]);
 
         $cartItems = json_decode($request->input('items'), true);
-        if (!is_array($cartItems) || empty($cartItems)) {
-            return $this->errorResponse('Cart is empty.', 422);
-        }
+        $cartItems = Validator::make(['items' => $cartItems], [
+            'items' => 'required|array|min:1|max:20',
+            'items.*.type' => 'nullable|in:driver',
+            'items.*.id' => 'nullable|integer',
+            'items.*.license_type_id' => 'nullable|integer|exists:driving_license_types,id',
+            'items.*.quantity' => 'required|integer|min:1|max:100',
+            'items.*.start_date' => 'required|date',
+            'items.*.end_date' => 'required|date|after_or_equal:items.*.start_date',
+            'items.*.pickup_location' => 'nullable|string|max:255',
+            'items.*.dropoff_location' => 'nullable|string|max:255',
+            'items.*.notes' => 'nullable|string|max:1000',
+            'items.*.promo_code' => 'nullable|string|max:50',
+        ])->validate()['items'];
 
         $user = $request->user();
 
@@ -111,25 +123,11 @@ class BookingController extends Controller
             $imagePath = $request->file('image')->store('payments', 'public');
         }
 
-        // Check promo code usage once (all items share the same promo)
-        $firstPromoCode = null;
-        foreach ($cartItems as $item) {
-            if (!empty($item['promo_code'])) {
-                $firstPromoCode = $item['promo_code'];
-                break;
-            }
+        $promoCodes = collect($cartItems)->pluck('promo_code')->filter()->unique()->values();
+        if ($promoCodes->count() > 1) {
+            return $this->errorResponse('Only one promotion code can be used per checkout.', 422);
         }
-        if ($firstPromoCode) {
-            $promotion = Promotion::where('code', $firstPromoCode)->first();
-            if ($promotion) {
-                $used = PromotionUsage::where('promotion_id', $promotion->id)
-                    ->where('user_id', $user->id)
-                    ->exists();
-                if ($used) {
-                    return $this->errorResponse("Promotion code '{$firstPromoCode}' has already been used by your account.", 422);
-                }
-            }
-        }
+        $firstPromoCode = $promoCodes->first();
 
         DB::beginTransaction();
         try {
@@ -137,18 +135,22 @@ class BookingController extends Controller
             $totalDiscount = 0;
             $totalCarDeposit = 0;
             $totalDriverDeposit = 0;
-            $totalPrice = 0;
+            $carDepositSetting = DepositSetting::where('service_key', 'car_rental')->where('is_active', true)->first();
+            $driverDepositSetting = DepositSetting::where('service_key', 'driver_service')->where('is_active', true)->first();
 
             foreach ($cartItems as $item) {
                 $isDriverOnly = ($item['type'] ?? null) === 'driver';
 
                 if ($isDriverOnly) {
-                    $days = max(1, (int)($item['days'] ?? 1));
-                    $driverRate = (float)($item['price_per_day'] ?? 0);
-                    $qty = (int)($item['quantity'] ?? 1);
+                    if (empty($item['license_type_id'])) {
+                        throw new \InvalidArgumentException('A driver license type is required.');
+                    }
+
+                    $licenseType = DrivingLicenseType::findOrFail($item['license_type_id']);
+                    $days = max(1, \Carbon\Carbon::parse($item['start_date'])->diffInDays(\Carbon\Carbon::parse($item['end_date'])) + 1);
+                    $driverRate = (float) $licenseType->price;
+                    $qty = $item['quantity'];
                     $subtotal = $driverRate * $days * $qty;
-                    $promoDiscount = (float)($item['promo_discount'] ?? 0);
-                    $finalTotal = (float)($item['final_total'] ?? $subtotal);
 
                     // Validate driver availability for this license type
                     $licenseTypeName = $item['license_type'] ?? '';
@@ -159,7 +161,7 @@ class BookingController extends Controller
                         if ($licenseType) {
                             $totalAvailable = $licenseType->drivers()->where('status', 'available')->count();
                             $occupied = BookingItem::whereNotNull('driver_id')
-                                ->whereHas('booking', fn($q) => $q->whereIn('status', ['confirmed', 'active', 'pending']))
+                                ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::blockingStatuses()))
                                 ->whereHas('driver.drivingLicenseType', fn($q) => $q->where('id', $licenseType->id))
                                 ->where('start_date', '<=', $itemEndDate)
                                 ->where('end_date', '>=', $itemStartDate)
@@ -167,7 +169,7 @@ class BookingController extends Controller
                                 ->count('driver_id');
                             $pendingClaim = BookingItem::whereNull('driver_id')
                                 ->where('has_driver', true)
-                                ->whereHas('booking', fn($q) => $q->whereIn('status', ['pending', 'confirmed']))
+                                ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::pendingOrConfirmedStatuses()))
                                 ->where('start_date', '<=', $itemEndDate)
                                 ->where('end_date', '>=', $itemStartDate)
                                 ->where('notes', 'like', '%License: ' . str_replace(['%', '_'], ['\\%', '\\_'], $licenseTypeName) . '%')
@@ -175,7 +177,7 @@ class BookingController extends Controller
                             $vehicleDriverPending = BookingItem::whereNull('driver_id')
                                 ->where('has_driver', true)
                                 ->whereNotNull('vehicle_id')
-                                ->whereHas('booking', fn($q) => $q->whereIn('status', ['pending', 'confirmed']))
+                                ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::pendingOrConfirmedStatuses()))
                                 ->where('start_date', '<=', $itemEndDate)
                                 ->where('end_date', '>=', $itemStartDate)
                                 ->whereHas('vehicle.drivers.drivingLicenseType', fn($q) => $q->where('id', $licenseType->id))
@@ -188,20 +190,32 @@ class BookingController extends Controller
                     }
 
                     $totalSubtotal += $subtotal;
-                    $totalDiscount += $promoDiscount;
-                    $totalPrice += $finalTotal;
-                    $totalDriverDeposit += (float)($item['deposit_amount'] ?? 0);
+                    $totalDriverDeposit += $this->depositFor($driverDepositSetting, $subtotal);
                 } else {
+                    if (empty($item['id'])) {
+                        throw new \InvalidArgumentException('A vehicle is required.');
+                    }
+
                     $vehicle = Vehicle::lockForUpdate()->find($item['id']);
                     if (!$vehicle) {
                         DB::rollBack();
                         return $this->errorResponse("Vehicle #{$item['id']} not found.", 404);
                     }
 
-                    $quantity = (int)($item['quantity'] ?? 1);
+                    $quantity = $item['quantity'];
                     if ($quantity < 1 || $quantity > $vehicle->available_stock) {
                         DB::rollBack();
                         return $this->errorResponse("Quantity for vehicle #{$item['id']} must be between 1 and {$vehicle->available_stock}.", 422);
+                    }
+
+                    $bookedQuantity = BookingItem::where('vehicle_id', $vehicle->id)
+                        ->whereHas('booking', fn ($query) => $query->whereIn('status', Booking::blockingStatuses()))
+                        ->where('start_date', '<', $item['end_date'])
+                        ->where('end_date', '>', $item['start_date'])
+                        ->sum('quantity');
+                    if ($vehicle->available_stock - $bookedQuantity < $quantity) {
+                        DB::rollBack();
+                        return $this->errorResponse("Vehicle #{$vehicle->id} is not available for the selected dates.", 422);
                     }
 
                     $hasDriver = !empty($item['has_driver']);
@@ -213,13 +227,14 @@ class BookingController extends Controller
                             DB::rollBack();
                             return $this->errorResponse("Start and end dates are required when including a driver.", 422);
                         }
-                        $qualifiedCount = \App\Http\Controllers\Api\User\RentCarController::getAvailableQualifiedDrivers($vehicle->id, $itemStartDate, $itemEndDate)->count();
+                        $qualifiedDrivers = \App\Http\Controllers\Api\User\RentCarController::getAvailableQualifiedDrivers($vehicle->id, $itemStartDate, $itemEndDate)->get();
+                        $qualifiedCount = $qualifiedDrivers->count();
                         $pendingSlots = BookingItem::whereNull('driver_id')
                             ->where('has_driver', true)
                             ->where('vehicle_id', $vehicle->id)
                             ->where('start_date', '<=', $itemEndDate)
                             ->where('end_date', '>=', $itemStartDate)
-                            ->whereHas('booking', fn($q) => $q->whereIn('status', ['pending', 'confirmed']))
+                            ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::pendingOrConfirmedStatuses()))
                             ->sum('quantity');
                         $availableDrivers = max(0, $qualifiedCount - $pendingSlots);
 
@@ -227,21 +242,49 @@ class BookingController extends Controller
                             DB::rollBack();
                             return $this->errorResponse("No qualified drivers are available for this vehicle during the selected dates.", 422);
                         }
+
+                        $driverRate = (float) $qualifiedDrivers->min(
+                            fn (Driver $driver) => (float) ($driver->drivingLicenseType?->price ?? 0)
+                        );
+                    } else {
+                        $driverRate = 0;
                     }
 
-                    $days = max(1, (int)($item['days'] ?? 1));
-                    $pricePerDay = (float)($item['price_per_day'] ?? 0);
-                    $driverRate = (float)($item['driver_price_per_day'] ?? 0);
-                    $subtotal = ($pricePerDay + $driverRate) * $days * $quantity;
-                    $promoDiscount = (float)($item['promo_discount'] ?? 0);
-                    $finalTotal = (float)($item['final_total'] ?? $subtotal);
+                    $days = max(1, \Carbon\Carbon::parse($item['start_date'])->diffInDays(\Carbon\Carbon::parse($item['end_date'])) + 1);
+                    $pricePerDay = (float) $vehicle->price_per_day;
+                    $vehicleSubtotal = $pricePerDay * $days * $quantity;
+                    $subtotal = $vehicleSubtotal + ($driverRate * $days * $quantity);
 
                     $totalSubtotal += $subtotal;
-                    $totalDiscount += $promoDiscount;
-                    $totalPrice += $finalTotal;
-                    $totalCarDeposit += (float)($item['deposit_amount'] ?? 0);
+                    $totalCarDeposit += $this->depositFor($carDepositSetting, $vehicleSubtotal, $quantity);
                 }
             }
+
+            $promotion = null;
+            if ($firstPromoCode) {
+                $promotion = Promotion::where('code', $firstPromoCode)
+                    ->lockForUpdate()
+                    ->where('status', 'active')
+                    ->where('start_date', '<=', now())
+                    ->where('end_date', '>=', now())
+                    ->first();
+
+                if (!$promotion || PromotionUsage::where('promotion_id', $promotion->id)->where('user_id', $user->id)->exists()) {
+                    throw new \InvalidArgumentException('This promotion code is not available.');
+                }
+                if ($totalSubtotal < (float) $promotion->min_spend) {
+                    throw new \InvalidArgumentException('This promotion does not meet its minimum spend.');
+                }
+
+                $totalDiscount = $promotion->discount_type === 'percentage'
+                    ? $totalSubtotal * ((float) $promotion->discount_value / 100)
+                    : (float) $promotion->discount_value;
+                if ($promotion->max_discount !== null) {
+                    $totalDiscount = min($totalDiscount, (float) $promotion->max_discount);
+                }
+                $totalDiscount = min($totalDiscount, $totalSubtotal);
+            }
+            $totalPrice = $totalSubtotal - $totalDiscount;
 
             $booking = Booking::create([
                 'user_id' => $user->id,
@@ -339,7 +382,6 @@ class BookingController extends Controller
 
             // One promotion usage if a promo was applied
             if ($firstPromoCode) {
-                $promotion = Promotion::where('code', $firstPromoCode)->first();
                 if ($promotion) {
                     PromotionUsage::create([
                         'promotion_id' => $promotion->id,
@@ -380,11 +422,25 @@ class BookingController extends Controller
             );
         } catch (\Exception $e) {
             DB::rollBack();
+            if ($e instanceof \InvalidArgumentException) {
+                return $this->errorResponse($e->getMessage(), 422);
+            }
             if ($e instanceof \Illuminate\Database\QueryException && str_contains($e->getMessage(), 'payments_transaction_ref_unique')) {
                 return $this->errorResponse('This transaction reference has already been used. Please check your payment details and try again.', 422);
             }
             return $this->errorResponse('Checkout failed. Please try again.', 500);
         }
+    }
+
+    private function depositFor(?DepositSetting $setting, float $subtotal, int $quantity = 1): float
+    {
+        if (!$setting) {
+            return 0;
+        }
+
+        return $setting->deposit_type === 'percentage'
+            ? $subtotal * ((float) $setting->amount / 100)
+            : (float) $setting->amount * $quantity;
     }
 
     public function cancel(Request $request, Booking $booking)
@@ -393,7 +449,7 @@ class BookingController extends Controller
             return $this->errorResponse('Unauthorized', 403);
         }
 
-        if (!in_array($booking->status, ['pending', 'confirmed'])) {
+        if (!in_array($booking->status, Booking::pendingOrConfirmedStatuses())) {
             return $this->errorResponse('This booking cannot be cancelled.', 422);
         }
 

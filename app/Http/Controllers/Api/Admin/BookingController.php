@@ -49,16 +49,12 @@ class BookingController extends Controller
 
         DB::transaction(function () use ($bookingModel, $newStatus, $oldStatus, $validated) {
             // Auto-assign missing drivers when confirming
-            if (in_array($newStatus, ['confirmed', 'active']) && !in_array($oldStatus, ['confirmed', 'active'])) {
+            if (in_array($newStatus, Booking::activeStatuses()) && !in_array($oldStatus, Booking::activeStatuses())) {
                 foreach ($bookingModel->items as $item) {
                     if ($item->has_driver && is_null($item->driver_id)) {
                         $this->autoAssignDriver($item);
                     }
                 }
-                // Mark payments as paid (handle both current and legacy payable_type)
-                Payment::where('payable_id', $bookingModel->id)
-                    ->whereIn('payable_type', [$bookingModel->getMorphClass(), 'App\Models\Booking'])
-                    ->update(['status' => 'paid']);
             }
 
             // Decrease stock when transitioning to active
@@ -193,7 +189,7 @@ class BookingController extends Controller
         // Exclude drivers with conflicting bookings in the same date range
         $query->whereDoesntHave('bookingItems', function ($q) use ($startDate, $endDate, $item) {
             $q->where('id', '!=', $item->id)
-              ->whereHas('booking', fn($b) => $b->whereIn('status', ['confirmed', 'active', 'pending']))
+              ->whereHas('booking', fn($b) => $b->whereIn('status', Booking::blockingStatuses()))
               ->where('start_date', '<=', $endDate)
               ->where('end_date', '>=', $startDate);
         });
@@ -222,7 +218,7 @@ class BookingController extends Controller
 
         // Check driver is not already booked for overlapping dates
         $hasConflict = $driver->bookingItems()
-            ->whereHas('booking', fn($b) => $b->whereIn('status', ['confirmed', 'active']))
+            ->whereHas('booking', fn($b) => $b->whereIn('status', Booking::activeStatuses()))
             ->where('start_date', '<=', $item->end_date)
             ->where('end_date', '>=', $item->start_date)
             ->exists();
@@ -269,10 +265,6 @@ class BookingController extends Controller
                 }
             }
 
-            Payment::where('payable_id', $booking->id)
-                ->whereIn('payable_type', [$booking->getMorphClass(), 'App\Models\Booking'])
-                ->update(['status' => 'paid']);
-
             $booking->update(['status' => 'confirmed']);
 
             Notification::create([
@@ -303,7 +295,7 @@ class BookingController extends Controller
 
     public function sendInvoice(Request $request, Booking $booking)
     {
-        if (!in_array($booking->status, ['confirmed', 'active', 'completed'])) {
+        if (!in_array($booking->status, array_merge(Booking::activeStatuses(), [Booking::STATUS_COMPLETED]))) {
             return $this->errorResponse('Invoice can only be sent for confirmed, active, or completed bookings.', 422);
         }
 

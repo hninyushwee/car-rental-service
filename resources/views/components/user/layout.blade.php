@@ -28,6 +28,20 @@
             overflow-x: hidden;
         }
 
+        :focus-visible {
+            outline: 3px solid rgba(6, 182, 212, 0.75);
+            outline-offset: 3px;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid rgba(6, 182, 212, 0.75);
+            outline-offset: 3px;
+        }
+
         @if ($isUserDashboardRoute)
             html,
             body {
@@ -171,6 +185,8 @@
 <body
     class="{{ $isUserDashboardRoute ? 'bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 h-full overflow-hidden' : 'bg-slate-50 overflow-x-hidden' }} text-slate-900 dark:text-slate-100 antialiased">
 
+    <a href="#mainContent" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:text-slate-900 focus:bg-white focus:shadow-lg dark:focus:bg-slate-900 dark:focus:text-white">Skip to content</a>
+
     @if ($isUserDashboardRoute)
         {{-- Authenticated: admin-style layout with sidebar + navbar --}}
         <div id="userApp" class="flex w-full h-screen overflow-hidden">
@@ -178,7 +194,7 @@
             <x-user.sidebar />
             <div id="userMainWrapper" class="flex flex-col flex-1 w-full pt-16 transition-all duration-300">
                 <x-user.auth-navbar />
-                <main id="mainContent" class="flex-1 overflow-y-auto overflow-x-hidden w-full">
+                <main id="mainContent" role="main" class="flex-1 overflow-y-auto overflow-x-hidden w-full">
                     {{ $slot }}
                 </main>
             </div>
@@ -187,7 +203,7 @@
         {{-- Guest: landing navbar only, no sidebar --}}
         <div id="app" class="min-h-screen">
             <x-user.nav />
-            <main id="mainContent">
+            <main id="mainContent" role="main">
                 {{ $slot }}
             </main>
             <x-user.footer />
@@ -289,6 +305,8 @@
                     const el = getAuthElements();
                     el.notificationDropdown?.classList.add('hidden');
                     el.profileDropdown?.classList.add('hidden');
+                    el.notificationBtn?.setAttribute('aria-expanded', 'false');
+                    el.profileBtn?.setAttribute('aria-expanded', 'false');
                 }
 
                 window.updateCartBadge = function() {
@@ -327,12 +345,14 @@
                     el.notificationBtn?.addEventListener('click', (e) => {
                         e.stopPropagation();
                         closeDropdowns();
-                        el.notificationDropdown?.classList.toggle('hidden');
+                        const isOpen = el.notificationDropdown?.classList.toggle('hidden');
+                        el.notificationBtn?.setAttribute('aria-expanded', String(!isOpen));
                     });
                     el.profileBtn?.addEventListener('click', (e) => {
                         e.stopPropagation();
                         closeDropdowns();
-                        el.profileDropdown?.classList.toggle('hidden');
+                        const isOpen = el.profileDropdown?.classList.toggle('hidden');
+                        el.profileBtn?.setAttribute('aria-expanded', String(!isOpen));
                     });
                     document.addEventListener('click', closeDropdowns);
                     el.notificationDropdown?.addEventListener('click', (e) => e.stopPropagation());
@@ -417,12 +437,17 @@
                                 inquiry: 'border-violet-500 bg-violet-50 dark:bg-violet-950',
                                 system: 'border-purple-500 bg-purple-50 dark:bg-purple-950'
                             };
+                            const escapeHtml = (value) => {
+                                const element = document.createElement('div');
+                                element.textContent = String(value ?? '');
+                                return element.innerHTML;
+                            };
                             list.innerHTML = items.map(n => {
                                 const c = colors[n.type] ||
                                 'border-slate-400 bg-slate-50 dark:bg-slate-800';
                                 return `<article class="border-l-4 ${c} px-6 py-3 hover:bg-opacity-80 cursor-pointer transition ${n.is_read ? 'opacity-60' : ''}" data-id="${n.id}" data-read="${n.is_read ? '1' : '0'}">
-                        <p class="text-sm font-semibold text-slate-900 dark:text-white">${n.title || ''}</p>
-                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">${n.message || ''}</p>
+                        <p class="text-sm font-semibold text-slate-900 dark:text-white">${escapeHtml(n.title)}</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">${escapeHtml(n.message)}</p>
                     </article>`;
                             }).join('');
 
@@ -513,7 +538,10 @@
                     });
 
                     mobileMenu?.querySelectorAll('a').forEach(link => {
-                        link.addEventListener('click', () => mobileMenu?.classList.add('hidden'));
+                        link.addEventListener('click', () => {
+                            mobileMenu?.classList.add('hidden');
+                            mobileMenuButton?.setAttribute('aria-expanded', 'false');
+                        });
                     });
 
                     authToggle?.addEventListener('click', () => {

@@ -7,19 +7,21 @@
         style="animation-delay: 0.1s;">
 
         <div id="globalRegisterAlert"
-            class="hidden mb-4 rounded-xl border p-4 text-sm flex items-start gap-3 bg-red-500/20 text-red-200 border-red-500/30">
+            class="hidden mb-4 rounded-xl border p-4 text-sm flex items-start gap-3 bg-red-500/20 text-red-200 border-red-500/30"
+            role="alert" aria-live="assertive">
             <i data-lucide="x-circle" class="w-5 h-5 flex-shrink-0 text-red-400"></i>
             <span id="globalAlertMessage" class="font-medium"></span>
         </div>
 
-        <form id="registerForm" class="space-y-4">
+        <form id="auth-form" class="space-y-4">
             @csrf
             <div class="group">
                 <label for="name" class="block text-sm font-semibold text-white mb-2">
                     Name
                 </label>
-                <input type="text" id="name" name="name" placeholder="Doe" required
-                    class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
+                <input type="text" id="name" name="name" placeholder="John Doe" required autocomplete="name"
+                    class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30"
+                    aria-describedby="nameError">
                 <span id="nameError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
             </div>
 
@@ -30,8 +32,9 @@
                         Email Address
                     </span>
                 </label>
-                <input type="email" id="email" name="email" placeholder="your@email.com" required
-                    class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
+                <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email"
+                    class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30"
+                    aria-describedby="emailError">
                 <span id="emailError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
             </div>
 
@@ -43,14 +46,16 @@
                     </span>
                 </label>
                 <div class="relative">
-                    <input type="password" id="password" name="password" placeholder="••••••••" required
-                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
-                    <button type="button" onclick="togglePassword(this, 'password')"
-                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors">
-                        <i data-lucide="eye" class="h-4 w-4"></i>
-                    </button>
-                </div>
-                <span id="passwordError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
+                    <input type="password" id="password" name="password" placeholder="••••••••" required autocomplete="new-password"
+                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30"
+                        aria-describedby="passwordError">
+                        <button type="button" onclick="togglePassword(this, 'password')"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                            aria-label="Toggle password visibility" title="Show or hide password">
+                            <i data-lucide="eye" class="h-4 w-4"></i>
+                        </button>
+                    </div>
+                    <span id="passwordError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
             </div>
 
             <div class="group">
@@ -62,13 +67,16 @@
                 </label>
                 <div class="relative">
                     <input type="password" id="password_confirmation" name="password_confirmation" placeholder="••••••••"
-                        required
-                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
+                        required autocomplete="new-password"
+                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30"
+                        aria-describedby="passwordConfirmationError">
                     <button type="button" onclick="togglePassword(this, 'password_confirmation')"
-                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors">
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                        aria-label="Toggle password confirmation visibility" title="Show or hide password confirmation">
                         <i data-lucide="eye" class="h-4 w-4"></i>
                     </button>
                 </div>
+                <span id="passwordConfirmationError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
             </div>
 
             <div class="group">
@@ -78,8 +86,9 @@
                         Phone Number
                     </span>
                 </label>
-                <input type="tel" id="phone" name="phone" placeholder="+95 9123 456 789"
-                    class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30">
+                <input type="tel" id="phone" name="phone" placeholder="+95 9123 456 789" autocomplete="tel"
+                    class="w-full px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all duration-300 placeholder-white/50 text-white backdrop-blur-sm group-hover:border-white/30"
+                    aria-describedby="phoneError">
                 <span id="phoneError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
             </div>
 
@@ -117,7 +126,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 // Fetching essential DOM elements using jQuery selectors
-                const $form = $('#registerForm');
+                const $form = $('#auth-form');
                 const $btn = $('#regSubmitBtn');
                 const $btnText = $('#regBtnText');
                 const $globalAlert = $('#globalRegisterAlert');
@@ -186,6 +195,9 @@
                                 }
                                 if(validationErrors.password){
                                     $('#passwordError').removeClass('hidden').text(validationErrors.password[0]);
+                                }
+                                if(validationErrors.password_confirmation){
+                                    $('#passwordConfirmationError').removeClass('hidden').text(validationErrors.password_confirmation[0]);
                                 }
                                 if(validationErrors.phone){
                                     $('#phoneError').removeClass('hidden').text(validationErrors.phone[0]);

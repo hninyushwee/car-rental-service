@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminInquiryUpdateRequest;
+use App\Http\Requests\InquiryRequest;
 use App\Models\Notification;
 use App\Repositories\Interface\InquiryInterface;
 use Illuminate\Http\Request;
@@ -19,9 +21,9 @@ class InquiryController extends Controller
         return $this->successResponse($this->inquiryRepo->all($perPage, $filters));
     }
 
-    public function store(Request $request)
+    public function store(InquiryRequest $request)
     {
-        $inquiry = $this->inquiryRepo->create($request->all());
+        $inquiry = $this->inquiryRepo->create($request->validated());
 
         return $this->successResponse($inquiry->load('user'), 'Inquiry submitted successfully', 201);
     }
@@ -31,28 +33,29 @@ class InquiryController extends Controller
         return $this->successResponse($this->inquiryRepo->findById($inquiry));
     }
 
-    public function update(Request $request, $inquiry)
+    public function update(AdminInquiryUpdateRequest $request, $inquiry)
     {
-        $updated = $this->inquiryRepo->update($inquiry, $request->all());
+        $validated = $request->validated();
+        $updated = $this->inquiryRepo->update($inquiry, $validated);
 
         if (! $updated) {
             return $this->errorResponse('Inquiry not found', 404);
         }
 
         $fresh = $updated->fresh();
-        if ($request->filled('admin_response') && $fresh->user_id) {
+        if (!empty($validated['admin_response']) && $fresh->user_id) {
             Notification::create([
                 'user_id' => $fresh->user_id,
                 'type' => 'inquiry',
                 'title' => "Reply: {$fresh->subject}",
-                'message' => $request->admin_response,
+                'message' => $validated['admin_response'],
                 'is_read' => false,
                 'notifiable_type' => 'App\Models\Inquiry',
                 'notifiable_id' => $fresh->id,
             ]);
         }
 
-        if ($request->status === 'resolved' && $fresh->user_id && !$request->filled('admin_response')) {
+        if (($validated['status'] ?? null) === 'resolved' && $fresh->user_id && empty($validated['admin_response'])) {
             Notification::create([
                 'user_id' => $fresh->user_id,
                 'type' => 'inquiry',

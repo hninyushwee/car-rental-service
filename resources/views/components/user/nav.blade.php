@@ -6,7 +6,7 @@
 @endphp
 
 <header id="siteHeader" class="fixed inset-x-0 top-0 z-50 bg-transparent transition-all duration-400 ease-in-out">
-    <nav class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 md:px-8 flex-nowrap overflow-visible py-3">
+    <nav role="navigation" aria-label="Primary navigation" class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 md:px-8 flex-nowrap overflow-visible py-3">
         <!-- Logo -->
         <div class="flex shrink-0 items-center gap-1 sm:gap-2 md:gap-3">
             <a href="{{ url('/') }}" class="flex shrink-0 items-center gap-1 sm:gap-2 flex-nowrap" aria-label="SKY Line home">
@@ -19,9 +19,9 @@
 
         <!-- Desktop Navigation Links -->
         <div class="max-md:hidden flex items-center gap-2 lg:gap-4 shrink-0 flex-nowrap">
-            <a href="{{ url('/') }}" class="{{ $desktopNavLink }} {{ request()->is('/') ? $desktopNavActive : '' }}" data-nav-contrast>Home</a>
-            <a href="{{ url('/about') }}" class="{{ $desktopNavLink }} {{ request()->is('about') ? $desktopNavActive : '' }}" data-nav-contrast>About Us</a>
-            <a href="{{ url('/contact') }}" class="{{ $desktopNavLink }} {{ request()->is('contact') ? $desktopNavActive : '' }}" data-nav-contrast>Contact Us</a>
+            <a href="{{ url('/') }}" class="{{ $desktopNavLink }} {{ request()->is('/') ? $desktopNavActive : '' }}" data-nav-contrast @if(request()->is('/')) aria-current="page" @endif>Home</a>
+            <a href="{{ url('/about') }}" class="{{ $desktopNavLink }} {{ request()->is('about') ? $desktopNavActive : '' }}" data-nav-contrast @if(request()->is('about')) aria-current="page" @endif>About Us</a>
+            <a href="{{ url('/contact') }}" class="{{ $desktopNavLink }} {{ request()->is('contact') ? $desktopNavActive : '' }}" data-nav-contrast @if(request()->is('contact')) aria-current="page" @endif>Contact Us</a>
         </div>
 
         <!-- Desktop Auth Buttons -->
@@ -36,7 +36,7 @@
         <!-- Mobile Menu Button -->
         <button id="mobileMenuButton" type="button"
             class="md:hidden grid h-10 w-10 place-items-center rounded-lg border border-white/30 text-white shrink-0"
-            data-nav-contrast-button aria-expanded="false">
+            data-nav-contrast-button aria-expanded="false" aria-controls="mobileMenu" aria-label="Open mobile menu">
             <i data-lucide="menu" class="h-5 w-5"></i>
         </button>
     </nav>
@@ -46,9 +46,9 @@
         class="absolute right-3 mt-2 hidden w-64 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-2xl backdrop-blur dark:border-slate-800 dark:bg-slate-900/95 md:hidden"
         style="z-index: 60; top: 60px;">
         <div class="grid gap-2">
-            <a href="{{ url('/') }}" class="{{ $mobileNavLink }} {{ request()->is('/') ? $mobileNavActive : '' }}">Home</a>
-            <a href="{{ url('/about') }}" class="{{ $mobileNavLink }} {{ request()->is('about') ? $mobileNavActive : '' }}">About Us</a>
-            <a href="{{ url('/contact') }}" class="{{ $mobileNavLink }} {{ request()->is('contact') ? $mobileNavActive : '' }}">Contact Us</a>
+            <a href="{{ url('/') }}" class="{{ $mobileNavLink }} {{ request()->is('/') ? $mobileNavActive : '' }}" @if(request()->is('/')) aria-current="page" @endif>Home</a>
+            <a href="{{ url('/about') }}" class="{{ $mobileNavLink }} {{ request()->is('about') ? $mobileNavActive : '' }}" @if(request()->is('about')) aria-current="page" @endif>About Us</a>
+            <a href="{{ url('/contact') }}" class="{{ $mobileNavLink }} {{ request()->is('contact') ? $mobileNavActive : '' }}" @if(request()->is('contact')) aria-current="page" @endif>Contact Us</a>
         </div>
         <div class="mt-3 border-t border-slate-200 dark:border-slate-800 pt-3">
             <div class="grid grid-cols-2 gap-2">

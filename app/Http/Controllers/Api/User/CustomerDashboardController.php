@@ -30,9 +30,9 @@ class CustomerDashboardController extends Controller
 
         $stats = [
             'total'     => (clone $query)->count(),
-            'active'    => (clone $query)->whereIn('status', ['confirmed', 'active'])->count(),
-            'completed' => (clone $query)->where('status', 'completed')->count(),
-            'cancelled' => (clone $query)->where('status', 'cancelled')->count(),
+            'active'    => (clone $query)->whereIn('status', Booking::activeStatuses())->count(),
+            'completed' => (clone $query)->where('status', Booking::STATUS_COMPLETED)->count(),
+            'cancelled' => (clone $query)->where('status', Booking::STATUS_CANCELLED)->count(),
         ];
 
         $recentBookings = (clone $query)
@@ -43,7 +43,7 @@ class CustomerDashboardController extends Controller
 
         $upcomingBookings = (clone $query)
             ->with(['items.vehicle', 'items.driver'])
-            ->whereNotIn('status', ['cancelled', 'completed'])
+            ->whereNotIn('status', Booking::closedStatuses())
             ->whereHas('items', function ($q) use ($now) {
                 $q->whereDate('start_date', '>=', $now);
             })

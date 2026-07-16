@@ -21,8 +21,8 @@ use App\Http\Controllers\Api\User\RentCarController as UserRentCarController;
 use App\Http\Controllers\Auth\AuthApiController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/register', [AuthApiController::class, 'register'])->name('api.register');
-Route::post('/login', [AuthApiController::class, 'login'])->name('api.login');
+Route::post('/register', [AuthApiController::class, 'register'])->middleware('throttle:5,1')->name('api.register');
+Route::post('/login', [AuthApiController::class, 'login'])->middleware('throttle:5,1')->name('api.login');
 
 Route::middleware('auth:sanctum')->group(function () {
 

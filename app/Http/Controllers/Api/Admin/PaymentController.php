@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PaymentRequest;
 use App\Repositories\Interface\PaymentInterface;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,9 @@ class PaymentController extends Controller
         return $this->successResponse($this->paymentRepo->all($perPage, $filters));
     }
 
-    public function store(Request $request)
+    public function store(PaymentRequest $request)
     {
-        $payment = $this->paymentRepo->create($request->all());
+        $payment = $this->paymentRepo->create($request->validated());
 
         return $this->successResponse($payment->load('user'), 'Payment recorded successfully', 201);
     }
@@ -30,15 +31,15 @@ class PaymentController extends Controller
         return $this->successResponse($this->paymentRepo->findById($payment));
     }
 
-    public function update(Request $request, $payment)
+    public function update(PaymentRequest $request, $payment)
     {
-        $updated = $this->paymentRepo->update($payment, $request->all());
+        $updated = $this->paymentRepo->update($payment, $request->validated());
 
         if (! $updated) {
             return $this->errorResponse('Payment not found', 404);
         }
 
-        return $this->successResponse($payment->fresh()->load('user'), 'Payment updated successfully');
+        return $this->successResponse($updated->fresh()->load('user'), 'Payment updated successfully');
     }
 
     public function destroy($payment)

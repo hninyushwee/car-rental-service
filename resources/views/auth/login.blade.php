@@ -7,12 +7,13 @@
         style="animation-delay: 0.1s;">
 
         <div id="globalAuthAlert"
-            class="hidden mb-4 rounded-xl border p-4 text-sm flex items-start gap-3 bg-red-500/20 text-red-200 border-red-500/30">
+            class="hidden mb-4 rounded-xl border p-4 text-sm flex items-start gap-3 bg-red-500/20 text-red-200 border-red-500/30"
+            role="alert" aria-live="assertive">
             <i data-lucide="x-circle" class="w-5 h-5 flex-shrink-0 text-red-400"></i>
             <span id="globalAlertMessage" class="font-medium"></span>
         </div>
 
-        <form id="loginForm" data-auth-login-form data-redirect="{{ $redirect ?? route('admin.dashboard') }}" method="POST" action="{{ route('api.login') }}" class="space-y-4">
+        <form id="auth-form" data-auth-login-form data-redirect="{{ $redirect ?? route('admin.dashboard') }}" method="POST" action="{{ route('api.login') }}" class="space-y-4">
             @csrf
             <input type="hidden" name="expected_role" value="{{ $expected_role ?? '' }}">
             <div class="group">
@@ -22,8 +23,9 @@
                         Email Address
                     </span>
                 </label>
-                <input type="email" id="email" name="email" required
-                    class="w-full px-4 py-2 rounded-lg bg-white/10 text-white border-2 border-white/20">
+                <input type="email" id="email" name="email" required autocomplete="email"
+                    class="w-full px-4 py-2 rounded-lg bg-white/10 text-white border-2 border-white/20"
+                    aria-describedby="emailError">
                 <span id="emailError" class="text-xs text-red-400 font-medium mt-1 hidden block"></span>
             </div>
             <div class="group">
@@ -34,10 +36,12 @@
                     </span>
                 </label>
                 <div class="relative">
-                    <input type="password" id="password" name="password" required
-                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 text-white border-2 border-white/20">
+                    <input type="password" id="password" name="password" required autocomplete="current-password"
+                        class="w-full px-4 py-2 pr-10 rounded-lg bg-white/10 text-white border-2 border-white/20"
+                        aria-describedby="passwordError">
                     <button type="button" onclick="togglePassword(this, 'password')"
-                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors">
+                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+                        aria-label="Toggle password visibility" title="Show or hide password">
                         <i data-lucide="eye" class="h-4 w-4"></i>
                     </button>
                 </div>
@@ -57,12 +61,14 @@
         </div>
 
         <div class="grid grid-cols-2 gap-3 mb-6">
-            <button type="button"
-                class="px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 hover:border-white/40 text-white font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+            <button type="button" disabled
+                class="px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 text-white font-semibold opacity-60 cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2"
+                aria-label="Google sign in coming soon" title="Coming soon">
                 <span class="text-sm">Google</span>
             </button>
-            <button type="button"
-                class="px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 hover:border-white/40 text-white font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+            <button type="button" disabled
+                class="px-4 py-2 rounded-lg bg-white/10 border-2 border-white/20 text-white font-semibold opacity-60 cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2"
+                aria-label="GitHub sign in coming soon" title="Coming soon">
                 <span class="text-sm">GitHub</span>
             </button>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\BookingItem;
 use App\Models\Category;
 use App\Models\Driver;
@@ -60,10 +61,11 @@ class RentCarController extends Controller
         return Driver::where('status', 'available')
             ->whereHas('vehicles', fn($q) => $q->where('vehicle_id', $vehicleId))
             ->whereDoesntHave('bookingItems', function ($q) use ($startDate, $endDate) {
-                $q->whereHas('booking', fn($b) => $b->whereIn('status', ['confirmed', 'active', 'pending']))
+                $q->whereHas('booking', fn($b) => $b->whereIn('status', Booking::blockingStatuses()))
                   ->where('start_date', '<=', $endDate)
                   ->where('end_date', '>=', $startDate);
             })
+            ->with(['drivingLicenseType'])
             ->withCount('vehicles')
             ->orderBy('vehicles_count', 'asc');
     }
@@ -82,7 +84,7 @@ class RentCarController extends Controller
             ->where('vehicle_id', (int) $id)
             ->where('start_date', '<=', $request->end_date)
             ->where('end_date', '>=', $request->start_date)
-            ->whereHas('booking', fn($q) => $q->whereIn('status', ['pending', 'confirmed']))
+            ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::pendingOrConfirmedStatuses()))
             ->sum('quantity');
         $available = max(0, $count - $pendingSlots);
 
@@ -123,7 +125,7 @@ class RentCarController extends Controller
         }
 
         $bookedQty = \App\Models\BookingItem::where('vehicle_id', $id)
-            ->whereHas('booking', fn($q) => $q->whereIn('status', ['pending', 'confirmed', 'active']))
+            ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::blockingStatuses()))
             ->where('start_date', '<', $request->input('end_date'))
             ->where('end_date', '>', $request->input('start_date'))
             ->sum('quantity');
@@ -161,7 +163,7 @@ class RentCarController extends Controller
             $from = $request->input('from_date');
             $to = $request->input('to_date');
             $query->whereDoesntHave('bookingItems', function ($q) use ($from, $to) {
-                $q->whereHas('booking', fn($b) => $b->whereIn('status', ['pending', 'confirmed', 'active']))
+                $q->whereHas('booking', fn($b) => $b->whereIn('status', Booking::blockingStatuses()))
                   ->where('start_date', '<=', $to)
                   ->where('end_date', '>=', $from);
             });
@@ -206,7 +208,7 @@ class RentCarController extends Controller
 
         // Drivers occupied by confirmed/active/pending bookings
         $occupied = BookingItem::whereNotNull('driver_id')
-            ->whereHas('booking', fn($q) => $q->whereIn('status', ['confirmed', 'active', 'pending']))
+            ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::blockingStatuses()))
             ->whereHas('driver.drivingLicenseType', fn($q) => $q->where('id', $drivingLicenseType->id))
             ->where('start_date', '<=', $end)
             ->where('end_date', '>=', $start)
@@ -216,7 +218,7 @@ class RentCarController extends Controller
         // Pending/confirmed driver-only bookings claiming a driver of this type (not yet assigned)
         $pendingClaim = BookingItem::whereNull('driver_id')
             ->where('has_driver', true)
-            ->whereHas('booking', fn($q) => $q->whereIn('status', ['pending', 'confirmed']))
+            ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::pendingOrConfirmedStatuses()))
             ->where('start_date', '<=', $end)
             ->where('end_date', '>=', $start)
             ->where('notes', 'like', '%License: ' . str_replace(['%', '_'], ['\\%', '\\_'], $drivingLicenseType->type) . '%')
@@ -226,7 +228,7 @@ class RentCarController extends Controller
         $vehicleDriverPending = BookingItem::whereNull('driver_id')
             ->where('has_driver', true)
             ->whereNotNull('vehicle_id')
-            ->whereHas('booking', fn($q) => $q->whereIn('status', ['pending', 'confirmed']))
+            ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::pendingOrConfirmedStatuses()))
             ->where('start_date', '<=', $end)
             ->where('end_date', '>=', $start)
             ->whereHas('vehicle.drivers.drivingLicenseType', fn($q) => $q->where('id', $drivingLicenseType->id))
@@ -265,7 +267,7 @@ class RentCarController extends Controller
         $end = $request->input('end_date');
 
         $conflicting = $driver->bookingItems()
-            ->whereHas('booking', fn($q) => $q->whereIn('status', ['pending', 'confirmed', 'active']))
+            ->whereHas('booking', fn($q) => $q->whereIn('status', Booking::blockingStatuses()))
             ->where('start_date', '<=', $end)
             ->where('end_date', '>=', $start)
             ->exists();

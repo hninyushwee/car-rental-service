@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoleRequest;
 use App\Models\Permission;
 use App\Repositories\Interface\RoleInterface;
 use Illuminate\Http\Request;
@@ -29,18 +30,16 @@ class RoleController extends Controller
         return $this->successResponse($this->roleRepo->findById($role->id));
     }
 
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $request->validate(['name' => 'required|string|unique:roles,name']);
-
-        $role = $this->roleRepo->create($request->all());
+        $role = $this->roleRepo->create($request->validated());
 
         return $this->successResponse($role, 'Role created successfully', 201);
     }
 
-    public function update(Request $request, Role $role)
+    public function update(RoleRequest $request, Role $role)
     {
-        $updated = $this->roleRepo->update($role->id, $request->all());
+        $updated = $this->roleRepo->update($role->id, $request->validated());
 
         if (! $updated) {
             return $this->errorResponse('Role not found', 404);
