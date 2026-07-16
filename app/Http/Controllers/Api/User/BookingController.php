@@ -135,7 +135,8 @@ class BookingController extends Controller
         try {
             $totalSubtotal = 0;
             $totalDiscount = 0;
-            $totalDeposit = 0;
+            $totalCarDeposit = 0;
+            $totalDriverDeposit = 0;
             $totalPrice = 0;
 
             foreach ($cartItems as $item) {
@@ -189,7 +190,7 @@ class BookingController extends Controller
                     $totalSubtotal += $subtotal;
                     $totalDiscount += $promoDiscount;
                     $totalPrice += $finalTotal;
-                    $totalDeposit += (float)($item['deposit_amount'] ?? 0);
+                    $totalDriverDeposit += (float)($item['deposit_amount'] ?? 0);
                 } else {
                     $vehicle = Vehicle::lockForUpdate()->find($item['id']);
                     if (!$vehicle) {
@@ -238,7 +239,7 @@ class BookingController extends Controller
                     $totalSubtotal += $subtotal;
                     $totalDiscount += $promoDiscount;
                     $totalPrice += $finalTotal;
-                    $totalDeposit += (float)($item['deposit_amount'] ?? 0);
+                    $totalCarDeposit += (float)($item['deposit_amount'] ?? 0);
                 }
             }
 
@@ -248,8 +249,8 @@ class BookingController extends Controller
                 'status' => 'pending',
                 'subtotal_price' => $totalSubtotal,
                 'discount_amount' => $totalDiscount,
-                'car_deposit_snapshot' => $totalDeposit,
-                'driver_deposit_snapshot' => 0,
+                'car_deposit_snapshot' => $totalCarDeposit,
+                'driver_deposit_snapshot' => $totalDriverDeposit,
                 'total_price' => $totalPrice,
             ]);
 
@@ -333,7 +334,7 @@ class BookingController extends Controller
                 'transaction_ref' => $request->input('transaction_ref'),
                 'image' => $imagePath,
                 'status' => 'pending',
-                'amount' => $totalDeposit,
+                'amount' => $totalCarDeposit + $totalDriverDeposit,
             ]);
 
             // One promotion usage if a promo was applied
@@ -366,7 +367,7 @@ class BookingController extends Controller
                 'user_id' => null,
                 'type' => 'payment',
                 'title' => 'New Payment Received',
-                'message' => "{$user->name} has made a payment of MMK " . number_format($totalDeposit) . " for booking #{$booking->booking_number}.",
+                'message' => "{$user->name} has made a payment of MMK " . number_format($totalCarDeposit + $totalDriverDeposit) . " for booking #{$booking->booking_number}.",
                 'is_read' => false,
                 'notifiable_type' => 'App\Models\Payment',
                 'notifiable_id' => $booking->id,
