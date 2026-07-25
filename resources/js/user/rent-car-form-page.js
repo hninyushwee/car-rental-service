@@ -43,9 +43,12 @@ function initRentCarFormPage() {
         $('#includeDriver').closest('label').removeClass('border-rose-400');
     }
 
+    let $firstError = null;
+
     function showFieldError($el, $errorEl, msg) {
         $el.addClass('border-rose-400');
         $errorEl.text(msg).removeClass('hidden');
+        if (!$firstError) $firstError = $el;
     }
     const $confirmBtn = $('#confirmBookingBtn');
 
@@ -315,6 +318,7 @@ function initRentCarFormPage() {
         const endDate = $endDate.val();
         const pickupLocation = $pickupLocation.val();
         const dropoffLocation = $dropoffLocation.val();
+        $firstError = null;
         let hasError = false;
 
         if (!startDate) { showFieldError($startDate, $startDateError, 'Please select a pickup date.'); hasError = true; }
@@ -340,7 +344,7 @@ function initRentCarFormPage() {
                 hasError = true;
             }
         }
-        if (hasError) return;
+        if (hasError) { if ($firstError) $('html, body').animate({ scrollTop: $firstError.offset().top - 120 }, 400); return; }
 
         try {
             const check = await jsonRequest(apiBase + '/api/user/rent-car/' + vehicleData.id + '/check-availability', {
@@ -353,7 +357,7 @@ function initRentCarFormPage() {
                 $quantityError.text(`Only ${result.available_quantity} unit${result.available_quantity !== 1 ? 's' : ''} available for these dates.`).removeClass('hidden');
                 hasError = true;
             }
-            if (hasError) return;
+            if (hasError) { if ($firstError) $('html, body').animate({ scrollTop: $firstError.offset().top - 120 }, 400); return; }
         } catch {
             showToast('Failed to verify availability. Please try again.', true);
             return;

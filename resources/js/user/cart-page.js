@@ -160,6 +160,34 @@ function initCartPage() {
         }
     });
 
+    // Quantity increase/decrease handlers
+    $(document).on('click', '.qty-increase', function () {
+        const idx = parseInt($(this).attr('data-cart-index'));
+        const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+        if (idx >= 0 && idx < items.length) {
+            items[idx].quantity = Math.min(99, (parseInt(items[idx].quantity) || 1) + 1);
+            localStorage.setItem('cartItems', JSON.stringify(items));
+            document.dispatchEvent(new Event('cart-updated'));
+            renderCart();
+        }
+    });
+
+    $(document).on('click', '.qty-decrease', function () {
+        const idx = parseInt($(this).attr('data-cart-index'));
+        const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+        if (idx >= 0 && idx < items.length) {
+            const newQty = (parseInt(items[idx].quantity) || 1) - 1;
+            if (newQty < 1) {
+                items.splice(idx, 1);
+            } else {
+                items[idx].quantity = newQty;
+            }
+            localStorage.setItem('cartItems', JSON.stringify(items));
+            document.dispatchEvent(new Event('cart-updated'));
+            renderCart();
+        }
+    });
+
     function renderCart() {
         const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
 
@@ -258,7 +286,15 @@ function initCartPage() {
                             <div class="mt-1 flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
                                 <span class="font-mono font-bold text-cyan-600 dark:text-cyan-400">${money(item.price_per_day)}<span class="text-[10px] font-normal text-slate-400 font-sans">/day</span></span>
                                 ${!isDriver && item.specs ? `<span class="flex items-center gap-1"><i data-lucide="info" class="h-3 w-3"></i> ${item.specs}</span>` : ''}
-                                <span class="flex items-center gap-1"><i data-lucide="package" class="h-3 w-3"></i> ×${qty}</span>
+                                <span class="flex items-center gap-1 ml-2">
+                                    <button type="button" class="qty-decrease inline-flex h-6 w-6 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 transition" data-cart-index="${index}">
+                                        <i data-lucide="minus" class="h-3 w-3"></i>
+                                    </button>
+                                    <span class="mx-1 min-w-[1.5rem] text-center font-semibold text-slate-800 dark:text-slate-200">${qty}</span>
+                                    <button type="button" class="qty-increase inline-flex h-6 w-6 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 transition" data-cart-index="${index}">
+                                        <i data-lucide="plus" class="h-3 w-3"></i>
+                                    </button>
+                                </span>
                             </div>
                         </div>
                         <button type="button" class="remove-item shrink-0 p-2 rounded-lg text-rose-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition" data-cart-index="${index}">

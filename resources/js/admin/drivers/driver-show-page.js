@@ -149,7 +149,7 @@ function initDriverShowPage() {
         renderVehicles(driver);
 
         $('#loadingState').addClass('hidden');
-        $('#detailsContent').removeClass('hidden');
+        $('#detailsContent').removeClass('hidden').addClass('animate-fade-in');
         refreshIcons();
     }
 

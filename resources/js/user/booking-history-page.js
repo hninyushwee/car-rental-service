@@ -231,7 +231,13 @@ function initBookingHistoryPage() {
         const pageData = filtered.slice(start, start + rowsPerPage);
 
         if (!pageData.length) {
-            $tbody.html(`<tr><td colspan="${getColspan()}" class="px-6 py-12 text-center text-sm text-slate-400">No records found.</td></tr>`);
+            $tbody.html(`<tr><td colspan="${getColspan()}" class="px-6 py-16 text-center">
+                <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
+                    <i data-lucide="calendar-x" class="h-8 w-8 text-slate-400"></i>
+                </div>
+                <p class="text-sm font-medium text-slate-500 dark:text-slate-400">No bookings found</p>
+                <p class="mt-1 text-xs text-slate-400 dark:text-slate-500">Try adjusting your search or filters</p>
+            </td></tr>`);
         } else if (currentService === 'car') {
             $tbody.html(pageData.map(renderCarRow).join(''));
         } else {

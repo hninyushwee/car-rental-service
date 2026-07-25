@@ -71,7 +71,7 @@ function initPromotionShowPage() {
         $('#statusBadge').html(`<span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold ${statusClass(rawStatus)}"><span class="mr-1.5 h-2 w-2 rounded-full bg-current"></span>${statusLabel}</span>`);
 
         $('#loadingState').addClass('hidden');
-        $('#detailsContent').removeClass('hidden');
+        $('#detailsContent').removeClass('hidden').addClass('animate-fade-in');
         refreshIcons();
     }
 

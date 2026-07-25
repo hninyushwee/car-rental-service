@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
+use App\Http\Requests\CheckoutRequest;
 use App\Models\Booking;
 use App\Models\BookingItem;
-use App\Models\DepositSetting;
 use App\Models\Driver;
 use App\Models\DrivingLicenseType;
 use App\Models\Notification;
@@ -16,13 +16,18 @@ use App\Models\PromotionUsage;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Repositories\Interface\BookingInterface;
+use App\Services\NotificationService;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
-    public function __construct(protected BookingInterface $bookingRepo) {}
+    public function __construct(
+        protected BookingInterface $bookingRepo,
+        protected NotificationService $notificationService,
+    ) {}
 
     public function index(Request $request)
     {
@@ -92,15 +97,8 @@ class BookingController extends Controller
         return $this->successResponse($booking);
     }
 
-    public function checkout(Request $request)
+    public function checkout(CheckoutRequest $request)
     {
-        $request->validate([
-            'items' => 'required|json',
-            'payment_method' => 'required|in:kpay,wavepay,bank_transfer,card',
-            'transaction_ref' => 'required|string|max:255|unique:payments,transaction_ref',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
         $cartItems = json_decode($request->input('items'), true);
         $cartItems = Validator::make(['items' => $cartItems], [
             'items' => 'required|array|min:1|max:20',
@@ -395,39 +393,22 @@ class BookingController extends Controller
 
             DB::commit();
 
-            // Notify admins and staff
-            Notification::create([
-                'user_id' => null,
-                'type' => 'booking',
-                'title' => 'New Booking',
-                'message' => "{$user->name} has placed a new booking #{$booking->booking_number}.",
-                'is_read' => false,
-                'notifiable_type' => 'App\Models\Booking',
-                'notifiable_id' => $booking->id,
-            ]);
-            Notification::create([
-                'user_id' => null,
-                'type' => 'payment',
-                'title' => 'New Payment Received',
-                'message' => "{$user->name} has made a payment of MMK " . number_format($totalCarDeposit + $totalDriverDeposit) . " for booking #{$booking->booking_number}.",
-                'is_read' => false,
-                'notifiable_type' => 'App\Models\Payment',
-                'notifiable_id' => $booking->id,
-            ]);
+            $this->notificationService->newBooking($booking);
+            $this->notificationService->newPayment($booking, $totalCarDeposit + $totalDriverDeposit);
 
             return $this->successResponse(
                 $booking->load(['items.vehicle', 'payments']),
                 'Checkout successful',
                 201
             );
-        } catch (\Exception $e) {
+        } catch (QueryException $e) {
             DB::rollBack();
-            if ($e instanceof \InvalidArgumentException) {
-                return $this->errorResponse($e->getMessage(), 422);
-            }
-            if ($e instanceof \Illuminate\Database\QueryException && str_contains($e->getMessage(), 'payments_transaction_ref_unique')) {
+            if (str_contains($e->getMessage(), 'payments_transaction_ref_unique')) {
                 return $this->errorResponse('This transaction reference has already been used. Please check your payment details and try again.', 422);
             }
+            return $this->errorResponse('Checkout failed. Please try again.', 500);
+        } catch (\Exception $e) {
+            DB::rollBack();
             return $this->errorResponse('Checkout failed. Please try again.', 500);
         }
     }

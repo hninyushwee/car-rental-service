@@ -151,6 +151,24 @@
             width: 100%;
         }
 
+        /* Skeleton loading */
+        .skeleton {
+            background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s ease-in-out infinite;
+            border-radius: 0.5rem;
+        }
+
+        .dark .skeleton {
+            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background-size: 200% 100%;
+        }
+
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         /* Smooth animations */
         @keyframes fadeIn {
             from {
@@ -163,8 +181,23 @@
             }
         }
 
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .animate-fade-in {
             animation: fadeIn 600ms cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
         }
     </style>
     <?php echo $__env->yieldPushContent('styles'); ?>

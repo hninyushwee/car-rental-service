@@ -48,9 +48,12 @@ function initRentDriverFormPage() {
         $dropoffLocation.removeClass('border-rose-400');
     }
 
+    let $firstError = null;
+
     function showFieldError($el, $errorEl, msg) {
         $el.addClass('border-rose-400');
         $errorEl.text(msg).removeClass('hidden');
+        if (!$firstError) $firstError = $el;
     }
 
     const $confirmBtn = $('#confirmHireBtn');
@@ -226,13 +229,14 @@ function initRentDriverFormPage() {
         const pickupLocation = $pickupLocation.val();
         const dropoffLocation = $dropoffLocation.val();
         const quantity = parseInt($driverQty.val()) || 1;
+        $firstError = null;
         let hasError = false;
 
         if (!startDate) { showFieldError($startDate, $startDateError, 'Please select a start date.'); hasError = true; }
         if (!endDate) { showFieldError($endDate, $endDateError, 'Please select an end date.'); hasError = true; }
         if (!pickupLocation) { showFieldError($pickupLocation, $pickupError, 'Please enter a pickup location.'); hasError = true; }
         if (!dropoffLocation) { showFieldError($dropoffLocation, $dropoffError, 'Please enter a dropoff location.'); hasError = true; }
-        if (hasError) return;
+        if (hasError) { if ($firstError) $('html, body').animate({ scrollTop: $firstError.offset().top - 120 }, 400); return; }
 
         // Re-check driver availability before adding to cart
         try {

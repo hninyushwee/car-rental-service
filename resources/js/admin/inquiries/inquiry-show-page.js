@@ -88,7 +88,7 @@ function initInquiryShowPage() {
                 const updated = payload?.data || payload;
                 currentSubject = updated.subject || currentSubject;
                 currentMessage = updated.message || currentMessage;
-                $content.html(renderInquiry(updated)).removeClass('hidden');
+                $content.html(renderInquiry(updated)).removeClass('hidden').addClass('animate-fade-in');
                 refreshIcons();
                 bindUpdateBtn();
                 notify('Inquiry updated successfully');
@@ -107,7 +107,7 @@ function initInquiryShowPage() {
             currentSubject = inquiry.subject || '';
             currentMessage = inquiry.message || '';
             $loading.addClass('hidden');
-            $content.html(renderInquiry(inquiry)).removeClass('hidden');
+            $content.html(renderInquiry(inquiry)).removeClass('hidden').addClass('animate-fade-in');
             refreshIcons();
             bindUpdateBtn();
         } catch (err) {

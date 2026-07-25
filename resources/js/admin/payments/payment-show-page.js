@@ -142,7 +142,7 @@ function initPaymentShowPage() {
             const payment = payload?.data || payload;
             if (!payment || !payment.id) throw new Error('Payment not found');
             $loading.addClass('hidden');
-            $content.html(renderPayment(payment, adminUrl)).removeClass('hidden');
+            $content.html(renderPayment(payment, adminUrl)).removeClass('hidden').addClass('animate-fade-in');
             refreshIcons();
         } catch (err) {
             $loading.addClass('hidden');

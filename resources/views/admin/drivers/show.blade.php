@@ -6,10 +6,47 @@
     <div id="driverDetailsContainer" data-page="admin-driver-show" data-id="{{ $driverId }}"
         data-api-base="{{ url('/api/admin/drivers') }}" data-login-url="{{ route('login') }}" data-admin-url="{{ $adminUrl }}" class="p-4 sm:p-6 md:p-8">
 
-        <div id="loadingState" class="flex items-center justify-center py-20">
-            <div class="flex items-center gap-3 text-slate-500 dark:text-slate-400">
-                <svg class="h-6 w-6 animate-spin" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                Loading driver details...
+        <div id="loadingState" class="py-20">
+            <div class="mb-8 flex items-center justify-between">
+                <div>
+                    <div class="skeleton h-3 w-16 mb-3"></div>
+                    <div class="skeleton h-7 w-56 mb-2"></div>
+                    <div class="skeleton h-4 w-36"></div>
+                </div>
+                <div class="skeleton h-10 w-24 rounded-lg"></div>
+            </div>
+            <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
+                <div class="xl:col-span-2 space-y-6">
+                    <div class="overflow-hidden rounded-xl border border-slate-200/60 bg-white/90 shadow-sm dark:border-slate-700/60 dark:bg-slate-800/90">
+                        <div class="skeleton aspect-[16/7] w-full"></div>
+                        <div class="p-6 space-y-4">
+                            <div class="skeleton h-5 w-48"></div>
+                            <div class="flex gap-4">
+                                <div class="flex-1 skeleton h-16 rounded-xl"></div>
+                                <div class="flex-1 skeleton h-16 rounded-xl"></div>
+                                <div class="flex-1 skeleton h-16 rounded-xl"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-xl border border-slate-200/60 bg-white/90 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-800/90">
+                        <div class="skeleton h-5 w-36 mb-4"></div>
+                        <div class="space-y-2">
+                            <div class="skeleton h-14 w-full"></div>
+                            <div class="skeleton h-14 w-full"></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="xl:col-span-1">
+                    <div class="rounded-xl border border-slate-200/60 bg-white/90 p-6 shadow-sm dark:border-slate-700/60 dark:bg-slate-800/90">
+                        <div class="skeleton h-5 w-32 mb-4"></div>
+                        <div class="space-y-2">
+                            <div class="skeleton h-4 w-full"></div>
+                            <div class="skeleton h-4 w-full"></div>
+                            <div class="skeleton h-4 w-3/4"></div>
+                            <div class="skeleton h-4 w-1/2"></div>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
 

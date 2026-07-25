@@ -2,10 +2,32 @@
     <div id="promotionDetailsContainer" data-page="admin-promotion-show" data-id="{{ $promotionId }}"
         data-api-base="{{ url('/api/admin/promotions') }}" data-login-url="{{ route('login') }}" class="p-4 sm:p-6 md:p-8">
 
-        <div id="loadingState" class="flex items-center justify-center py-20">
-            <div class="flex items-center gap-3 text-slate-500 dark:text-slate-400">
-                <svg class="h-6 w-6 animate-spin" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
-                Loading promotion details...
+        <div id="loadingState" class="py-20">
+            <div class="mb-8">
+                <div class="skeleton h-3 w-16 mb-3"></div>
+                <div class="skeleton h-7 w-48 mb-2"></div>
+                <div class="skeleton h-4 w-32"></div>
+            </div>
+            <div class="grid grid-cols-1 gap-6 xl:grid-cols-3">
+                <div class="xl:col-span-2 space-y-6">
+                    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                        <div class="skeleton h-5 w-36 mb-4"></div>
+                        <div class="space-y-3">
+                            <div class="skeleton h-5 w-full"></div>
+                            <div class="skeleton h-5 w-3/4"></div>
+                            <div class="skeleton h-5 w-1/2"></div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="xl:col-span-1">
+                    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                        <div class="skeleton h-5 w-24 mb-4"></div>
+                        <div class="space-y-3">
+                            <div class="skeleton h-12 w-full rounded-lg"></div>
+                            <div class="skeleton h-12 w-full rounded-lg"></div>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
 

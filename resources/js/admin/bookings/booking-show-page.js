@@ -299,7 +299,7 @@ function initBookingShowPage() {
             if (!booking || !booking.id) throw new Error('Booking not found');
 
             $loading.addClass('hidden');
-            $content.html(renderBooking(booking, adminUrl)).removeClass('hidden');
+            $content.html(renderBooking(booking, adminUrl)).removeClass('hidden').addClass('animate-fade-in');
             refreshIcons();
             loadDriverSelects();
             toggleConfirmBtn();
